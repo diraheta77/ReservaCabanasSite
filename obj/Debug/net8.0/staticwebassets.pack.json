@@ -1,0 +1,573 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/obj/Debug/net8.0/scopedcss/projectbundle/ReservaCabanasSite.bundle.scp.css",
+      "PackagePath": "staticwebassets/ReservaCabanasSite.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/assets/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/css/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/assets/css/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/css/paper-dashboard.css",
+      "PackagePath": "staticwebassets/assets/css/paper-dashboard.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/css/paper-dashboard.css.map",
+      "PackagePath": "staticwebassets/assets/css/paper-dashboard.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/css/paper-dashboard.min.css",
+      "PackagePath": "staticwebassets/assets/css/paper-dashboard.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/demo/demo.css",
+      "PackagePath": "staticwebassets/assets/demo/demo.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/demo/demo.js",
+      "PackagePath": "staticwebassets/assets/demo/demo.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/fonts/nucleo-icons.eot",
+      "PackagePath": "staticwebassets/assets/fonts/nucleo-icons.eot"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/fonts/nucleo-icons.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/nucleo-icons.ttf"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/fonts/nucleo-icons.woff",
+      "PackagePath": "staticwebassets/assets/fonts/nucleo-icons.woff"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/fonts/nucleo-icons.woff2",
+      "PackagePath": "staticwebassets/assets/fonts/nucleo-icons.woff2"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/apple-icon.png",
+      "PackagePath": "staticwebassets/assets/img/apple-icon.png"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/bg5.jpg",
+      "PackagePath": "staticwebassets/assets/img/bg5.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/damir-bosnjak.jpg",
+      "PackagePath": "staticwebassets/assets/img/damir-bosnjak.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/default-avatar.png",
+      "PackagePath": "staticwebassets/assets/img/default-avatar.png"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/ayo-ogunseinde-1.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/ayo-ogunseinde-1.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/ayo-ogunseinde-2.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/ayo-ogunseinde-2.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/clem-onojeghuo-1.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/clem-onojeghuo-1.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/clem-onojeghuo-2.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/clem-onojeghuo-2.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/clem-onojeghuo-3.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/clem-onojeghuo-3.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/clem-onojeghuo-4.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/clem-onojeghuo-4.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/erik-lucatero-1.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/erik-lucatero-1.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/erik-lucatero-2.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/erik-lucatero-2.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/joe-gardner-1.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/joe-gardner-1.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/joe-gardner-2.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/joe-gardner-2.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/kaci-baum-1.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/kaci-baum-1.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/faces/kaci-baum-2.jpg",
+      "PackagePath": "staticwebassets/assets/img/faces/kaci-baum-2.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/favicon.png",
+      "PackagePath": "staticwebassets/assets/img/favicon.png"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/header.jpg",
+      "PackagePath": "staticwebassets/assets/img/header.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/jan-sendereks.jpg",
+      "PackagePath": "staticwebassets/assets/img/jan-sendereks.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/logo-small.png",
+      "PackagePath": "staticwebassets/assets/img/logo-small.png"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/img/mike.jpg",
+      "PackagePath": "staticwebassets/assets/img/mike.jpg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/core/bootstrap.min.js",
+      "PackagePath": "staticwebassets/assets/js/core/bootstrap.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/core/jquery.min.js",
+      "PackagePath": "staticwebassets/assets/js/core/jquery.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/core/popper.min.js",
+      "PackagePath": "staticwebassets/assets/js/core/popper.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/paper-dashboard.js",
+      "PackagePath": "staticwebassets/assets/js/paper-dashboard.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/paper-dashboard.js.map",
+      "PackagePath": "staticwebassets/assets/js/paper-dashboard.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/paper-dashboard.min.js",
+      "PackagePath": "staticwebassets/assets/js/paper-dashboard.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/plugins/bootstrap-notify.js",
+      "PackagePath": "staticwebassets/assets/js/plugins/bootstrap-notify.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/plugins/chartjs.min.js",
+      "PackagePath": "staticwebassets/assets/js/plugins/chartjs.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/js/plugins/perfect-scrollbar.jquery.min.js",
+      "PackagePath": "staticwebassets/assets/js/plugins/perfect-scrollbar.jquery.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/logo/logocabanas.png",
+      "PackagePath": "staticwebassets/assets/logo/logocabanas.png"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_alerts.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_alerts.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_animated-buttons.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_animated-buttons.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_buttons.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_buttons.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_cards.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_cards.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_checkboxes-radio.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_checkboxes-radio.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_dropdown.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_dropdown.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_fixed-plugin.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_fixed-plugin.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_footers.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_footers.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_images.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_images.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_inputs.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_inputs.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_misc.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_misc.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_mixins.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_mixins.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_navbar.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_navbar.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_nucleo-outline.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_nucleo-outline.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_page-header.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_page-header.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_responsive.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_responsive.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_sidebar-and-main-panel.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_sidebar-and-main-panel.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_tables.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_tables.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_typography.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_typography.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/_variables.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/_variables.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/cards/_card-chart.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/cards/_card-chart.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/cards/_card-map.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/cards/_card-map.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/cards/_card-plain.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/cards/_card-plain.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/cards/_card-stats.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/cards/_card-stats.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/cards/_card-user.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/cards/_card-user.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_buttons.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_buttons.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_cards.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_cards.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_dropdown.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_dropdown.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_inputs.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_inputs.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_page-header.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_page-header.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_transparency.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_transparency.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/mixins/_vendor-prefixes.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/mixins/_vendor-prefixes.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/plugins/_plugin-animate-bootstrap-notify.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/plugins/_plugin-animate-bootstrap-notify.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/assets/scss/paper-dashboard/plugins/_plugin-perfect-scrollbar.scss",
+      "PackagePath": "staticwebassets/assets/scss/paper-dashboard/plugins/_plugin-perfect-scrollbar.scss"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/favicon.ico",
+      "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/LICENSE",
+      "PackagePath": "staticwebassets/lib/bootstrap"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation/LICENSE.md",
+      "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery/dist/jquery.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery/dist/jquery.min.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/wwwroot/lib/jquery/dist/jquery.min.map",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.ReservaCabanasSite.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.ReservaCabanasSite.props",
+      "PackagePath": "build\\ReservaCabanasSite.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.ReservaCabanasSite.props",
+      "PackagePath": "buildMultiTargeting\\ReservaCabanasSite.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.ReservaCabanasSite.props",
+      "PackagePath": "buildTransitive\\ReservaCabanasSite.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
