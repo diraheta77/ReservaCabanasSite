@@ -1,0 +1,28 @@
+# Archivos de usuario de VS Code
+.vscode/
+
+# Archivos de usuario de Visual Studio
+*.user
+*.suo
+
+# Archivos de compilación
+bin/
+obj/
+
+# Archivos de configuración local
+appsettings.Development.json
+
+# Base de datos SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Archivos de migraciones temporales
+Migrations/
+
+# Archivos de logs
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
