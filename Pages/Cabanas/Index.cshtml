@@ -1,0 +1,22 @@
+@page
+@model ReservaCabanasSite.Pages.Cabanas.IndexModel
+@{
+    ViewData["Title"] = "Cabañas";
+}
+
+<h2>Cabañas</h2>
+<a asp-page="Create" class="btn btn-primary mb-3">Nueva Cabaña</a>
+<div class="cabana-grid">
+@foreach (var cabana in Model.Cabanas)
+{
+    <div class="cabana-card" onclick="location.href='@Url.Page("Details", new { id = cabana.Id })'">
+        <div class="cabana-card-img">
+            @if (cabana.Imagenes != null && cabana.Imagenes.Any())
+            {
+                <img src="@cabana.Imagenes.First().ImagenUrl" alt="Imagen de @cabana.Nombre" />
+            }
+        </div>
+        <div class="cabana-card-name">@cabana.Nombre</div>
+    </div>
+}
+</div>
