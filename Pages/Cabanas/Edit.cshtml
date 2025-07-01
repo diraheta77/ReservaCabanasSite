@@ -1,0 +1,255 @@
+@page "{id:int}"
+@model ReservaCabanasSite.Pages.Cabanas.EditModel
+@{
+    ViewData["Title"] = "Editar Cabaña";
+}
+
+<style>
+.cabana-form-main-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 40px auto;
+    max-width: 900px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.cabana-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px 28px 28px 28px;
+    min-width: 320px;
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+}
+.cabana-form-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+    color: #5c4a45;
+}
+.cabana-form-fields label {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.cabana-form-input,
+.cabana-form-textarea {
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    margin-bottom: 12px;
+}
+.cabana-form-textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+.cabana-form-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+}
+.cabana-btn {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    background: #a67c52;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.cabana-btn:hover {
+    background: #8d6843;
+}
+.cabana-form-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cabana-img-preview-box {
+    width: 260px;
+    height: 180px;
+    background: #f0f0f0;
+    border: 1.5px dashed #bdbdbd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+    position: relative;
+}
+.cabana-img-preview-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.cabana-img-carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.cabana-img-carousel-btn {
+    background: #e0e0e0;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    color: #5c4a45;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.cabana-img-carousel-btn:disabled {
+    background: #f5f5f5;
+    color: #bdbdbd;
+    cursor: not-allowed;
+}
+/* Responsive styles */
+@@media (max-width: 1000px) {
+    .cabana-form-main-row {
+        flex-direction: column;
+        align-items: center;
+        max-width: 98vw;
+        padding: 0 8px;
+    }
+    .cabana-card {
+        max-width: 98vw;
+        min-width: unset;
+    }
+}
+</style>
+
+<div class="cabana-form-main-row">
+    <!-- Vista previa de imágenes / Carrusel -->
+    <div class="cabana-card cabana-form-img">
+        <div class="cabana-img-preview-box" id="imgPreviewBox">
+            <span id="imgPreviewPlaceholder" style="color:#aaa;">Vista previa</span>
+        </div>
+        <div class="cabana-img-carousel-controls">
+            <button type="button" class="cabana-img-carousel-btn" id="prevImgBtn" disabled>&lt;</button>
+            <button type="button" class="cabana-img-carousel-btn" id="nextImgBtn" disabled>&gt;</button>
+        </div>
+    </div>
+    <!-- Formulario -->
+    <div class="cabana-card">
+        <div class="cabana-form-title">EDITAR CABAÑA</div>
+        <form method="post" enctype="multipart/form-data">
+            <div class="cabana-form-fields">
+                <input type="hidden" asp-for="Cabana.Id" />
+                <label class="cabana-form-label">Número</label>
+                <input class="cabana-form-input" value="@Model.Cabana.Id" disabled />
+
+                <label asp-for="Cabana.Nombre" class="cabana-form-label"></label>
+                <input asp-for="Cabana.Nombre" class="cabana-form-input" />
+
+                <label asp-for="Cabana.Capacidad" class="cabana-form-label">Cantidad de Huéspedes</label>
+                <input asp-for="Cabana.Capacidad" class="cabana-form-input" type="number" />
+
+                <label asp-for="Cabana.CamasMatrimonial" class="cabana-form-label"></label>
+                <input asp-for="Cabana.CamasMatrimonial" class="cabana-form-input" type="number" />
+
+                <label asp-for="Cabana.CamasIndividuales" class="cabana-form-label"></label>
+                <input asp-for="Cabana.CamasIndividuales" class="cabana-form-input" type="number" />
+
+                <label asp-for="Cabana.PrecioPorNoche" class="cabana-form-label">Precio por día</label>
+                <input asp-for="Cabana.PrecioPorNoche" class="cabana-form-input" type="number" step="0.01" />
+
+                <label asp-for="Cabana.Observaciones" class="cabana-form-label"></label>
+                <textarea asp-for="Cabana.Observaciones" class="cabana-form-textarea"></textarea>
+
+                <label class="cabana-form-label">Agregar Imágenes</label>
+                <input type="file" name="Imagenes" id="inputImagenes" class="form-control" style="background:#e5e5e5; border:none;" accept="image/*" multiple />
+
+                <div class="mb-3 form-check" style="margin-top: 10px;">
+                    <input asp-for="Cabana.Activa" class="form-check-input" />
+                    <label asp-for="Cabana.Activa" class="form-check-label"></label>
+                </div>
+            </div>
+            <div class="cabana-form-buttons">
+                <a asp-page="Index" class="cabana-btn" style="background:#5c4a45;">Cancelar</a>
+                <button type="submit" class="cabana-btn">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Imágenes actuales de la cabaña (del modelo)
+    const imagenesActuales = [
+        @if (Model.Cabana.Imagenes != null && Model.Cabana.Imagenes.Any())
+        {
+            @foreach (var img in Model.Cabana.Imagenes)
+            {
+                @: "@img.ImagenUrl",
+            }
+        }
+    ];
+    // Imágenes nuevas seleccionadas (FileList)
+    let imgFiles = [];
+    let imgIndex = 0;
+    let mostrandoNuevas = false;
+
+    function updatePreview() {
+        const previewBox = document.getElementById('imgPreviewBox');
+        const placeholder = document.getElementById('imgPreviewPlaceholder');
+        const prevBtn = document.getElementById('prevImgBtn');
+        const nextBtn = document.getElementById('nextImgBtn');
+        previewBox.innerHTML = '';
+
+        let total = mostrandoNuevas ? imgFiles.length : imagenesActuales.length;
+        if (total === 0) {
+            placeholder.style.display = '';
+            previewBox.appendChild(placeholder);
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            return;
+        }
+        let img;
+        if (mostrandoNuevas) {
+            img = document.createElement('img');
+            img.src = URL.createObjectURL(imgFiles[imgIndex]);
+        } else {
+            img = document.createElement('img');
+            img.src = imagenesActuales[imgIndex];
+        }
+        previewBox.appendChild(img);
+        prevBtn.disabled = imgIndex === 0;
+        nextBtn.disabled = imgIndex === total - 1;
+    }
+
+    document.getElementById('inputImagenes').addEventListener('change', function (evt) {
+        imgFiles = Array.from(this.files);
+        imgIndex = 0;
+        mostrandoNuevas = imgFiles.length > 0;
+        updatePreview();
+    });
+
+    document.getElementById('prevImgBtn').addEventListener('click', function () {
+        if (imgIndex > 0) {
+            imgIndex--;
+            updatePreview();
+        }
+    });
+
+    document.getElementById('nextImgBtn').addEventListener('click', function () {
+        let total = mostrandoNuevas ? imgFiles.length : imagenesActuales.length;
+        if (imgIndex < total - 1) {
+            imgIndex++;
+            updatePreview();
+        }
+    });
+
+    // Inicializa la vista previa con las imágenes actuales
+    updatePreview();
+</script>
+}

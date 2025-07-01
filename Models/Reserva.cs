@@ -1,17 +1,37 @@
-namespace ReservaCabanasSite.Models;
-public class Reserva
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ReservaCabanasSite.Models
 {
-    public int Id { get; set; }
-    public int CabanaId { get; set; }
-    public Cabana Cabana { get; set; }
+    public class Reserva
+    {
+        public int Id { get; set; }
 
-    public int ClienteId { get; set; }
-    public Cliente Cliente { get; set; }
+        [Required]
+        public int CabanaId { get; set; }
+        public Cabana Cabana { get; set; }
 
-    public DateTime FechaInicio { get; set; }
-    public DateTime FechaFin { get; set; }
+        [Required]
+        public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
 
-    public int CantidadPersonas { get; set; }
-    public string? Contacto { get; set; }
-    public decimal Total { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; }
+
+        public string Temporada { get; set; }
+        public int CantidadPersonas { get; set; }
+        public string MedioContacto { get; set; }
+
+        // Datos de pago
+        public decimal ImporteTotal { get; set; }
+        public decimal Sena { get; set; }
+        public decimal Saldo { get; set; }
+        public string MedioPago { get; set; }
+        public string Observaciones { get; set; }
+    }
 }

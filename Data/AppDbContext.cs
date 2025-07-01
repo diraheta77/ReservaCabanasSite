@@ -8,8 +8,8 @@ namespace ReservaCabanasSite.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Cabana> Cabanas { get; set; }
-        public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<CabanaImagen> CabanaImagenes { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
     }
 }

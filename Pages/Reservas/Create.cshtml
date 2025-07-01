@@ -1,0 +1,43 @@
+@page
+@model ReservaCabanasSite.Pages.Reservas.CreateModel
+@{
+    ViewData["Title"] = "Nueva Reserva";
+}
+
+<h2>Nueva Reserva</h2>
+<form method="post">
+    <div class="form-group">
+        <label>Cabaña</label>
+        <select asp-for="Reserva.CabanaId" asp-items="Model.CabanasSelectList" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label>Desde</label>
+        <input asp-for="Reserva.FechaDesde" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Hasta</label>
+        <input asp-for="Reserva.FechaHasta" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Temporada</label>
+        <select asp-for="Reserva.Temporada" class="form-control">
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Cantidad de Personas</label>
+        <input asp-for="Reserva.CantidadPersonas" type="number" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Medio de Contacto</label>
+        <select asp-for="Reserva.MedioContacto" class="form-control">
+            <option>Teléfono</option>
+            <option>Email</option>
+            <option>WhatsApp</option>
+        </select>
+    </div>
+    <!-- Aquí puedes agregar la búsqueda/selección de cliente y los datos de pago en siguientes pasos -->
+    <button type="submit" class="btn btn-primary">Siguiente</button>
+</form>
