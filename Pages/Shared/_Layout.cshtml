@@ -28,6 +28,8 @@
   <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="~/assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
   <link href="~/assets/demo/demo.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
   <style>
   .main-panel {    
     height: auto !important;
@@ -190,6 +192,19 @@
   <script src="~/assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="~/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    $(function () {
+        var msg = '@TempData["ToastrMessage"]';
+        var type = '@TempData["ToastrType"]';
+        if (msg) {
+            toastr.options.timeOut = 3500;
+            toastr.options.positionClass = 'toast-top-right';
+            toastr[type || 'info'](msg);
+        }
+    });
+</script>
   @RenderSection("Scripts", required: false)
 </body>
 

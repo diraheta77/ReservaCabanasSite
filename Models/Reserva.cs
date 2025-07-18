@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ReservaCabanasSite.Models
 {
@@ -9,10 +10,13 @@ namespace ReservaCabanasSite.Models
 
         [Required]
         public int CabanaId { get; set; }
+
+        [ValidateNever]
         public Cabana Cabana { get; set; }
 
-        [Required]
-        public int ClienteId { get; set; }
+        public int? ClienteId { get; set; }
+
+        [ValidateNever]
         public Cliente Cliente { get; set; }
 
         [Required]
@@ -27,11 +31,11 @@ namespace ReservaCabanasSite.Models
         public int CantidadPersonas { get; set; }
         public string MedioContacto { get; set; }
 
-        // Datos de pago
+        [ValidateNever]
+        public string MedioPago { get; set; }
+        public string Observaciones { get; set; }
         public decimal ImporteTotal { get; set; }
         public decimal Sena { get; set; }
         public decimal Saldo { get; set; }
-        public string MedioPago { get; set; }
-        public string Observaciones { get; set; }
     }
 }
