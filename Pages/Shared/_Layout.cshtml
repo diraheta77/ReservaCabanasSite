@@ -83,19 +83,22 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          @{
+              var currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+          }
+          <li class="@(currentPage.StartsWith("/cabanas") ? "active" : "")">
             <a asp-page="/Cabanas/Index">
               <i class="fa fa-home"></i>
               <p>Cabañas</p>
             </a>
           </li>
-          <li>
+          <li class="@(currentPage.StartsWith("/reservas") ? "active" : "")">
             <a asp-page="/Reservas/Index">
               <i class="fa fa-calendar"></i>
               <p>Reservas</p>
             </a>
           </li>
-          <li>
+          <li class="@(currentPage.StartsWith("/clientes") ? "active" : "")">
             <a asp-page="/Clientes/Index">
               <i class="fa fa-users"></i>
               <p>Clientes</p>
