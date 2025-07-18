@@ -35,24 +35,30 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
+        Console.WriteLine("[MIGRACION] Ejecutando EnsureCreated...");
+        db.Database.EnsureCreated();
+        Console.WriteLine("[MIGRACION] Ejecutando Migrate...");
         db.Database.Migrate();
+        Console.WriteLine("[MIGRACION] Migraciones aplicadas correctamente.");
         try
         {
             if (!db.Cabanas.Any())
             {
                 db.Cabanas.Add(new Cabana { Nombre = "Demo", Capacidad = 4, PrecioPorNoche = 1000, Activa = true });
                 db.SaveChanges();
+                Console.WriteLine("[MIGRACION] Seed de datos demo aplicado.");
             }
         }
         catch (Exception seedEx)
         {
-            // Ignora el error si la tabla aún no existe (solo para demo)
             System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", "Seed error: " + seedEx.ToString());
+            Console.WriteLine("[MIGRACION] Seed error: " + seedEx.ToString());
         }
     }
     catch (Exception ex)
     {
         System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", ex.ToString());
+        Console.WriteLine("[MIGRACION] Error: " + ex.ToString());
         throw;
     }
 }
