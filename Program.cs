@@ -32,7 +32,23 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate();
+
+        // Opcional: seed de datos de prueba si la tabla Cabanas está vacía
+        if (!db.Cabanas.Any())
+        {
+            db.Cabanas.Add(new Cabana { Nombre = "Demo", Capacidad = 4, PrecioPorNoche = 1000, Activa = true });
+            db.SaveChanges();
+        }
+    }
+    catch (Exception ex)
+    {
+        // Log simple a archivo (en Azure puedes ver esto en Log Stream)
+        System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", ex.ToString());
+        throw;
+    }
 }
 
 app.Run();
