@@ -123,5 +123,15 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return Page();
             }
         }
+
+        public async Task<IActionResult> OnPostVerificarDisponibilidadAsync(int cabanaId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            var existe = await _context.Reservas.AnyAsync(r => r.CabanaId == cabanaId && r.FechaDesde <= fechaHasta && r.FechaHasta >= fechaDesde);
+            if (existe)
+            {
+                return new JsonResult(new { disponible = false, mensaje = "La cabaña no está disponible en las fechas seleccionadas." });
+            }
+            return new JsonResult(new { disponible = true });
+        }
     }
 }

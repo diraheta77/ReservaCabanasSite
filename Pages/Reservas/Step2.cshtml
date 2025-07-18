@@ -219,13 +219,6 @@
 
     <form method="post">
         <input type="hidden" name="WizardDataJson" value="@(TempData["WizardData"] ?? Model.WizardDataJson)" />
-        <!-- Mensajes de debug -->
-        @if (TempData["DebugMessage"] != null)
-        {
-            <div class="alert alert-info">
-                @TempData["DebugMessage"]
-            </div>
-        }
         
         @if (!ViewData.ModelState.IsValid)
         {

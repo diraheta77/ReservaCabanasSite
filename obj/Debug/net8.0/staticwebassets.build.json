@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "R/2Blnk2dXgbEa3n93890Khy2HxrnbRxB89lEz1Vd94=",
+  "Hash": "khgvGFSUu3nGcIXYZrI0Ra8lh0fnUYuxH75YmoA6TJg=",
   "Source": "ReservaCabanasSite",
   "BasePath": "_content/ReservaCabanasSite",
   "Mode": "Default",
@@ -1556,6 +1556,25 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
+      "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg",
+      "SourceId": "ReservaCabanasSite",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/",
+      "BasePath": "_content/ReservaCabanasSite",
+      "RelativePath": "img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg"
+    },
+    {
       "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/1bb6e645-7cb9-4078-ba92-aa3a93ec45e5_foto8.jpeg",
       "SourceId": "ReservaCabanasSite",
       "SourceType": "Discovered",
@@ -1630,6 +1649,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/cabanas/3435eb41-b3cd-4155-98c6-796ef3586c2e_foto7.jpeg"
+    },
+    {
+      "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/35db251a-7683-4b38-98c9-9edb6c3c9e29_foto8.jpeg",
+      "SourceId": "ReservaCabanasSite",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/",
+      "BasePath": "_content/ReservaCabanasSite",
+      "RelativePath": "img/cabanas/35db251a-7683-4b38-98c9-9edb6c3c9e29_foto8.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/cabanas/35db251a-7683-4b38-98c9-9edb6c3c9e29_foto8.jpeg"
     },
     {
       "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/4aa2cda3-1766-4b4f-88f4-bba70080807c_Foto6.jpeg",
@@ -1782,6 +1820,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/cabanas/9d99a463-edfa-4db0-863a-f40e91e96dfb_Foto4.jpeg"
+    },
+    {
+      "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/b8b4c289-72a9-48bd-b4c5-28db68d3ffd5_foto9.jpeg",
+      "SourceId": "ReservaCabanasSite",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/",
+      "BasePath": "_content/ReservaCabanasSite",
+      "RelativePath": "img/cabanas/b8b4c289-72a9-48bd-b4c5-28db68d3ffd5_foto9.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/cabanas/b8b4c289-72a9-48bd-b4c5-28db68d3ffd5_foto9.jpeg"
     },
     {
       "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/c163ee66-077f-4e4c-a589-a91b4f804cee_foto8.jpeg",

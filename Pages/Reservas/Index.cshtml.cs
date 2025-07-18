@@ -87,11 +87,19 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         public string ObtenerColorReserva(Reserva reserva)
         {
-            // Lógica para determinar el color según el estado
-            // Por ahora usamos colores básicos, luego podemos agregar estados
-            var random = new Random(reserva.Id);
-            var colores = new[] { "#e74c3c", "#f39c12", "#27ae60", "#3498db", "#9b59b6" };
-            return colores[random.Next(colores.Length)];
+            if (reserva.EstadoReserva != null)
+            {
+                switch (reserva.EstadoReserva.ToLower())
+                {
+                    case "pendiente":
+                        return "#f39c12"; // Amarillo
+                    case "confirmada":
+                        return "#27ae60"; // Verde
+                    case "cancelada":
+                        return "#e74c3c"; // Rojo
+                }
+            }
+            return "#6c757d"; // Gris por defecto
         }
     }
 }

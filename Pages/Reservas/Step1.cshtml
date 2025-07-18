@@ -247,6 +247,8 @@
             <p><strong>Camas:</strong> <span id="previewCamas"></span></p>
         </div>
 
+        <div id="disponibilidadMsg" class="alert alert-danger" style="display:none;"></div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -336,5 +338,60 @@
                 preview.style.display = 'none';
             }
         });
+
+        // Lógica para fechas
+        const fechaDesdeInput = document.getElementById('WizardModel_FechaDesde');
+        const fechaHastaInput = document.getElementById('WizardModel_FechaHasta');
+
+        function ajustarFechaHasta() {
+            const fechaDesde = fechaDesdeInput.value;
+            if (fechaDesde) {
+                // Sumar un día a la fecha de llegada para la fecha mínima de salida
+                const desdeDate = new Date(fechaDesde);
+                desdeDate.setDate(desdeDate.getDate() + 1);
+                const yyyy = desdeDate.getFullYear();
+                const mm = String(desdeDate.getMonth() + 1).padStart(2, '0');
+                const dd = String(desdeDate.getDate()).padStart(2, '0');
+                const minHasta = `${yyyy}-${mm}-${dd}`;
+                fechaHastaInput.setAttribute('min', minHasta);
+                if (!fechaHastaInput.value || fechaHastaInput.value < minHasta) {
+                    fechaHastaInput.value = minHasta;
+                }
+            } else {
+                fechaHastaInput.removeAttribute('min');
+            }
+        }
+
+        fechaDesdeInput.addEventListener('change', ajustarFechaHasta);
+        window.addEventListener('DOMContentLoaded', ajustarFechaHasta);
+
+        async function validarDisponibilidad() {
+            const cabanaId = document.getElementById('cabanaSelect').value;
+            const fechaDesde = fechaDesdeInput.value;
+            const fechaHasta = fechaHastaInput.value;
+            const msgDiv = document.getElementById('disponibilidadMsg');
+            msgDiv.style.display = 'none';
+            msgDiv.textContent = '';
+            if (cabanaId && fechaDesde && fechaHasta) {
+                try {
+                    const resp = await fetch(`?handler=VerificarDisponibilidad`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value },
+                        body: `cabanaId=${cabanaId}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`
+                    });
+                    const data = await resp.json();
+                    if (!data.disponible) {
+                        msgDiv.textContent = data.mensaje || 'La cabaña no está disponible en las fechas seleccionadas.';
+                        msgDiv.style.display = 'block';
+                    }
+                } catch (e) {
+                    msgDiv.textContent = 'Error al verificar disponibilidad.';
+                    msgDiv.style.display = 'block';
+                }
+            }
+        }
+        fechaDesdeInput.addEventListener('change', validarDisponibilidad);
+        fechaHastaInput.addEventListener('change', validarDisponibilidad);
+        document.getElementById('cabanaSelect').addEventListener('change', validarDisponibilidad);
     </script>
 }

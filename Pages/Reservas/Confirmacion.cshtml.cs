@@ -23,16 +23,21 @@ namespace ReservaCabanasSite.Pages.Reservas
         public Cliente Cliente { get; set; }
         public Cabana Cabana { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int? id = null)
         {
-            // Recuperar IDs de la reserva y cliente creados
-            if (TempData["ReservaId"] == null || TempData["ClienteId"] == null)
+            int reservaId;
+            if (id.HasValue)
+            {
+                reservaId = id.Value;
+            }
+            else if (TempData["ReservaId"] != null)
+            {
+                reservaId = (int)TempData["ReservaId"];
+            }
+            else
             {
                 return RedirectToPage("Index");
             }
-
-            var reservaId = (int)TempData["ReservaId"];
-            var clienteId = (int)TempData["ClienteId"];
 
             // Cargar datos completos de la reserva
             Reserva = await _context.Reservas
