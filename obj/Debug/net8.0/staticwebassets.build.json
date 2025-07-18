@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "khgvGFSUu3nGcIXYZrI0Ra8lh0fnUYuxH75YmoA6TJg=",
+  "Hash": "upPylKA1tN/YXFkx+VnijUwTw16n+C69e8KrIzBuIN0=",
   "Source": "ReservaCabanasSite",
   "BasePath": "_content/ReservaCabanasSite",
   "Mode": "Default",
@@ -1554,6 +1554,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/favicon.png",
+      "SourceId": "ReservaCabanasSite",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/",
+      "BasePath": "_content/ReservaCabanasSite",
+      "RelativePath": "favicon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.png"
     },
     {
       "Identity": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg",

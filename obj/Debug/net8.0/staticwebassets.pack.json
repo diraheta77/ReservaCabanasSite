@@ -321,6 +321,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg",
       "PackagePath": "staticwebassets/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg"
     },
