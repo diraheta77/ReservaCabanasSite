@@ -75,11 +75,28 @@ namespace ReservaCabanasSite.Pages.Reservas
             // Configuración del email
             var to = cliente.Email;
             var subject = $"Confirmación de Reserva #{reserva.Id} - Aldea Uruel";
-            var body = $@"Hola {cliente.Nombre},\n\nTu reserva ha sido confirmada.\n\n" +
-                $"Cabaña: {cabana.Nombre}\nFechas: {reserva.FechaDesde:dd/MM/yyyy} - {reserva.FechaHasta:dd/MM/yyyy}\n" +
-                $"Cantidad de personas: {reserva.CantidadPersonas}\nMonto total: ${reserva.MontoTotal:N2}\n\n" +
-                $"Método de pago: {reserva.MetodoPago}\nEstado del pago: {reserva.EstadoPago}\n\n" +
-                $"¡Gracias por elegirnos!";
+            var body = $@"<!DOCTYPE html>
+<html>
+<body style='font-family: Arial, sans-serif; color: #333;'>
+    <div style='max-width: 600px; margin: 0 auto; border:1px solid #eee; border-radius:10px; padding:24px;'>
+        <div style='text-align:center; margin-bottom:24px;'>
+            <img src='https://i.postimg.cc/j2zvrjYK/temp-Imagee-Bh-Ze-J.avif' alt='Aldea Uruel' style='max-height:75px;'>
+        </div>
+        <h2 style='color:#5c4a45;'>¡Reserva Confirmada!</h2>
+        <p>Hola <b>{cliente.Nombre}</b>,<br>
+        Tu reserva ha sido confirmada. Aquí tienes los detalles:</p>
+        <table style='width:100%; margin:16px 0;'>
+            <tr><td><b>Cabaña:</b></td><td>{cabana.Nombre}</td></tr>
+            <tr><td><b>Fechas:</b></td><td>{reserva.FechaDesde:dd/MM/yyyy} - {reserva.FechaHasta:dd/MM/yyyy}</td></tr>
+            <tr><td><b>Cantidad de personas:</b></td><td>{reserva.CantidadPersonas}</td></tr>
+            <tr><td><b>Método de pago:</b></td><td>{reserva.MetodoPago}</td></tr>
+            <tr><td><b>Estado del pago:</b></td><td>{reserva.EstadoPago}</td></tr>
+            <tr><td><b>Monto total:</b></td><td><b style='color:#a67c52;'>${reserva.MontoTotal:N2}</b></td></tr>
+        </table>
+        <p style='margin-top:24px;'>¡Gracias por elegirnos!<br>Aldea Uruel</p>
+    </div>
+</body>
+</html>";
             try
             {
                 // Configura aquí tu servidor SMTP real
@@ -90,6 +107,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                     EnableSsl = true
                 };
                 var mail = new MailMessage(_config["Email:SmtpUser"], to, subject, body);
+                mail.IsBodyHtml = true;
                 await smtp.SendMailAsync(mail);
                 TempData["Mensaje"] = "Email de confirmación enviado correctamente.";
             }
@@ -97,7 +115,7 @@ namespace ReservaCabanasSite.Pages.Reservas
             {
                 TempData["Mensaje"] = $"Error al enviar el email: {ex.Message}";
             }
-            return RedirectToPage("Confirmacion");
+            return RedirectToPage("Confirmacion", new { id = reservaId });
         }
     }
 } 

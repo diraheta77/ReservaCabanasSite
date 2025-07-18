@@ -55,4 +55,18 @@
         </div>
     </div>
 </body>
-</html> 
+</html>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script>
+        window.onafterprint = function() {
+            toastr.options.closeButton = true;
+            toastr.options.timeOut = 4000;
+            toastr.success("¡Comprobante impreso correctamente!");
+            // Si quieres cerrar la ventana automáticamente después de imprimir, descomenta la siguiente línea:
+            // setTimeout(() => window.close(), 2000);
+        };
+    </script>
+} 
