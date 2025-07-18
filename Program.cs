@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Data;
+using ReservaCabanasSite.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
