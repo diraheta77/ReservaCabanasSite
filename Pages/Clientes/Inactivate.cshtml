@@ -1,0 +1,50 @@
+﻿@page
+@model ReservaCabanasSite.Pages.Clientes.InactivateModel
+@{
+    ViewData["Title"] = "Inactivar Cliente";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-danger-custom {
+    background: #e74c3c;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c0392b;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Inactivar Cliente</h1>
+<h3>¿Estás seguro que deseas inactivar este cliente?</h3>
+<div>
+    <h4>@Model.Cliente.Nombre @Model.Cliente.Apellido</h4>
+    <dl class="row">
+        <dt class="col-sm-3">DNI</dt>
+        <dd class="col-sm-9">@Model.Cliente.Dni</dd>
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Cliente.Email</dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Cliente.Id" />
+        <button type="submit" class="btn btn-danger-custom btn-custom">Inactivar</button>
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+    </form>
+</div>

@@ -1,0 +1,337 @@
+@page
+@model ReservaCabanasSite.Pages.Reservas.ConfirmacionModel
+@{
+    ViewData["Title"] = "Reserva Confirmada";
+}
+
+<style>
+.confirmation-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.confirmation-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 8px;
+}
+
+.confirmation-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #27ae60;
+    margin-bottom: 16px;
+}
+
+.reservation-details {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border-left: 4px solid #27ae60;
+}
+
+.reservation-details h5 {
+    color: #5c4a45;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.detail-value {
+    color: #6c757d;
+}
+
+.actions-section {
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.actions-section h5 {
+    color: #5c4a45;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.btn-custom {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 1rem;
+    margin-right: 12px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+
+.btn-success-custom {
+    background: #27ae60;
+    color: #fff;
+}
+
+.btn-success-custom:hover {
+    background: #229954;
+    color: #fff;
+}
+
+.btn-info-custom {
+    background: #17a2b8;
+    color: #fff;
+}
+
+.btn-info-custom:hover {
+    background: #138496;
+    color: #fff;
+}
+
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.price-highlight {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.price-highlight .total-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a67c52;
+}
+</style>
+
+<div class="confirmation-container">
+    <div class="confirmation-header">
+        <div class="success-icon">✓</div>
+        <h1 class="confirmation-title">¡Reserva Confirmada!</h1>
+        <p class="confirmation-subtitle">Tu reserva ha sido creada exitosamente</p>
+    </div>
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensaje"]
+        </div>
+    }
+
+    <!-- Detalles de la reserva -->
+    <div class="reservation-details">
+        <h5>Detalles de la Reserva</h5>
+        
+        <div class="detail-item">
+            <span class="detail-label">Número de Reserva:</span>
+            <span class="detail-value">#@Model.Reserva.Id</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Cabaña:</span>
+            <span class="detail-value">@Model.Cabana.Nombre</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Fechas:</span>
+            <span class="detail-value">@Model.Reserva.FechaDesde.ToString("dd/MM/yyyy") - @Model.Reserva.FechaHasta.ToString("dd/MM/yyyy")</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Cantidad de personas:</span>
+            <span class="detail-value">@Model.Reserva.CantidadPersonas</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Temporada:</span>
+            <span class="detail-value">@Model.Reserva.Temporada</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Estado:</span>
+            <span class="detail-value">@Model.Reserva.EstadoReserva</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Fecha de creación:</span>
+            <span class="detail-value">@Model.Reserva.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+    </div>
+
+    <!-- Resumen de precios -->
+    <div class="price-highlight">
+        @{
+            var dias = (Model.Reserva.FechaHasta - Model.Reserva.FechaDesde).Days;
+            var precioPorDia = Model.Cabana.PrecioPorNoche;
+            var subtotal = dias * precioPorDia;
+            var total = subtotal;
+        }
+        <div class="detail-item">
+            <span class="detail-label">Precio por día:</span>
+            <span class="detail-value">$@precioPorDia.ToString("N2")</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Cantidad de días:</span>
+            <span class="detail-value">@dias días</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Subtotal:</span>
+            <span class="detail-value">$@subtotal.ToString("N2")</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Total:</span>
+            <span class="total-price">$@total.ToString("N2")</span>
+        </div>
+    </div>
+
+    <!-- Información del cliente -->
+    <div class="reservation-details">
+        <h5>Información del Cliente</h5>
+        
+        <div class="detail-item">
+            <span class="detail-label">Nombre:</span>
+            <span class="detail-value">@Model.Cliente.Nombre @Model.Cliente.Apellido</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">DNI:</span>
+            <span class="detail-value">@Model.Cliente.Dni</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Teléfono:</span>
+            <span class="detail-value">@Model.Cliente.Telefono</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value">@Model.Cliente.Email</span>
+        </div>
+        
+        @if (!string.IsNullOrEmpty(Model.Cliente.Direccion))
+        {
+            <div class="detail-item">
+                <span class="detail-label">Dirección:</span>
+                <span class="detail-value">@Model.Cliente.Direccion</span>
+            </div>
+        }
+    </div>
+
+    <!-- Información de pago -->
+    <div class="reservation-details">
+        <h5>Información de Pago</h5>
+        
+        <div class="detail-item">
+            <span class="detail-label">Método de pago:</span>
+            <span class="detail-value">@Model.Reserva.MetodoPago</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Estado del pago:</span>
+            <span class="detail-value">@Model.Reserva.EstadoPago</span>
+        </div>
+        
+        <div class="price-highlight">
+            <div class="detail-item">
+                <span class="detail-label">Monto total:</span>
+                <span class="detail-value total-price">$@Model.Reserva.MontoTotal.ToString("N2")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acciones disponibles -->
+    <div class="actions-section">
+        <h5>Acciones Disponibles</h5>
+        
+        <a href="/Reservas/Imprimir/@Model.Reserva.Id" target="_blank" class="btn btn-primary-custom btn-custom">🧾 IMPRIMIR COMPROBANTE</a>
+        
+        <form method="post" style="display: inline;">
+            <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
+            <button type="submit" asp-page-handler="EnviarEmail" class="btn btn-success-custom btn-custom">
+                📧 Enviar Email de Confirmación
+            </button>
+        </form>
+        
+        <a asp-page="Index" class="btn btn-info-custom btn-custom">
+            📅 Ver Calendario de Reservas
+        </a>
+        
+        <a asp-page="Step1" class="btn btn-secondary-custom btn-custom">
+            ➕ Nueva Reserva
+        </a>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="alert alert-success">
+        <strong>¡Importante!</strong> 
+        <ul style="margin: 8px 0 0 20px;">
+            <li>Guarda el número de reserva (#@Model.Reserva.Id) para futuras consultas</li>
+            <li>Revisa tu email para la confirmación detallada</li>
+            <li>Para modificaciones o cancelaciones, contacta con nosotros</li>
+        </ul>
+    </div>
+</div> 

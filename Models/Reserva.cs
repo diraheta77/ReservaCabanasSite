@@ -27,15 +27,16 @@ namespace ReservaCabanasSite.Models
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; }
 
-        public string Temporada { get; set; }
+        public string? Temporada { get; set; }
         public int CantidadPersonas { get; set; }
-        public string MedioContacto { get; set; }
+        public string? MedioContacto { get; set; }
 
-        [ValidateNever]
-        public string MedioPago { get; set; }
-        public string Observaciones { get; set; }
-        public decimal ImporteTotal { get; set; }
-        public decimal Sena { get; set; }
-        public decimal Saldo { get; set; }
+        public string? MetodoPago { get; set; }
+        public string? EstadoPago { get; set; }
+        public string? EstadoReserva { get; set; }
+        public string? Observaciones { get; set; }
+        public decimal MontoTotal { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public bool Activa { get; set; } = true;
     }
 }

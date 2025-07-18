@@ -1,0 +1,100 @@
+﻿@page
+@model ReservaCabanasSite.Pages.Clientes.CreateModel
+@{
+    ViewData["Title"] = "Nuevo Cliente";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Nuevo Cliente</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Cliente.Dni"></label>
+        <input asp-for="Cliente.Dni" class="form-control" />
+        <span asp-validation-for="Cliente.Dni" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Nombre"></label>
+        <input asp-for="Cliente.Nombre" class="form-control" />
+        <span asp-validation-for="Cliente.Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Apellido"></label>
+        <input asp-for="Cliente.Apellido" class="form-control" />
+        <span asp-validation-for="Cliente.Apellido" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.FechaNacimiento"></label>
+        <input asp-for="Cliente.FechaNacimiento" class="form-control" type="date" />
+        <span asp-validation-for="Cliente.FechaNacimiento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Nacionalidad"></label>
+        <input asp-for="Cliente.Nacionalidad" class="form-control" />
+        <span asp-validation-for="Cliente.Nacionalidad" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Direccion"></label>
+        <input asp-for="Cliente.Direccion" class="form-control" />
+        <span asp-validation-for="Cliente.Direccion" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Ciudad"></label>
+        <input asp-for="Cliente.Ciudad" class="form-control" />
+        <span asp-validation-for="Cliente.Ciudad" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Provincia"></label>
+        <input asp-for="Cliente.Provincia" class="form-control" />
+        <span asp-validation-for="Cliente.Provincia" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Pais"></label>
+        <input asp-for="Cliente.Pais" class="form-control" />
+        <span asp-validation-for="Cliente.Pais" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Telefono"></label>
+        <input asp-for="Cliente.Telefono" class="form-control" />
+        <span asp-validation-for="Cliente.Telefono" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Email"></label>
+        <input asp-for="Cliente.Email" class="form-control" />
+        <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cliente.Observaciones"></label>
+        <textarea asp-for="Cliente.Observaciones" class="form-control"></textarea>
+        <span asp-validation-for="Cliente.Observaciones" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary-custom btn-custom">Guardar</button>
+    <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+</form>

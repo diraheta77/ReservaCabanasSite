@@ -3222,11 +3222,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/ReservaCabanasSite.csproj",
+      "projectUniqueName": "/Users/diegoiraheta/Documents/ReservaCabanasSite/ReservaCabanasSite.csproj",
       "projectName": "ReservaCabanasSite",
-      "projectPath": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/ReservaCabanasSite.csproj",
+      "projectPath": "/Users/diegoiraheta/Documents/ReservaCabanasSite/ReservaCabanasSite.csproj",
       "packagesPath": "/Users/diegoiraheta/.nuget/packages/",
-      "outputPath": "/Users/diegoiraheta/Documents/projects/ReservaCabanasSite/obj/",
+      "outputPath": "/Users/diegoiraheta/Documents/ReservaCabanasSite/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/diegoiraheta/.nuget/NuGet/NuGet.Config"

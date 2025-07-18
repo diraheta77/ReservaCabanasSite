@@ -1,0 +1,58 @@
+@page "{id:int}"
+@model ReservaCabanasSite.Pages.Reservas.ImprimirModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Comprobante de Reserva</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .comprobante-container { max-width: 700px; margin: 0 auto; border: 1px solid #ccc; border-radius: 10px; padding: 32px; background: #fff; }
+        .logo { text-align: center; margin-bottom: 24px; }
+        .logo img { max-height: 80px; }
+        h1 { text-align: center; color: #5c4a45; margin-bottom: 24px; }
+        .section { margin-bottom: 24px; }
+        .section-title { font-weight: bold; color: #a67c52; margin-bottom: 8px; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .label { font-weight: bold; color: #5c4a45; }
+        .value { color: #333; }
+        .total { font-size: 1.3rem; font-weight: bold; color: #a67c52; text-align: right; margin-top: 16px; }
+        @@media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="comprobante-container">
+        <div class="logo">
+            <img src="/wwwroot/assets/logo/logocabanas.png" alt="Logo" />
+        </div>
+        <h1>Comprobante de Reserva</h1>
+        <div class="section">
+            <div class="section-title">Datos de la Reserva</div>
+            <div class="row"><span class="label">N° Reserva:</span><span class="value">#@Model.Reserva.Id</span></div>
+            <div class="row"><span class="label">Cabaña:</span><span class="value">@Model.Cabana.Nombre</span></div>
+            <div class="row"><span class="label">Fechas:</span><span class="value">@Model.Reserva.FechaDesde.ToString("dd/MM/yyyy") - @Model.Reserva.FechaHasta.ToString("dd/MM/yyyy")</span></div>
+            <div class="row"><span class="label">Cantidad de personas:</span><span class="value">@Model.Reserva.CantidadPersonas</span></div>
+            <div class="row"><span class="label">Estado:</span><span class="value">@Model.Reserva.EstadoReserva</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Datos del Cliente</div>
+            <div class="row"><span class="label">Nombre:</span><span class="value">@Model.Cliente.Nombre @Model.Cliente.Apellido</span></div>
+            <div class="row"><span class="label">DNI:</span><span class="value">@Model.Cliente.Dni</span></div>
+            <div class="row"><span class="label">Teléfono:</span><span class="value">@Model.Cliente.Telefono</span></div>
+            <div class="row"><span class="label">Email:</span><span class="value">@Model.Cliente.Email</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Pago</div>
+            <div class="row"><span class="label">Método de pago:</span><span class="value">@Model.Reserva.MetodoPago</span></div>
+            <div class="row"><span class="label">Estado del pago:</span><span class="value">@Model.Reserva.EstadoPago</span></div>
+            <div class="row total"><span class="label">Monto total:</span><span class="value">$@Model.Reserva.MontoTotal.ToString("N2")</span></div>
+        </div>
+        <div class="no-print" style="text-align:center; margin-top:32px;">
+            <button onclick="window.print()" style="padding:12px 32px; font-size:1rem; border-radius:6px; background:#a67c52; color:#fff; border:none; cursor:pointer;">Imprimir</button>
+        </div>
+    </div>
+</body>
+</html> 

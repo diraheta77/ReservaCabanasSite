@@ -1,0 +1,401 @@
+﻿@page
+@model ReservaCabanasSite.Pages.Reservas.Step3Model
+@using ReservaCabanasSite.Models
+@{
+    ViewData["Title"] = "Nueva Reserva - Paso 3";
+}
+
+<style>
+.wizard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+}
+
+.wizard-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.wizard-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 8px;
+}
+
+.wizard-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.wizard-steps {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    margin: 0 16px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.step-number.active {
+    background: #a67c52;
+    color: white;
+}
+
+.step-number.completed {
+    background: #27ae60;
+    color: white;
+}
+
+.step-number.pending {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.step-text {
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #5c4a45;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.2);
+}
+
+.btn-custom {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 1rem;
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+
+.wizard-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.summary-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border-left: 4px solid #a67c52;
+}
+
+.summary-section h5 {
+    color: #5c4a45;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.summary-label {
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.summary-value {
+    color: #6c757d;
+}
+
+.payment-section {
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.payment-section h5 {
+    color: #5c4a45;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+
+.price-calculation {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.price-row.total {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #a67c52;
+    border-top: 2px solid #dee2e6;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+</style>
+
+<div class="wizard-container">
+    <div class="wizard-header">
+        <h1 class="wizard-title">Nueva Reserva</h1>
+        <p class="wizard-subtitle">Paso 3: Confirmación y Pago</p>
+    </div>
+
+    <div class="wizard-steps">
+        <div class="step-indicator">
+            <div class="step-number completed">1</div>
+            <span class="step-text">Cabaña y Fechas</span>
+        </div>
+        <div class="step-indicator">
+            <div class="step-number completed">2</div>
+            <span class="step-text">Datos del Cliente</span>
+        </div>
+        <div class="step-indicator">
+            <div class="step-number active">3</div>
+            <span class="step-text">Pago</span>
+        </div>
+    </div>
+
+    <form method="post">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <strong>Errores:</strong>
+                <ul>
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+        <input type="hidden" name="WizardDataJson" value="@(TempData["WizardData"] ?? Model.WizardDataJson)" />
+        <!-- Resumen de la reserva -->
+        <div class="summary-section">
+            <h5>Resumen de la Reserva</h5>
+            
+            @if (ViewData["Cabana"] is Cabana cabana)
+            {
+                <div class="summary-item">
+                    <span class="summary-label">Cabaña:</span>
+                    <span class="summary-value">@cabana.Nombre</span>
+                </div>
+            }
+            
+            <div class="summary-item">
+                <span class="summary-label">Fechas:</span>
+                <span class="summary-value">@Model.WizardModel.FechaDesde?.ToString("dd/MM/yyyy") - @Model.WizardModel.FechaHasta?.ToString("dd/MM/yyyy")</span>
+            </div>
+            
+            <div class="summary-item">
+                <span class="summary-label">Cantidad de personas:</span>
+                <span class="summary-value">@Model.WizardModel.CantidadPersonas</span>
+            </div>
+            
+            <div class="summary-item">
+                <span class="summary-label">Temporada:</span>
+                <span class="summary-value">@Model.WizardModel.Temporada</span>
+            </div>
+            
+            <div class="summary-item">
+                <span class="summary-label">Cliente:</span>
+                <span class="summary-value">@Model.WizardModel.Nombre @Model.WizardModel.Apellido</span>
+            </div>
+            
+            <div class="summary-item">
+                <span class="summary-label">Contacto:</span>
+                <span class="summary-value">@Model.WizardModel.Telefono / @Model.WizardModel.Email</span>
+            </div>
+        </div>
+
+        <!-- Cálculo de precio -->
+        <div class="payment-section">
+            <h5>Detalle de Precios</h5>
+            
+            <div class="price-calculation">
+                @{
+                    var dias = (Model.WizardModel.FechaHasta - Model.WizardModel.FechaDesde)?.Days ?? 0;
+                    var precioPorDia = 0m;
+                    if (ViewData["Cabana"] is Cabana cabanaInfo)
+                    {
+                        precioPorDia = cabanaInfo.PrecioPorNoche;
+                    }
+                    var subtotal = dias * precioPorDia;
+                    var total = subtotal;
+                }
+                <div class="price-row">
+                    <span>Precio por día:</span>
+                    <span>$@precioPorDia.ToString("N2")</span>
+                </div>
+                <div class="price-row">
+                    <span>Cantidad de días:</span>
+                    <span>@dias días</span>
+                </div>
+                <div class="price-row">
+                    <span>Subtotal:</span>
+                    <span>$@subtotal.ToString("N2")</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total:</span>
+                    <span>$@total.ToString("N2")</span>
+                </div>
+                <input type="hidden" asp-for="WizardModel.MontoTotal" value="@total" />
+            </div>
+            
+        </div>
+
+        <!-- Método de pago -->
+        <div class="payment-section">
+            <h5>Método de Pago</h5>
+            
+            <div class="form-group">
+                <label asp-for="MetodoPagoInput" class="form-label">Método de Pago *</label>
+                <select asp-for="MetodoPagoInput" class="form-control">
+                    <option value="">Selecciona un método de pago</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                    <option value="Tarjeta de Débito">Tarjeta de Débito</option>
+                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                    <option value="Mercado Pago">Mercado Pago</option>
+                </select>
+                <span asp-validation-for="MetodoPagoInput" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="EstadoPagoInput" class="form-label">Estado del Pago *</label>
+                <select asp-for="EstadoPagoInput" class="form-control">
+                    <option value="">Selecciona el estado del pago</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Parcial">Parcial</option>
+                    <option value="Completado">Completado</option>
+                </select>
+                <span asp-validation-for="EstadoPagoInput" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Observaciones adicionales -->
+        <div class="form-group">
+            <label asp-for="ObservacionesInput" class="form-label">Observaciones Adicionales</label>
+            <textarea asp-for="ObservacionesInput" class="form-control" rows="3" placeholder="Información adicional sobre la reserva o el pago..."></textarea>
+            <span asp-validation-for="ObservacionesInput" class="text-danger"></span>
+        </div>
+
+        <!-- Términos y condiciones -->
+        <div class="alert alert-info">
+            <strong>Importante:</strong> Al confirmar esta reserva, aceptas nuestros términos y condiciones. 
+            La reserva quedará confirmada una vez completado el proceso de pago.
+        </div>
+
+        <div class="wizard-buttons">
+            <a asp-page="Step2" class="btn btn-secondary-custom btn-custom">Anterior</a>
+            <button type="submit" class="btn btn-primary-custom btn-custom">Confirmar Reserva</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Validación del formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const metodoPago = document.getElementById('MetodoPagoInput').value;
+            const estadoPago = document.getElementById('EstadoPagoInput').value;
+            
+            if (!metodoPago || !estadoPago) {
+                e.preventDefault();
+                alert('Por favor completa todos los campos requeridos.');
+                return false;
+            }
+        });
+    </script>
+}

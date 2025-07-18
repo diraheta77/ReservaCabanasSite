@@ -1,0 +1,113 @@
+﻿@page
+@model ReservaCabanasSite.Pages.Clientes.IndexModel
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<style>
+.btn-custom {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 0.875rem;
+}
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+.btn-warning-custom {
+    background: #f39c12;
+    color: #fff;
+}
+.btn-warning-custom:hover {
+    background: #e67e22;
+    color: #fff;
+}
+.btn-info-custom {
+    background: #3498db;
+    color: #fff;
+}
+.btn-info-custom:hover {
+    background: #2980b9;
+    color: #fff;
+}
+.btn-danger-custom {
+    background: #e74c3c;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c0392b;
+    color: #fff;
+}
+.btn-success-custom {
+    background: #27ae60;
+    color: #fff;
+}
+.btn-success-custom:hover {
+    background: #229954;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Clientes</h1>
+<p>
+    <a asp-page="Create" class="btn btn-primary-custom btn-custom">Nuevo Cliente</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var cliente in Model.Clientes)
+    {
+        <tr class="@(cliente.Activo ? "" : "table-danger")">
+            <td>@cliente.Dni</td>
+            <td>@cliente.Nombre</td>
+            <td>@cliente.Apellido</td>
+            <td>@cliente.Telefono</td>
+            <td>@cliente.Email</td>
+            <td>
+                @(cliente.Activo ? "Activo" : "Inactivo")
+            </td>
+            <td>
+                <a asp-page="Edit" asp-route-id="@cliente.Id" class="btn btn-warning-custom btn-custom @(cliente.Activo ? "" : "disabled")">Editar</a>
+                <a asp-page="Details" asp-route-id="@cliente.Id" class="btn btn-info-custom btn-custom">Detalles</a>
+                @if (cliente.Activo)
+                {
+                    <a asp-page="Inactivate" asp-route-id="@cliente.Id" class="btn btn-danger-custom btn-custom">Inactivar</a>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Activar" asp-route-id="@cliente.Id" style="display:inline">
+                        <button type="submit" class="btn btn-success-custom btn-custom">Activar</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

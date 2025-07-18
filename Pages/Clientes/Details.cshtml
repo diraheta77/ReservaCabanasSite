@@ -1,0 +1,58 @@
+﻿@page
+@model ReservaCabanasSite.Pages.Clientes.DetailsModel
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Detalles del Cliente</h1>
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">DNI</dt>
+            <dd class="col-sm-9">@Model.Cliente.Dni</dd>
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Cliente.Nombre</dd>
+            <dt class="col-sm-3">Apellido</dt>
+            <dd class="col-sm-9">@Model.Cliente.Apellido</dd>
+            <dt class="col-sm-3">Fecha de Nacimiento</dt>
+            <dd class="col-sm-9">@Model.Cliente.FechaNacimiento?.ToString("dd/MM/yyyy")</dd>
+            <dt class="col-sm-3">Nacionalidad</dt>
+            <dd class="col-sm-9">@Model.Cliente.Nacionalidad</dd>
+            <dt class="col-sm-3">Dirección</dt>
+            <dd class="col-sm-9">@Model.Cliente.Direccion</dd>
+            <dt class="col-sm-3">Ciudad</dt>
+            <dd class="col-sm-9">@Model.Cliente.Ciudad</dd>
+            <dt class="col-sm-3">Provincia</dt>
+            <dd class="col-sm-9">@Model.Cliente.Provincia</dd>
+            <dt class="col-sm-3">País</dt>
+            <dd class="col-sm-9">@Model.Cliente.Pais</dd>
+            <dt class="col-sm-3">Teléfono</dt>
+            <dd class="col-sm-9">@Model.Cliente.Telefono</dd>
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Cliente.Email</dd>
+            <dt class="col-sm-3">Observaciones</dt>
+            <dd class="col-sm-9">@Model.Cliente.Observaciones</dd>
+        </dl>
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Volver</a>
+    </div>
+</div>

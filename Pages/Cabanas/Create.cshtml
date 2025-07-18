@@ -169,9 +169,11 @@
                 <label class="cabana-form-label">Imagen</label>
                 <input type="file" name="Imagenes" id="inputImagenes" class="form-control" style="background:#e5e5e5; border:none;" accept="image/*" multiple />
 
-                <div class="mb-3 form-check" style="margin-top: 10px;">
-                    <input asp-for="Cabana.Activa" class="form-check-input" />
-                    <label asp-for="Cabana.Activa" class="form-check-label"></label>
+                <div class="form-group" style="margin-top: 15px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input asp-for="Cabana.Activa" type="checkbox" style="width: 18px; height: 18px;" />
+                        <label asp-for="Cabana.Activa" style="margin: 0; font-weight: 600; color: #5c4a45;">Cabaña Activa</label>
+                    </div>
                 </div>
             </div>
             <div class="cabana-form-buttons">

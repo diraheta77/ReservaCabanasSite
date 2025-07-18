@@ -31,18 +31,37 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 
   <style>
-  .main-panel {    
-    height: auto !important;
+  /* Asegurar que el contenido ocupe toda la altura disponible */
+  .main-panel {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-.content {
-    flex: 1 0 auto;
-}
-.footer {
-    flex-shrink: 0;
-}
-</style>
+  }
+  
+  .content {
+    flex: 1;
+    background-color: #f4f3ef;
+    padding: 20px;
+  }
+  
+  .footer {
+    margin-top: auto;
+    background-color: white;
+  }
+  
+  /* Asegurar que las tablas se muestren correctamente */
+  .table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Asegurar que los formularios se muestren correctamente */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  </style>
 
 </head>
 
@@ -71,13 +90,13 @@
             </a>
           </li>
           <li>
-            <a asp-page="/Reservas/Create">
+            <a asp-page="/Reservas/Index">
               <i class="fa fa-calendar"></i>
               <p>Reservas</p>
             </a>
           </li>
           <li>
-            <a href="javascript:;">
+            <a asp-page="/Clientes/Index">
               <i class="fa fa-users"></i>
               <p>Clientes</p>
             </a>

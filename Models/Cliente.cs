@@ -21,5 +21,6 @@ namespace ReservaCabanasSite.Models
         public string Telefono { get; set; }
         public string Email { get; set; }
         public string Observaciones { get; set; }
+        public bool Activo { get; set; } = true;
     }
 }
