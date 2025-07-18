@@ -40,20 +40,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("[MIGRACION] Ejecutando Migrate...");
         db.Database.Migrate();
         Console.WriteLine("[MIGRACION] Migraciones aplicadas correctamente.");
-        try
-        {
-            if (!db.Cabanas.Any())
-            {
-                db.Cabanas.Add(new Cabana { Nombre = "Demo", Capacidad = 4, PrecioPorNoche = 1000, Activa = true });
-                db.SaveChanges();
-                Console.WriteLine("[MIGRACION] Seed de datos demo aplicado.");
-            }
-        }
-        catch (Exception seedEx)
-        {
-            System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", "Seed error: " + seedEx.ToString());
-            Console.WriteLine("[MIGRACION] Seed error: " + seedEx.ToString());
-        }
+        // Seed eliminado: no agregar cabañas demo
     }
     catch (Exception ex)
     {
