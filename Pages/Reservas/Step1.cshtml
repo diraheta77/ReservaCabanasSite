@@ -269,24 +269,32 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="WizardModel.Temporada" class="form-label">Temporada</label>
-                    <select asp-for="WizardModel.Temporada" class="form-control">
+                    <label asp-for="WizardModel.TemporadaId" class="form-label">Temporada</label>
+                    <select asp-for="WizardModel.TemporadaId" class="form-control" id="temporadaSelect">
                         <option value="">Selecciona la temporada</option>
-                        @foreach (var temporada in Model.WizardModel.Temporadas)
+                        @foreach (var temporada in Model.TemporadasDisponibles)
                         {
-                            <option value="@temporada">@temporada</option>
+                            <option value="@temporada.Id" data-precio="@temporada.PrecioPorPersona">@temporada.Nombre</option>
                         }
                     </select>
-                    <span asp-validation-for="WizardModel.Temporada" class="text-danger"></span>
+                    <span asp-validation-for="WizardModel.TemporadaId" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="WizardModel.CantidadPersonas" class="form-label">Cantidad de personas</label>
-                    <input asp-for="WizardModel.CantidadPersonas" class="form-control" type="number" min="1" max="20" />
+                    <input asp-for="WizardModel.CantidadPersonas" class="form-control" type="number" min="1" max="20" id="cantidadPersonasInput" />
                     <span asp-validation-for="WizardModel.CantidadPersonas" class="text-danger"></span>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
+            <label>Precio por persona</label>
+            <input type="text" id="precioPorPersonaInput" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label>Total estimado</label>
+            <input type="text" id="totalEstimadoInput" class="form-control" readonly />
         </div>
 
         <div class="form-group">
@@ -393,5 +401,31 @@
         fechaDesdeInput.addEventListener('change', validarDisponibilidad);
         fechaHastaInput.addEventListener('change', validarDisponibilidad);
         document.getElementById('cabanaSelect').addEventListener('change', validarDisponibilidad);
+
+        const temporadaSelect = document.getElementById('temporadaSelect');
+        const precioPorPersonaInput = document.getElementById('precioPorPersonaInput');
+        const cantidadPersonasInput = document.getElementById('cantidadPersonasInput');
+        const fechaDesdeInput = document.getElementById('WizardModel_FechaDesde');
+        const fechaHastaInput = document.getElementById('WizardModel_FechaHasta');
+        const totalEstimadoInput = document.getElementById('totalEstimadoInput');
+
+        function calcularTotalEstimado() {
+            const precio = parseFloat(temporadaSelect.options[temporadaSelect.selectedIndex]?.getAttribute('data-precio')) || 0;
+            const cantidad = parseInt(cantidadPersonasInput.value) || 0;
+            const desde = new Date(fechaDesdeInput.value);
+            const hasta = new Date(fechaHastaInput.value);
+            let dias = 0;
+            if (!isNaN(desde) && !isNaN(hasta) && hasta > desde) {
+                dias = Math.floor((hasta - desde) / (1000 * 60 * 60 * 24));
+            }
+            const total = precio * cantidad * dias;
+            precioPorPersonaInput.value = precio ? `$${precio.toLocaleString('es-AR', {minimumFractionDigits:2})}` : '';
+            totalEstimadoInput.value = total ? `$${total.toLocaleString('es-AR', {minimumFractionDigits:2})}` : '';
+        }
+        temporadaSelect.addEventListener('change', calcularTotalEstimado);
+        cantidadPersonasInput.addEventListener('input', calcularTotalEstimado);
+        fechaDesdeInput.addEventListener('change', calcularTotalEstimado);
+        fechaHastaInput.addEventListener('change', calcularTotalEstimado);
+        window.addEventListener('DOMContentLoaded', calcularTotalEstimado);
     </script>
 }

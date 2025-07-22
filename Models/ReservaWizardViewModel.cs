@@ -21,6 +21,9 @@ namespace ReservaCabanasSite.Models
         
         public string MedioContacto { get; set; }
         
+        public int? TemporadaId { get; set; }
+        public decimal PrecioPorPersona { get; set; }
+        
         // Paso 2: Datos del cliente
         public string Dni { get; set; }
         

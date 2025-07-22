@@ -226,13 +226,18 @@
     <div class="price-highlight">
         @{
             var dias = (Model.Reserva.FechaHasta - Model.Reserva.FechaDesde).Days;
-            var precioPorDia = Model.Cabana.PrecioPorNoche;
-            var subtotal = dias * precioPorDia;
+            var precioPorPersona = Model.Reserva.PrecioPorPersona;
+            var cantidadPersonas = Model.Reserva.CantidadPersonas;
+            var subtotal = dias * precioPorPersona * cantidadPersonas;
             var total = subtotal;
         }
         <div class="detail-item">
-            <span class="detail-label">Precio por día:</span>
-            <span class="detail-value">$@precioPorDia.ToString("N2")</span>
+            <span class="detail-label">Precio por persona:</span>
+            <span class="detail-value">$@precioPorPersona.ToString("N2")</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Cantidad de personas:</span>
+            <span class="detail-value">@cantidadPersonas</span>
         </div>
         <div class="detail-item">
             <span class="detail-label">Cantidad de días:</span>

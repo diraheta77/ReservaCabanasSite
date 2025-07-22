@@ -38,5 +38,7 @@ namespace ReservaCabanasSite.Models
         public decimal MontoTotal { get; set; }
         public DateTime FechaCreacion { get; set; }
         public bool Activa { get; set; } = true;
+        public int? TemporadaId { get; set; }
+        public decimal PrecioPorPersona { get; set; }
     }
 }

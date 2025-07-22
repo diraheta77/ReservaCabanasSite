@@ -91,20 +91,11 @@ namespace ReservaCabanasSite.Pages.Reservas
             wizardFromJson.MetodoPago = MetodoPagoInput;
             wizardFromJson.EstadoPago = EstadoPagoInput;
             wizardFromJson.Observaciones = ObservacionesInput;
-            // Recalcular el monto total por seguridad
+            // Calcular el monto total usando precio por persona, cantidad de personas y días
             var dias = (wizardFromJson.FechaHasta - wizardFromJson.FechaDesde)?.Days ?? 0;
-            var precioPorDia = 0m;
-            Cabana cabana = null;
-            if (wizardFromJson.CabanaId.HasValue)
-            {
-                cabana = await _context.Cabanas.FindAsync(wizardFromJson.CabanaId.Value);
-                if (cabana != null)
-                {
-                    precioPorDia = cabana.PrecioPorNoche;
-                }
-            }
-            var subtotal = dias * precioPorDia;
-            var total = subtotal;
+            var precioPorPersona = wizardFromJson.PrecioPorPersona;
+            var cantidadPersonas = wizardFromJson.CantidadPersonas;
+            var total = precioPorPersona * cantidadPersonas * dias;
             wizardFromJson.MontoTotal = total;
             // Asignar el modelo reconstruido al property para la vista
             WizardModel = wizardFromJson;
@@ -174,22 +165,6 @@ namespace ReservaCabanasSite.Pages.Reservas
             {
                 await _context.SaveChangesAsync();
             }
-            // Antes de crear la reserva, calcular el monto total igual que en la vista
-            var diasReserva = (WizardModel.FechaHasta - WizardModel.FechaDesde)?.Days ?? 0;
-            var precioPorDiaReserva = 0m;
-            Cabana cabanaReserva = null;
-            if (WizardModel.CabanaId.HasValue)
-            {
-                cabanaReserva = await _context.Cabanas.FindAsync(WizardModel.CabanaId.Value);
-                if (cabanaReserva != null)
-                {
-                    precioPorDiaReserva = cabanaReserva.PrecioPorNoche;
-                }
-            }
-            var subtotalReserva = diasReserva * precioPorDiaReserva;
-            var ivaReserva = subtotalReserva * 0.21m;
-            var totalReserva = subtotalReserva + ivaReserva;
-            WizardModel.MontoTotal = totalReserva;
             // Crear la reserva
             var reserva = new Reserva
             {
@@ -199,6 +174,8 @@ namespace ReservaCabanasSite.Pages.Reservas
                 FechaHasta = WizardModel.FechaHasta.Value,
                 CantidadPersonas = WizardModel.CantidadPersonas,
                 Temporada = WizardModel.Temporada,
+                TemporadaId = WizardModel.TemporadaId,
+                PrecioPorPersona = WizardModel.PrecioPorPersona,
                 MedioContacto = WizardModel.MedioContacto,
                 Observaciones = WizardModel.Observaciones,
                 MontoTotal = WizardModel.MontoTotal,

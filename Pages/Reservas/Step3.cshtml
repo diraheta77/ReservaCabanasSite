@@ -306,17 +306,18 @@
             <div class="price-calculation">
                 @{
                     var dias = (Model.WizardModel.FechaHasta - Model.WizardModel.FechaDesde)?.Days ?? 0;
-                    var precioPorDia = 0m;
-                    if (ViewData["Cabana"] is Cabana cabanaInfo)
-                    {
-                        precioPorDia = cabanaInfo.PrecioPorNoche;
-                    }
-                    var subtotal = dias * precioPorDia;
+                    var precioPorPersona = Model.WizardModel.PrecioPorPersona;
+                    var cantidadPersonas = Model.WizardModel.CantidadPersonas;
+                    var subtotal = dias * precioPorPersona * cantidadPersonas;
                     var total = subtotal;
                 }
                 <div class="price-row">
-                    <span>Precio por día:</span>
-                    <span>$@precioPorDia.ToString("N2")</span>
+                    <span>Precio por persona:</span>
+                    <span>$@precioPorPersona.ToString("N2")</span>
+                </div>
+                <div class="price-row">
+                    <span>Cantidad de personas:</span>
+                    <span>@cantidadPersonas</span>
                 </div>
                 <div class="price-row">
                     <span>Cantidad de días:</span>
