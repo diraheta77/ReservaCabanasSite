@@ -1,0 +1,33 @@
+@page
+@model ReservaCabanasSite.Pages.Temporadas.IndexModel
+@{
+    ViewData["Title"] = "Temporadas";
+}
+
+<h1>Temporadas</h1>
+<a asp-page="Create" class="btn btn-primary-custom btn-custom mb-3">Nueva Temporada</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio por Persona</th>
+            <th>Activa</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var temporada in Model.Temporadas)
+    {
+        <tr>
+            <td>@temporada.Nombre</td>
+            <td>$@temporada.PrecioPorPersona</td>
+            <td>@(temporada.Activa ? "Sí" : "No")</td>
+            <td>
+                <a asp-page="Edit" asp-route-id="@temporada.Id" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-page="Details" asp-route-id="@temporada.Id" class="btn btn-info btn-sm">Detalles</a>
+                <a asp-page="Delete" asp-route-id="@temporada.Id" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

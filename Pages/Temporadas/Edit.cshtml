@@ -1,0 +1,26 @@
+@page
+@model ReservaCabanasSite.Pages.Temporadas.EditModel
+@{
+    ViewData["Title"] = "Editar Temporada";
+}
+
+<h1>Editar Temporada</h1>
+<form method="post">
+    <input type="hidden" asp-for="Temporada.Id" />
+    <div class="form-group">
+        <label asp-for="Temporada.Nombre"></label>
+        <input asp-for="Temporada.Nombre" class="form-control" />
+        <span asp-validation-for="Temporada.Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.PrecioPorPersona"></label>
+        <input asp-for="Temporada.PrecioPorPersona" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Temporada.PrecioPorPersona" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input asp-for="Temporada.Activa" class="form-check-input" />
+        <label asp-for="Temporada.Activa" class="form-check-label"></label>
+    </div>
+    <button type="submit" class="btn btn-primary-custom btn-custom">Guardar Cambios</button>
+    <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+</form> 

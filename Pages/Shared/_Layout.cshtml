@@ -104,6 +104,9 @@
               <p>Clientes</p>
             </a>
           </li>
+          <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
+            <a asp-page="/Temporadas/Index"><i class="nc-icon nc-calendar-60"></i> Temporadas</a>
+          </li>
           <li>
             <a href="javascript:;">
               <i class="fa fa-cogs"></i>
