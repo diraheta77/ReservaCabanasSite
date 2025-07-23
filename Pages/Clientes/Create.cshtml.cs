@@ -27,6 +27,13 @@ namespace ReservaCabanasSite.Pages.Clientes
                 return Page();
             }
             Cliente.Activo = true;
+            // Validación personalizada para Dirección
+            if (string.IsNullOrWhiteSpace(Cliente.Direccion) ||
+                (!System.Text.RegularExpressions.Regex.IsMatch(Cliente.Direccion, @"\\d") && Cliente.Direccion.Trim().ToUpper() != "S/N"))
+            {
+                ModelState.AddModelError("Cliente.Direccion", "La dirección debe contener calle y número o decir S/N (sin numeración)");
+                return Page();
+            }
             _context.Clientes.Add(Cliente);
             await _context.SaveChangesAsync();
             return RedirectToPage("Index");
