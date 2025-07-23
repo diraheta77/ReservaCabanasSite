@@ -95,6 +95,36 @@
         <textarea asp-for="Cliente.Observaciones" class="form-control"></textarea>
         <span asp-validation-for="Cliente.Observaciones" class="text-danger"></span>
     </div>
+    <div class="form-group form-check">
+        <input type="checkbox" id="tieneVehiculo" class="form-check-input" />
+        <label for="tieneVehiculo" class="form-check-label">¿Tiene vehículo?</label>
+    </div>
+    <div id="vehiculoFields" style="display:none;">
+        <div class="form-group">
+            <label for="Patente">Patente</label>
+            <input name="Patente" id="Patente" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Marca">Marca</label>
+            <input name="Marca" id="Marca" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Modelo">Modelo</label>
+            <input name="Modelo" id="Modelo" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Color">Color</label>
+            <input name="Color" id="Color" class="form-control" />
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary-custom btn-custom">Guardar</button>
     <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
 </form>
+
+@section Scripts {
+    <script>
+        document.getElementById('tieneVehiculo').addEventListener('change', function() {
+            document.getElementById('vehiculoFields').style.display = this.checked ? 'block' : 'none';
+        });
+    </script>
+}

@@ -52,6 +52,16 @@
             <dd class="col-sm-9">@Model.Cliente.Email</dd>
             <dt class="col-sm-3">Observaciones</dt>
             <dd class="col-sm-9">@Model.Cliente.Observaciones</dd>
+            @if (Model.Vehiculo != null)
+            {
+                <dt class="col-sm-3">Vehículo</dt>
+                <dd class="col-sm-9">
+                    <strong>Patente:</strong> @Model.Vehiculo.Patente<br />
+                    <strong>Marca:</strong> @Model.Vehiculo.Marca<br />
+                    <strong>Modelo:</strong> @Model.Vehiculo.Modelo<br />
+                    <strong>Color:</strong> @Model.Vehiculo.Color
+                </dd>
+            }
         </dl>
         <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Volver</a>
     </div>

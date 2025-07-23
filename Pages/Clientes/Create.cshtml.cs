@@ -48,6 +48,30 @@ namespace ReservaCabanasSite.Pages.Clientes
             }
             _context.Clientes.Add(Cliente);
             await _context.SaveChangesAsync();
+            // Guardar vehículo si corresponde
+            var tieneVehiculo = Request.Form["tieneVehiculo"] == "on";
+            if (tieneVehiculo)
+            {
+                var patente = Request.Form["Patente"].ToString();
+                var marca = Request.Form["Marca"].ToString();
+                var modelo = Request.Form["Modelo"].ToString();
+                var color = Request.Form["Color"].ToString();
+                if (string.IsNullOrWhiteSpace(patente) || string.IsNullOrWhiteSpace(marca) || string.IsNullOrWhiteSpace(modelo) || string.IsNullOrWhiteSpace(color))
+                {
+                    ModelState.AddModelError("", "Todos los campos del vehículo son obligatorios si el cliente tiene vehículo.");
+                    return Page();
+                }
+                var vehiculo = new Vehiculo
+                {
+                    Patente = patente,
+                    Marca = marca,
+                    Modelo = modelo,
+                    Color = color,
+                    ClienteId = Cliente.Id
+                };
+                _context.Vehiculos.Add(vehiculo);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToPage("Index");
         }
     }

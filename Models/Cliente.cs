@@ -22,5 +22,6 @@ namespace ReservaCabanasSite.Models
         public string Email { get; set; }
         public string? Observaciones { get; set; }
         public bool Activo { get; set; } = true;
+        public ICollection<Vehiculo> Vehiculos { get; set; } = new List<Vehiculo>();
     }
 }

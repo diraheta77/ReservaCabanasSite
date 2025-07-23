@@ -16,6 +16,7 @@ namespace ReservaCabanasSite.Pages.Clientes
 
         [BindProperty]
         public Cliente Cliente { get; set; }
+        public Vehiculo Vehiculo { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,6 +29,8 @@ namespace ReservaCabanasSite.Pages.Clientes
             {
                 return NotFound();
             }
+            // Cargar vehículo existente
+            Vehiculo = await _context.Vehiculos.FirstOrDefaultAsync(v => v.ClienteId == Cliente.Id);
             return Page();
         }
 
@@ -74,6 +77,39 @@ namespace ReservaCabanasSite.Pages.Clientes
             clienteDb.Telefono = Cliente.Telefono;
             clienteDb.Email = Cliente.Email;
             clienteDb.Observaciones = Cliente.Observaciones;
+            await _context.SaveChangesAsync();
+
+            // Guardar/actualizar/eliminar vehículo
+            var tieneVehiculo = Request.Form["tieneVehiculo"] == "on";
+            var vehiculoDb = await _context.Vehiculos.FirstOrDefaultAsync(v => v.ClienteId == Cliente.Id);
+            if (tieneVehiculo)
+            {
+                var patente = Request.Form["Patente"].ToString();
+                var marca = Request.Form["Marca"].ToString();
+                var modelo = Request.Form["Modelo"].ToString();
+                var color = Request.Form["Color"].ToString();
+                if (string.IsNullOrWhiteSpace(patente) || string.IsNullOrWhiteSpace(marca) || string.IsNullOrWhiteSpace(modelo) || string.IsNullOrWhiteSpace(color))
+                {
+                    ModelState.AddModelError("", "Todos los campos del vehículo son obligatorios si el cliente tiene vehículo.");
+                    return Page();
+                }
+                if (vehiculoDb == null)
+                {
+                    vehiculoDb = new Vehiculo
+                    {
+                        ClienteId = Cliente.Id
+                    };
+                    _context.Vehiculos.Add(vehiculoDb);
+                }
+                vehiculoDb.Patente = patente;
+                vehiculoDb.Marca = marca;
+                vehiculoDb.Modelo = modelo;
+                vehiculoDb.Color = color;
+            }
+            else if (vehiculoDb != null)
+            {
+                _context.Vehiculos.Remove(vehiculoDb);
+            }
             await _context.SaveChangesAsync();
             return RedirectToPage("Index");
         }
