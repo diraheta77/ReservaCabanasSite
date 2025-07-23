@@ -34,6 +34,18 @@ namespace ReservaCabanasSite.Pages.Clientes
                 ModelState.AddModelError("Cliente.Direccion", "La dirección debe contener calle y número o decir S/N (sin numeración)");
                 return Page();
             }
+            // Validación DNI solo números
+            if (string.IsNullOrWhiteSpace(Cliente.Dni) || !System.Text.RegularExpressions.Regex.IsMatch(Cliente.Dni, "^\\d+$"))
+            {
+                ModelState.AddModelError("Cliente.Dni", "El DNI debe contener solo números, sin letras ni caracteres especiales.");
+                return Page();
+            }
+            // Validación DNI único
+            if (_context.Clientes.Any(c => c.Dni == Cliente.Dni))
+            {
+                ModelState.AddModelError("Cliente.Dni", "Ya existe un cliente con ese DNI.");
+                return Page();
+            }
             _context.Clientes.Add(Cliente);
             await _context.SaveChangesAsync();
             return RedirectToPage("Index");

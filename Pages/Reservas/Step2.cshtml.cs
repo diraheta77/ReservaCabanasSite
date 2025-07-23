@@ -142,6 +142,21 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return Page();
             }
 
+            // Validación DNI solo números
+            if (string.IsNullOrWhiteSpace(WizardModel.Dni) || !System.Text.RegularExpressions.Regex.IsMatch(WizardModel.Dni, "^\\d+$"))
+            {
+                ModelState.AddModelError("WizardModel.Dni", "El DNI debe contener solo números, sin letras ni caracteres especiales.");
+                WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                return Page();
+            }
+            // Validación DNI único
+            if (await _context.Clientes.AnyAsync(c => c.Dni == WizardModel.Dni))
+            {
+                ModelState.AddModelError("WizardModel.Dni", "Ya existe un cliente con ese DNI.");
+                WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                return Page();
+            }
+
             if (!isValid)
             {
                 System.Diagnostics.Debug.WriteLine("=== Validación falló, retornando Page ===");
