@@ -226,5 +226,41 @@ namespace ReservaCabanasSite.Pages.Reservas
                 }
             });
         }
+
+        public async Task<IActionResult> OnPostBuscarClientesAvanzadoAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return new JsonResult(new { success = false, clientes = new List<object>() });
+            }
+            var clientes = await _context.Clientes
+                .Where(c => c.Activo && (
+                    c.Dni.Contains(query) ||
+                    c.Nombre.Contains(query) ||
+                    c.Apellido.Contains(query) ||
+                    c.Id.ToString().Contains(query)
+                ))
+                .OrderBy(c => c.Nombre)
+                .Take(10)
+                .ToListAsync();
+            return new JsonResult(new
+            {
+                success = true,
+                clientes = clientes.Select(c => new {
+                    id = c.Id,
+                    dni = c.Dni,
+                    nombre = c.Nombre,
+                    apellido = c.Apellido,
+                    telefono = c.Telefono,
+                    email = c.Email,
+                    direccion = c.Direccion,
+                    ciudad = c.Ciudad,
+                    provincia = c.Provincia,
+                    pais = c.Pais,
+                    nacionalidad = c.Nacionalidad,
+                    fechaNacimiento = c.FechaNacimiento?.ToString("yyyy-MM-dd")
+                }).ToList()
+            });
+        }
     }
 }

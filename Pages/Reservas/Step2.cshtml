@@ -241,10 +241,12 @@
             <h5>¿Es un cliente existente?</h5>
             <div class="search-input-group">
                 <div class="form-group">
-                    <label class="form-label">Buscar por DNI</label>
-                    <input type="text" id="searchDni" class="form-control" placeholder="Ingresa el DNI del cliente" />
+                    <label class="form-label">Buscar cliente (DNI, nombre, apellido o ID)</label>
+                    <input type="text" id="searchCliente" class="form-control" placeholder="Buscar cliente..." autocomplete="off" />
+                    <div id="searchResults" class="list-group" style="position: absolute; z-index: 10; width: 100%; display: none;"></div>
                 </div>
                 <button type="button" id="btnBuscarCliente" class="btn btn-info-custom btn-custom">Buscar</button>
+                <button type="button" id="btnLimpiarCliente" class="btn btn-secondary-custom btn-custom ml-2">Limpiar</button>
             </div>
             <div id="searchResult"></div>
         </div>
@@ -392,6 +394,71 @@
                 }
             } catch (error) {
                 resultDiv.innerHTML = '<div class="alert alert-danger">Error al buscar el cliente</div>';
+            }
+        });
+
+        document.getElementById('btnLimpiarCliente').addEventListener('click', function() {
+            document.getElementById('searchDni').value = '';
+            document.getElementById('WizardModel_Dni').value = '';
+            document.getElementById('WizardModel_Nombre').value = '';
+            document.getElementById('WizardModel_Apellido').value = '';
+            document.getElementById('WizardModel_FechaNacimiento').value = '';
+            document.getElementById('WizardModel_Nacionalidad').value = '';
+            document.getElementById('WizardModel_Direccion').value = '';
+            document.getElementById('WizardModel_Ciudad').value = '';
+            document.getElementById('WizardModel_Provincia').value = '';
+            document.getElementById('WizardModel_Pais').value = '';
+            document.getElementById('WizardModel_Telefono').value = '';
+            document.getElementById('WizardModel_Email').value = '';
+            document.getElementById('WizardModel_Observaciones').value = '';
+        });
+
+        const searchInput = document.getElementById('searchCliente');
+        const searchResults = document.getElementById('searchResults');
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                searchResults.innerHTML = '';
+                return;
+            }
+            searchTimeout = setTimeout(async () => {
+                const resp = await fetch(`?handler=BuscarClientesAvanzado&query=${encodeURIComponent(query)}`);
+                const data = await resp.json();
+                if (data.success && data.clientes.length > 0) {
+                    searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action" data-id="${c.id}" data-dni="${c.dni}" data-nombre="${c.nombre}" data-apellido="${c.apellido}" data-telefono="${c.telefono}" data-email="${c.email}" data-direccion="${c.direccion}" data-ciudad="${c.ciudad}" data-provincia="${c.provincia}" data-pais="${c.pais}" data-nacionalidad="${c.nacionalidad}" data-fechanacimiento="${c.fechaNacimiento}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = '<div class="list-group-item">Sin resultados</div>';
+                    searchResults.style.display = 'block';
+                }
+            }, 300);
+        });
+        searchResults.addEventListener('click', function(e) {
+            if (e.target && e.target.matches('a.list-group-item')) {
+                e.preventDefault();
+                const c = e.target.dataset;
+                document.getElementById('WizardModel_Dni').value = c.dni;
+                document.getElementById('WizardModel_Nombre').value = c.nombre;
+                document.getElementById('WizardModel_Apellido').value = c.apellido;
+                document.getElementById('WizardModel_FechaNacimiento').value = c.fechanacimiento || '';
+                document.getElementById('WizardModel_Nacionalidad').value = c.nacionalidad || '';
+                document.getElementById('WizardModel_Direccion').value = c.direccion || '';
+                document.getElementById('WizardModel_Ciudad').value = c.ciudad || '';
+                document.getElementById('WizardModel_Provincia').value = c.provincia || '';
+                document.getElementById('WizardModel_Pais').value = c.pais || '';
+                document.getElementById('WizardModel_Telefono').value = c.telefono || '';
+                document.getElementById('WizardModel_Email').value = c.email || '';
+                document.getElementById('WizardModel_Observaciones').value = '';
+                searchResults.style.display = 'none';
+                searchInput.value = '';
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                searchResults.style.display = 'none';
             }
         });
     </script>
