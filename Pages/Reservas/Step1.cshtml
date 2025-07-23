@@ -427,5 +427,16 @@
         fechaDesdeInput.addEventListener('change', calcularTotalEstimado);
         fechaHastaInput.addEventListener('change', calcularTotalEstimado);
         window.addEventListener('DOMContentLoaded', calcularTotalEstimado);
+
+        const cabanaSelect = document.getElementById('cabanaSelect');
+        const cantidadPersonasInput = document.getElementById('cantidadPersonasInput');
+        cabanaSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const capacidad = parseInt(selectedOption.getAttribute('data-capacidad')) || 20;
+            cantidadPersonasInput.max = capacidad;
+            if (parseInt(cantidadPersonasInput.value) > capacidad) {
+                cantidadPersonasInput.value = capacidad;
+            }
+        });
     </script>
 }

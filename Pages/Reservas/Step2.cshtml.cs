@@ -157,6 +157,31 @@ namespace ReservaCabanasSite.Pages.Reservas
                 WizardModel.Cliente = clienteExistente;
                 System.Diagnostics.Debug.WriteLine("=== Cliente existente encontrado y asignado ===");
             }
+            else
+            {
+                // Crear y guardar cliente nuevo
+                var nuevoCliente = new Cliente
+                {
+                    Dni = WizardModel.Dni,
+                    Nombre = WizardModel.Nombre,
+                    Apellido = WizardModel.Apellido,
+                    FechaNacimiento = WizardModel.FechaNacimiento,
+                    Nacionalidad = WizardModel.Nacionalidad,
+                    Direccion = WizardModel.Direccion,
+                    Ciudad = WizardModel.Ciudad,
+                    Provincia = WizardModel.Provincia,
+                    Pais = WizardModel.Pais,
+                    Telefono = WizardModel.Telefono,
+                    Email = WizardModel.Email,
+                    Observaciones = WizardModel.Observaciones,
+                    Activo = true
+                };
+                _context.Clientes.Add(nuevoCliente);
+                await _context.SaveChangesAsync();
+                WizardModel.ClienteId = nuevoCliente.Id;
+                WizardModel.Cliente = nuevoCliente;
+                System.Diagnostics.Debug.WriteLine("=== Cliente nuevo creado y guardado ===");
+            }
 
             // Guardar datos para el siguiente paso
             var newWizardData = JsonSerializer.Serialize(WizardModel);

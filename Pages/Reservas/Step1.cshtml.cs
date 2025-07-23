@@ -57,6 +57,15 @@ namespace ReservaCabanasSite.Pages.Reservas
                 paso1Errors.Add("Debe especificar la cantidad de personas");
             if (string.IsNullOrWhiteSpace(WizardModel.MedioContacto))
                 paso1Errors.Add("Debe seleccionar el medio de contacto");
+            // Validar cantidad de personas según capacidad de la cabaña
+            var cabanaSeleccionada = await _context.Cabanas.FirstOrDefaultAsync(c => c.Id == WizardModel.CabanaId);
+            if (cabanaSeleccionada != null)
+            {
+                if (WizardModel.CantidadPersonas < 1)
+                    paso1Errors.Add($"La cantidad de personas debe ser al menos 1.");
+                if (WizardModel.CantidadPersonas > cabanaSeleccionada.Capacidad)
+                    paso1Errors.Add($"La cantidad máxima de personas para esta cabaña es {cabanaSeleccionada.Capacidad}.");
+            }
             if (paso1Errors.Any())
             {
                 foreach (var error in paso1Errors)
