@@ -16,6 +16,7 @@ namespace ReservaCabanasSite.Pages.Clientes
         }
 
         public Cliente Cliente { get; set; }
+        public Vehiculo Vehiculo { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,6 +29,7 @@ namespace ReservaCabanasSite.Pages.Clientes
             {
                 return NotFound();
             }
+            Vehiculo = await _context.Vehiculos.FirstOrDefaultAsync(v => v.ClienteId == Cliente.Id);
             return Page();
         }
     }

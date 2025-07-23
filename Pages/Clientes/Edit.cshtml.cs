@@ -16,6 +16,7 @@ namespace ReservaCabanasSite.Pages.Clientes
 
         [BindProperty]
         public Cliente Cliente { get; set; }
+        [BindProperty(SupportsGet = true)]
         public Vehiculo Vehiculo { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -38,6 +39,7 @@ namespace ReservaCabanasSite.Pages.Clientes
         {
             if (!ModelState.IsValid)
             {
+                Vehiculo = await _context.Vehiculos.FirstOrDefaultAsync(v => v.ClienteId == Cliente.Id);
                 return Page();
             }
             var clienteDb = await _context.Clientes.FirstOrDefaultAsync(c => c.Id == Cliente.Id && c.Activo);
@@ -91,6 +93,11 @@ namespace ReservaCabanasSite.Pages.Clientes
                 if (string.IsNullOrWhiteSpace(patente) || string.IsNullOrWhiteSpace(marca) || string.IsNullOrWhiteSpace(modelo) || string.IsNullOrWhiteSpace(color))
                 {
                     ModelState.AddModelError("", "Todos los campos del vehículo son obligatorios si el cliente tiene vehículo.");
+                    Vehiculo = vehiculoDb ?? new Vehiculo();
+                    Vehiculo.Patente = patente;
+                    Vehiculo.Marca = marca;
+                    Vehiculo.Modelo = modelo;
+                    Vehiculo.Color = color;
                     return Page();
                 }
                 if (vehiculoDb == null)
