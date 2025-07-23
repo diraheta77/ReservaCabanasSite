@@ -7,7 +7,6 @@ public class Cabana
     public int Capacidad { get; set; }
     public int CamasMatrimonial { get; set; }      // Nuevo
     public int CamasIndividuales { get; set; }     // Nuevo
-    public decimal PrecioPorNoche { get; set; }
     public decimal PrecioAlta { get; set; }
     public decimal PrecioBaja { get; set; }
     public string? Observaciones { get; set; }     // Nuevo
