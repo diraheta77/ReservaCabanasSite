@@ -135,7 +135,7 @@ namespace ReservaCabanasSite.Pages.Reservas
 
             // Validación personalizada para Dirección
             if (string.IsNullOrWhiteSpace(WizardModel.Direccion) ||
-                (!System.Text.RegularExpressions.Regex.IsMatch(WizardModel.Direccion, @"\\d") && WizardModel.Direccion.Trim().ToUpper() != "S/N"))
+                (!System.Text.RegularExpressions.Regex.IsMatch(WizardModel.Direccion, @"\d") && WizardModel.Direccion.Trim().ToUpper() != "S/N"))
             {
                 ModelState.AddModelError("WizardModel.Direccion", "La dirección debe contener calle y número o decir S/N (sin numeración)");
                 WizardDataJson = JsonSerializer.Serialize(WizardModel);
