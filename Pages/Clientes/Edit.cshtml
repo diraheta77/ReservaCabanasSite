@@ -100,22 +100,38 @@
         <input type="checkbox" id="tieneVehiculo" class="form-check-input" @(Model.Vehiculo != null ? "checked" : "") />
         <label for="tieneVehiculo" class="form-check-label">¿Tiene vehículo?</label>
     </div>
-    <div id="vehiculoFields" style="display:@(Model.Vehiculo != null ? "block" : "none")">
+    <div id="vehiculoFields" style="display:@(Model.Vehiculo.Patente != null ? "block" : "none")">
         <div class="form-group">
             <label for="Patente">Patente</label>
             <input name="Patente" id="Patente" class="form-control" value="@(Model.Vehiculo?.Patente ?? "")" />
+            @if (ViewData.ModelState["Patente"]?.Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["Patente"].Errors[0].ErrorMessage</span>
+            }
         </div>
         <div class="form-group">
             <label for="Marca">Marca</label>
             <input name="Marca" id="Marca" class="form-control" value="@(Model.Vehiculo?.Marca ?? "")" />
+            @if (ViewData.ModelState["Marca"]?.Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["Marca"].Errors[0].ErrorMessage</span>
+            }
         </div>
         <div class="form-group">
             <label for="Modelo">Modelo</label>
             <input name="Modelo" id="Modelo" class="form-control" value="@(Model.Vehiculo?.Modelo ?? "")" />
+            @if (ViewData.ModelState["Modelo"]?.Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["Modelo"].Errors[0].ErrorMessage</span>
+            }
         </div>
         <div class="form-group">
             <label for="Color">Color</label>
             <input name="Color" id="Color" class="form-control" value="@(Model.Vehiculo?.Color ?? "")" />
+            @if (ViewData.ModelState["Color"]?.Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["Color"].Errors[0].ErrorMessage</span>
+            }
         </div>
     </div>
     <button type="submit" class="btn btn-primary-custom btn-custom">Guardar Cambios</button>
