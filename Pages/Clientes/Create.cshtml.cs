@@ -35,7 +35,7 @@ namespace ReservaCabanasSite.Pages.Clientes
                 return Page();
             }
             // Validación DNI solo números
-            if (string.IsNullOrWhiteSpace(Cliente.Dni) || !System.Text.RegularExpressions.Regex.IsMatch(Cliente.Dni, "^\\d+$"))
+            if (string.IsNullOrWhiteSpace(Cliente.Dni) || !System.Text.RegularExpressions.Regex.IsMatch(Cliente.Dni, @"^\d+$"))
             {
                 ModelState.AddModelError("Cliente.Dni", "El DNI debe contener solo números, sin letras ni caracteres especiales.");
                 return Page();

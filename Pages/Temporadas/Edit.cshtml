@@ -5,6 +5,17 @@
 }
 
 <h1>Editar Temporada</h1>
+<style>
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+</style>
+<div class="form-card">
 <form method="post">
     <input type="hidden" asp-for="Temporada.Id" />
     <div class="form-group">
@@ -23,4 +34,5 @@
     </div>
     <button type="submit" class="btn btn-primary-custom btn-custom">Guardar Cambios</button>
     <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
-</form> 
+</form>
+</div> 

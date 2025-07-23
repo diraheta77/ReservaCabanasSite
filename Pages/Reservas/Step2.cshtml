@@ -398,7 +398,10 @@
         });
 
         document.getElementById('btnLimpiarCliente').addEventListener('click', function() {
-            document.getElementById('searchDni').value = '';
+            // Limpiar todos los campos del formulario de cliente
+            document.querySelectorAll('input[type="text"], input[type="email"], input[type="date"], textarea').forEach(function(input) {
+                input.value = '';
+            });
             document.getElementById('WizardModel_Dni').value = '';
             document.getElementById('WizardModel_Nombre').value = '';
             document.getElementById('WizardModel_Apellido').value = '';
@@ -425,7 +428,11 @@
                 return;
             }
             searchTimeout = setTimeout(async () => {
-                const resp = await fetch(`?handler=BuscarClientesAvanzado&query=${encodeURIComponent(query)}`);
+                const resp = await fetch(`?handler=BuscarClientesAvanzado`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value },
+                    body: `query=${encodeURIComponent(query)}`
+                });
                 const data = await resp.json();
                 if (data.success && data.clientes.length > 0) {
                     searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action" data-id="${c.id}" data-dni="${c.dni}" data-nombre="${c.nombre}" data-apellido="${c.apellido}" data-telefono="${c.telefono}" data-email="${c.email}" data-direccion="${c.direccion}" data-ciudad="${c.ciudad}" data-provincia="${c.provincia}" data-pais="${c.pais}" data-nacionalidad="${c.nacionalidad}" data-fechanacimiento="${c.fechaNacimiento}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');

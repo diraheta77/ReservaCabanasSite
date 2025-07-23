@@ -5,6 +5,17 @@
 }
 
 <h1>Nueva Temporada</h1>
+<style>
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+</style>
+<div class="form-card">
 <form method="post">
     <div class="form-group">
         <label asp-for="Temporada.Nombre"></label>
@@ -16,10 +27,11 @@
         <input asp-for="Temporada.PrecioPorPersona" class="form-control" type="number" step="0.01" />
         <span asp-validation-for="Temporada.PrecioPorPersona" class="text-danger"></span>
     </div>
-    <div class="form-group form-check">
-        <input asp-for="Temporada.Activa" class="form-check-input" />
-        <label asp-for="Temporada.Activa" class="form-check-label"></label>
+    <div class="form-group">
+        <input asp-for="Temporada.Activa" class="form-check-input" id="activaCheck" />
+        <label asp-for="Temporada.Activa" class="form-check-label" for="activaCheck">Activa</label>
     </div>
     <button type="submit" class="btn btn-primary-custom btn-custom">Guardar</button>
     <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
-</form> 
+</form>
+</div> 

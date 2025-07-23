@@ -46,7 +46,6 @@ public class EditModel : PageModel
         cabanaDb.Capacidad = Cabana.Capacidad;
         cabanaDb.CamasMatrimonial = Cabana.CamasMatrimonial;
         cabanaDb.CamasIndividuales = Cabana.CamasIndividuales;
-        cabanaDb.PrecioPorNoche = Cabana.PrecioPorNoche;
         cabanaDb.Observaciones = Cabana.Observaciones;
         cabanaDb.Activa = Cabana.Activa;
 

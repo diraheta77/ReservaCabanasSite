@@ -230,7 +230,6 @@
                 {
                     <option value="@cabana.Id" 
                             data-capacidad="@cabana.Capacidad"
-                            data-precio="@cabana.PrecioPorNoche"
                             data-camas-matrimonial="@cabana.CamasMatrimonial"
                             data-camas-individuales="@cabana.CamasIndividuales">
                         @cabana.Nombre - Capacidad: @cabana.Capacidad personas
@@ -243,7 +242,6 @@
         <div id="cabanaPreview" class="cabana-preview" style="display: none;">
             <h5>Información de la Cabaña</h5>
             <p><strong>Capacidad:</strong> <span id="previewCapacidad"></span> personas</p>
-            <p><strong>Precio por noche:</strong> $<span id="previewPrecio"></span></p>
             <p><strong>Camas:</strong> <span id="previewCamas"></span></p>
         </div>
 
@@ -324,12 +322,10 @@
             
             if (this.value) {
                 const capacidad = selectedOption.getAttribute('data-capacidad');
-                const precio = selectedOption.getAttribute('data-precio');
                 const camasMatrimonial = selectedOption.getAttribute('data-camas-matrimonial');
                 const camasIndividuales = selectedOption.getAttribute('data-camas-individuales');
                 
                 document.getElementById('previewCapacidad').textContent = capacidad;
-                document.getElementById('previewPrecio').textContent = precio;
                 
                 let camasText = '';
                 if (camasMatrimonial > 0) {
@@ -402,13 +398,11 @@
         fechaHastaInput.addEventListener('change', validarDisponibilidad);
         document.getElementById('cabanaSelect').addEventListener('change', validarDisponibilidad);
 
+        // Cálculo de precio por persona y total estimado
         const temporadaSelect = document.getElementById('temporadaSelect');
         const precioPorPersonaInput = document.getElementById('precioPorPersonaInput');
         const cantidadPersonasInput = document.getElementById('cantidadPersonasInput');
-        const fechaDesdeInput = document.getElementById('WizardModel_FechaDesde');
-        const fechaHastaInput = document.getElementById('WizardModel_FechaHasta');
         const totalEstimadoInput = document.getElementById('totalEstimadoInput');
-
         function calcularTotalEstimado() {
             const precio = parseFloat(temporadaSelect.options[temporadaSelect.selectedIndex]?.getAttribute('data-precio')) || 0;
             const cantidad = parseInt(cantidadPersonasInput.value) || 0;
@@ -426,10 +420,11 @@
         cantidadPersonasInput.addEventListener('input', calcularTotalEstimado);
         fechaDesdeInput.addEventListener('change', calcularTotalEstimado);
         fechaHastaInput.addEventListener('change', calcularTotalEstimado);
+        document.getElementById('cabanaSelect').addEventListener('change', calcularTotalEstimado);
         window.addEventListener('DOMContentLoaded', calcularTotalEstimado);
 
+        // Ajuste de cantidad máxima de personas según cabaña
         const cabanaSelect = document.getElementById('cabanaSelect');
-        const cantidadPersonasInput = document.getElementById('cantidadPersonasInput');
         cabanaSelect.addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
             const capacidad = parseInt(selectedOption.getAttribute('data-capacidad')) || 20;
