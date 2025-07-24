@@ -45,7 +45,7 @@ namespace ReservaCabanasSite.Models
         public string Email { get; set; }
         
         public string? Observaciones { get; set; }
-        
+
         // Paso 3: Datos de pago
         public decimal MontoTotal { get; set; }
         
