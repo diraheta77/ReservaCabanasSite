@@ -333,8 +333,16 @@
       "PackagePath": "staticwebassets/img/cabanas/0bde1764-12bb-4e36-860f-fde62838854c_foto7.jpeg"
     },
     {
+      "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/133948f7-14dc-407d-bd3f-294bca4e8045_foto2.jpeg",
+      "PackagePath": "staticwebassets/img/cabanas/133948f7-14dc-407d-bd3f-294bca4e8045_foto2.jpeg"
+    },
+    {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/1bb6e645-7cb9-4078-ba92-aa3a93ec45e5_foto8.jpeg",
       "PackagePath": "staticwebassets/img/cabanas/1bb6e645-7cb9-4078-ba92-aa3a93ec45e5_foto8.jpeg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/2efffa3b-4e30-4cd4-915e-576a5eadccbd_Foto4.jpeg",
+      "PackagePath": "staticwebassets/img/cabanas/2efffa3b-4e30-4cd4-915e-576a5eadccbd_Foto4.jpeg"
     },
     {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/32226a0f-d2f0-425a-855d-00d4e49a3c4b_Foto4.jpeg",
@@ -361,6 +369,10 @@
       "PackagePath": "staticwebassets/img/cabanas/4cd4586f-2ab7-4856-9f61-5a8254304279_Foto-3.jpeg"
     },
     {
+      "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/61029b78-72b9-4299-a27b-943c47fde576_foto1.jpeg",
+      "PackagePath": "staticwebassets/img/cabanas/61029b78-72b9-4299-a27b-943c47fde576_foto1.jpeg"
+    },
+    {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/61fe1650-7d20-4669-8998-ae43ab4f76d8_foto9.jpeg",
       "PackagePath": "staticwebassets/img/cabanas/61fe1650-7d20-4669-8998-ae43ab4f76d8_foto9.jpeg"
     },
@@ -375,6 +387,10 @@
     {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/7c911a2e-6da2-4a50-9991-6a2acfac11ea_Foto5.jpeg",
       "PackagePath": "staticwebassets/img/cabanas/7c911a2e-6da2-4a50-9991-6a2acfac11ea_Foto5.jpeg"
+    },
+    {
+      "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/95a6ced9-5b23-4c68-aae6-fe18fc7f4ca3_Foto5.jpeg",
+      "PackagePath": "staticwebassets/img/cabanas/95a6ced9-5b23-4c68-aae6-fe18fc7f4ca3_Foto5.jpeg"
     },
     {
       "Id": "/Users/diegoiraheta/Documents/ReservaCabanasSite/wwwroot/img/cabanas/9a33e174-a17f-4b34-ac98-e19d3ab00546_Foto6.jpeg",
