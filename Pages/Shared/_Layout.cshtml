@@ -1,4 +1,13 @@
-﻿<!--
+﻿@using ReservaCabanasSite.Services
+@inject IAuthService AuthService
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
+    var userRole = AuthService.GetCurrentUserRole();
+    var userName = AuthService.GetCurrentUserName();
+    var userFullName = AuthService.GetCurrentUserName();
+}
+
+<!--
 =========================================================
 * Administracion Cabanas 06/2025 
 ========================================================
@@ -83,9 +92,6 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          @{
-              var currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower() ?? "";
-          }
           <li class="@(currentPage.StartsWith("/cabanas") ? "active" : "")">
             <a asp-page="/Cabanas/Index">
               <i class="fa fa-home"></i>
@@ -104,25 +110,39 @@
               <p>Clientes</p>
             </a>
           </li>
-          <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
-            <a asp-page="/Temporadas/Index"><i class="nc-icon nc-calendar-60"></i> Temporadas</a>
-          </li>
-          <li>
+          
+          @if (userRole == "Administrador")
+          {
+              <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
+                <a asp-page="/Temporadas/Index">
+                  <i class="nc-icon nc-calendar-60"></i>
+                  <p>Temporadas</p>
+                </a>
+              </li>
+              <li class="@(currentPage.StartsWith("/usuarios") ? "active" : "")">
+                <a asp-page="/Usuarios/Index">
+                  <i class="fa fa-user-secret"></i>
+                  <p>Usuarios</p>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:;">
+                  <i class="fa fa-bar-chart"></i>
+                  <p>Reportes</p>
+                </a>
+              </li>
+          }
+          
+          @* <li>
             <a href="javascript:;">
               <i class="fa fa-cogs"></i>
               <p>Ajustes</p>
             </a>
-          </li>
+          </li> *@
           <li>
-            <a href="javascript:;">
-              <i class="fa fa-bar-chart"></i>
-              <p>Reportes</p>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
+            <a asp-page="/Logout">
               <i class="fa fa-sign-out"></i>
-              <p>Cerrar Sesion</p>
+              <p>Cerrar Sesión</p>
             </a>
           </li>
         </ul>
@@ -147,33 +167,26 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          @* <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
-              <li class="nav-item btn-rotate dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="nc-icon nc-bell-55"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user"></i>
+                  <span class="d-lg-none d-md-block">Usuario</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-item">
+                    <strong>@userName</strong><br>
+                    <small class="text-muted">@userRole</small>
+                  </div>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" asp-page="/Logout">
+                    <i class="fa fa-sign-out"></i> Cerrar Sesión
+                  </a>
                 </div>
               </li>
             </ul>
-          </div> *@
+          </div>
         </div>
       </nav>
       <!-- End Navbar -->
@@ -187,16 +200,10 @@
       <footer class="footer" style="width: 100%;">
         <div class="container-fluid">
           <div class="row">
-            @* <nav class="footer-nav">
-              <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
-              </ul>
-            </nav> *@
             <div class="credits ml-auto">
               <span class="copyright">
                 © 2025 <i class="fa fa-leaf"></i>
+                <a href="#">AldeaUruel</a> - Sistema de Administración de Cabañas
               </span>
             </div>
           </div>
@@ -209,29 +216,17 @@
   <script src="~/assets/js/core/popper.min.js"></script>
   <script src="~/assets/js/core/bootstrap.min.js"></script>
   <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chart JS -->
   <script src="~/assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="~/assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="~/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+  <script src="~/assets/demo/demo.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-  <script>
-    $(function () {
-        var msg = '@TempData["ToastrMessage"]';
-        var type = '@TempData["ToastrType"]';
-        if (msg) {
-            toastr.options.timeOut = 3500;
-            toastr.options.positionClass = 'toast-top-right';
-            toastr[type || 'info'](msg);
-        }
-    });
-</script>
-  @RenderSection("Scripts", required: false)
+  <script src="~/js/site.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
 
