@@ -91,12 +91,10 @@ namespace ReservaCabanasSite.Pages.Reservas
             wizardFromJson.MetodoPago = MetodoPagoInput;
             wizardFromJson.EstadoPago = EstadoPagoInput;
             wizardFromJson.Observaciones = ObservacionesInput;
-            // Calcular el monto total usando precio por persona, cantidad de personas y días
-            var dias = (wizardFromJson.FechaHasta - wizardFromJson.FechaDesde)?.Days ?? 0;
-            var precioPorPersona = wizardFromJson.PrecioPorPersona;
-            var cantidadPersonas = wizardFromJson.CantidadPersonas;
-            var total = precioPorPersona * cantidadPersonas * dias;
-            wizardFromJson.MontoTotal = total;
+            
+            // NO recalcular el precio - usar el que ya viene calculado desde Step1
+            // El precio ya fue calculado correctamente en Step1 y no debe cambiar
+            
             // Asignar el modelo reconstruido al property para la vista
             WizardModel = wizardFromJson;
             // Validar manualmente el modelo completo
@@ -178,7 +176,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 PrecioPorPersona = WizardModel.PrecioPorPersona,
                 MedioContacto = WizardModel.MedioContacto,
                 Observaciones = WizardModel.Observaciones,
-                MontoTotal = WizardModel.MontoTotal,
+                MontoTotal = WizardModel.MontoTotal, // Usar el monto calculado en Step1
                 MetodoPago = WizardModel.MetodoPago,
                 EstadoPago = WizardModel.EstadoPago,
                 EstadoReserva = "Confirmada",

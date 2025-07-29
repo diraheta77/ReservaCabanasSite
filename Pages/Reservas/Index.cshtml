@@ -152,6 +152,171 @@
     background: #8d6843;
     color: white;
 }
+
+.legend-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.legend-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 16px;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.legend-color {
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legend-text {
+    font-size: 0.9rem;
+    color: #5c4a45;
+    font-weight: 500;
+}
+
+.filters-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.filters-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 16px;
+}
+
+.filters-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.filter-input, .filter-select {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.filter-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.1);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.filter-btn-primary {
+    background: #a67c52;
+    color: white;
+}
+
+.filter-btn-primary:hover {
+    background: #8d6843;
+    color: white;
+}
+
+.filter-btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.filter-btn-secondary:hover {
+    background: #5a6268;
+    color: white;
+}
+
+.active-filter {
+    background: #e9ecef;
+    border: 1px solid #a67c52;
+    color: #a67c52;
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #5c4a45;
+    margin: 4px;
+}
+
+.filter-chip-remove {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-chip-remove:hover {
+    color: #e74c3c;
+}
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -159,15 +324,65 @@
     <a asp-page="Create" class="new-reservation-btn">Nueva Reserva</a>
 </div>
 
+<!-- Filtros -->
+<div class="filters-container">
+    <div class="filters-title">Filtros de Búsqueda</div>
+    <form method="get" class="filters-form">
+        <div class="filter-group">
+            <label class="filter-label">Cabaña</label>
+            <select name="cabanaId" class="filter-select">
+                <option value="">Todas las cabañas</option>
+                @foreach (var cabana in Model.Cabanas)
+                {
+                    if (Model.CabanaIdFiltro == cabana.Id)
+                    {
+                        <option value="@cabana.Id" selected>@cabana.Nombre</option>
+                    }
+                    else
+                    {
+                        <option value="@cabana.Id">@cabana.Nombre</option>
+                    }
+                }
+            </select>
+        </div>
+        
+        <div class="filter-buttons">
+            <button type="submit" class="filter-btn filter-btn-primary">Filtrar</button>
+            <a href="?mes=@Model.MesActual&año=@Model.AñoActual" class="filter-btn filter-btn-secondary">Limpiar</a>
+        </div>
+    </form>
+    
+    <!-- Mostrar filtros activos -->
+    @if (Model.CabanaIdFiltro.HasValue)
+    {
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+            <div style="font-size: 0.9rem; font-weight: 600; color: #5c4a45; margin-bottom: 8px;">Filtros activos:</div>
+            <div>
+                @{
+                    var cabanaSeleccionada = Model.Cabanas.FirstOrDefault(c => c.Id == Model.CabanaIdFiltro);
+                    if (cabanaSeleccionada != null)
+                    {
+                        <span class="filter-chip">
+                            Cabaña: @cabanaSeleccionada.Nombre
+                            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual, Model.AñoActual, null)" 
+                               class="filter-chip-remove">&times;</a>
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>
+
 <div class="calendar-container">
     <div class="calendar-header">
         <div class="calendar-title">@Model.NombreMes @Model.AñoActual</div>
         <div class="calendar-nav">
-            <a href="?mes=@(Model.MesActual - 1)&año=@(Model.MesActual == 1 ? Model.AñoActual - 1 : Model.AñoActual)" 
+            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual - 1, Model.MesActual == 1 ? Model.AñoActual - 1 : Model.AñoActual, Model.CabanaIdFiltro)" 
                class="calendar-nav-btn">‹ Anterior</a>
-            <a href="?mes=@DateTime.Now.Month&año=@DateTime.Now.Year" 
+            <a href="@Model.ConstruirUrlConFiltros(DateTime.Now.Month, DateTime.Now.Year, Model.CabanaIdFiltro)" 
                class="calendar-nav-btn">Hoy</a>
-            <a href="?mes=@(Model.MesActual + 1)&año=@(Model.MesActual == 12 ? Model.AñoActual + 1 : Model.AñoActual)" 
+            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual + 1, Model.MesActual == 12 ? Model.AñoActual + 1 : Model.AñoActual, Model.CabanaIdFiltro)" 
                class="calendar-nav-btn">Siguiente ›</a>
         </div>
     </div>
@@ -225,20 +440,19 @@
     </div>
 </div>
 
-<div class="mt-4">
-    <h4>Leyenda</h4>
-    <div class="d-flex gap-3">
-        <div class="d-flex align-items-center gap-2">
-            <div style="width: 20px; height: 4px; background: #f39c12; border-radius: 2px;"></div>
-            <span>Pendiente</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <div style="width: 20px; height: 4px; background: #27ae60; border-radius: 2px;"></div>
-            <span>Confirmada</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <div style="width: 20px; height: 4px; background: #e74c3c; border-radius: 2px;"></div>
-            <span>Cancelada</span>
+@if (Model.Cabanas.Any())
+{
+    <div class="legend-container">
+        <div class="legend-title">Leyenda - Cabañas</div>
+        <div class="legend-grid">
+            @foreach (var cabana in Model.Cabanas)
+            {
+                var isActive = Model.CabanaIdFiltro == cabana.Id;
+                <div class="legend-item @(isActive ? "active-filter" : "")">
+                    <div class="legend-color" style="background-color: @Model.ObtenerColorCabana(cabana);"></div>
+                    <div class="legend-text">@cabana.Nombre</div>
+                </div>
+            }
         </div>
     </div>
-</div>
+}

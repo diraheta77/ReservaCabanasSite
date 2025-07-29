@@ -309,7 +309,8 @@
                     var precioPorPersona = Model.WizardModel.PrecioPorPersona;
                     var cantidadPersonas = Model.WizardModel.CantidadPersonas;
                     var subtotal = dias * precioPorPersona * cantidadPersonas;
-                    var total = subtotal;
+                    // Usar el monto total que ya viene calculado desde Step1
+                    var total = Model.WizardModel.MontoTotal;
                 }
                 <div class="price-row">
                     <span>Precio por persona:</span>

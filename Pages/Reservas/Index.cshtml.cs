@@ -16,12 +16,34 @@ namespace ReservaCabanasSite.Pages.Reservas
         }
 
         public List<Reserva> Reservas { get; set; } = new List<Reserva>();
+        public List<Cabana> Cabanas { get; set; } = new List<Cabana>();
         public int MesActual { get; set; }
         public int AñoActual { get; set; }
         public string NombreMes { get; set; }
         public List<DateTime> DiasDelMes { get; set; } = new List<DateTime>();
 
-        public async Task OnGetAsync(int? mes = null, int? año = null)
+        // Propiedades para filtros
+        [BindProperty(SupportsGet = true)]
+        public int? CabanaIdFiltro { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool MostrarTodasLasCabanas { get; set; } = true;
+
+        // Colores para las cabañas
+        private readonly string[] ColoresCabanas = {
+            "#e74c3c", // Rojo
+            "#3498db", // Azul
+            "#2ecc71", // Verde
+            "#f39c12", // Naranja
+            "#9b59b6", // Púrpura
+            "#1abc9c", // Turquesa
+            "#e67e22", // Naranja oscuro
+            "#34495e", // Gris oscuro
+            "#f1c40f", // Amarillo
+            "#e91e63"  // Rosa
+        };
+
+        public async Task OnGetAsync(int? mes = null, int? año = null, int? cabanaId = null, bool? mostrarTodas = null)
         {
             // Obtener mes y año actual o especificado
             var fechaActual = DateTime.Now;
@@ -31,17 +53,34 @@ namespace ReservaCabanasSite.Pages.Reservas
             // Obtener nombre del mes
             NombreMes = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(MesActual).ToUpper();
             
+            // Aplicar filtros
+            CabanaIdFiltro = cabanaId;
+            MostrarTodasLasCabanas = mostrarTodas ?? true;
+            
             // Generar días del mes
             GenerarDiasDelMes();
             
-            // Obtener reservas del mes
+            // Obtener reservas del mes con filtros
             var fechaInicio = new DateTime(AñoActual, MesActual, 1);
             var fechaFin = fechaInicio.AddMonths(1).AddDays(-1);
             
-            Reservas = await _context.Reservas
+            var query = _context.Reservas
                 .Include(r => r.Cabana)
                 .Include(r => r.Cliente)
-                .Where(r => (r.FechaDesde <= fechaFin && r.FechaHasta >= fechaInicio))
+                .Where(r => (r.FechaDesde <= fechaFin && r.FechaHasta >= fechaInicio));
+
+            // Aplicar filtro por cabaña
+            if (CabanaIdFiltro.HasValue && CabanaIdFiltro.Value > 0)
+            {
+                query = query.Where(r => r.CabanaId == CabanaIdFiltro.Value);
+            }
+
+            Reservas = await query.ToListAsync();
+
+            // Obtener todas las cabañas activas para la leyenda y filtros
+            Cabanas = await _context.Cabanas
+                .Where(c => c.Activa)
+                .OrderBy(c => c.Nombre)
                 .ToListAsync();
         }
 
@@ -87,19 +126,31 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         public string ObtenerColorReserva(Reserva reserva)
         {
-            if (reserva.EstadoReserva != null)
+            if (reserva.Cabana != null)
             {
-                switch (reserva.EstadoReserva.ToLower())
-                {
-                    case "pendiente":
-                        return "#f39c12"; // Amarillo
-                    case "confirmada":
-                        return "#27ae60"; // Verde
-                    case "cancelada":
-                        return "#e74c3c"; // Rojo
-                }
+                // Asignar color basado en el ID de la cabaña
+                var indiceColor = (reserva.Cabana.Id - 1) % ColoresCabanas.Length;
+                return ColoresCabanas[indiceColor];
             }
             return "#6c757d"; // Gris por defecto
+        }
+
+        public string ObtenerColorCabana(Cabana cabana)
+        {
+            var indiceColor = (cabana.Id - 1) % ColoresCabanas.Length;
+            return ColoresCabanas[indiceColor];
+        }
+
+        public string ConstruirUrlConFiltros(int? mes = null, int? año = null, int? cabanaId = null, bool? mostrarTodas = null)
+        {
+            var parametros = new List<string>();
+            
+            if (mes.HasValue) parametros.Add($"mes={mes}");
+            if (año.HasValue) parametros.Add($"año={año}");
+            if (cabanaId.HasValue) parametros.Add($"cabanaId={cabanaId}");
+            if (mostrarTodas.HasValue) parametros.Add($"mostrarTodas={mostrarTodas}");
+            
+            return parametros.Any() ? "?" + string.Join("&", parametros) : "";
         }
     }
 }
