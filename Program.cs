@@ -3,6 +3,7 @@ using ReservaCabanasSite.Data;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ReservaCabanasSite.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,10 @@ builder.Services.AddHttpContextAccessor();
 
 // Registrar servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Registrar filtros de autenticación
+builder.Services.AddScoped<AuthFilter>();
+builder.Services.AddScoped<AdminAuthFilter>();
 
 // Configurar autenticación con cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
