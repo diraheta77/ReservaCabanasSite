@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Data;
 using Microsoft.EntityFrameworkCore;
+using ReservaCabanasSite.Filters;
 
 namespace ReservaCabanasSite.Pages.Reservas
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class ImprimirModel : PageModel
     {
         private readonly AppDbContext _context;

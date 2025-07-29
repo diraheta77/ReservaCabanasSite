@@ -1344,6 +1344,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\1bb6e645-7cb9-4078-ba92-aa3a93ec45e5_foto8.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\252c1351-50a0-44b4-9110-737c6070c3e5_Foto6.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/252c1351-50a0-44b4-9110-737c6070c3e5_Foto6.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\252c1351-50a0-44b4-9110-737c6070c3e5_Foto6.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\2efffa3b-4e30-4cd4-915e-576a5eadccbd_Foto4.jpeg))">
       <SourceType>Package</SourceType>
       <SourceId>ReservaCabanasSite</SourceId>
@@ -1391,6 +1407,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\3320e827-8c66-4cbe-a19d-8f024ad2dd86_Foto5.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\335278e3-9cbe-416c-9361-c050253626c3_foto7.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/335278e3-9cbe-416c-9361-c050253626c3_foto7.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\335278e3-9cbe-416c-9361-c050253626c3_foto7.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\3435eb41-b3cd-4155-98c6-796ef3586c2e_foto7.jpeg))">
       <SourceType>Package</SourceType>
@@ -1455,6 +1487,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\4cd4586f-2ab7-4856-9f61-5a8254304279_Foto-3.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\53990e4e-d854-4c90-b9c1-5b6f092ab826_Foto-3.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/53990e4e-d854-4c90-b9c1-5b6f092ab826_Foto-3.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\53990e4e-d854-4c90-b9c1-5b6f092ab826_Foto-3.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\61029b78-72b9-4299-a27b-943c47fde576_foto1.jpeg))">
       <SourceType>Package</SourceType>
@@ -1616,6 +1664,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\b8b4c289-72a9-48bd-b4c5-28db68d3ffd5_foto9.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\c06e992c-a81a-49ad-b225-9caab7f152f4_Foto4.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/c06e992c-a81a-49ad-b225-9caab7f152f4_Foto4.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\c06e992c-a81a-49ad-b225-9caab7f152f4_Foto4.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\c163ee66-077f-4e4c-a589-a91b4f804cee_foto8.jpeg))">
       <SourceType>Package</SourceType>
       <SourceId>ReservaCabanasSite</SourceId>
@@ -1680,6 +1744,38 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\ee028c82-f621-4e9e-91dc-66c61834da0a_foto7.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\ef0ce724-8ffc-493b-a689-b0766cffc423_foto1.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/ef0ce724-8ffc-493b-a689-b0766cffc423_foto1.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\ef0ce724-8ffc-493b-a689-b0766cffc423_foto1.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\f87e326b-f915-4555-8f31-279f86cd3f7c_Foto5.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/f87e326b-f915-4555-8f31-279f86cd3f7c_Foto5.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\f87e326b-f915-4555-8f31-279f86cd3f7c_Foto5.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\fd4e7a78-6c88-4f73-88a3-daa3d9928bf5_Foto6.jpeg))">
       <SourceType>Package</SourceType>
       <SourceId>ReservaCabanasSite</SourceId>
@@ -1695,6 +1791,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\fd4e7a78-6c88-4f73-88a3-daa3d9928bf5_Foto6.jpeg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\ff5f7d83-b496-4ac6-b0e9-03d096fa5210_foto2.jpeg))">
+      <SourceType>Package</SourceType>
+      <SourceId>ReservaCabanasSite</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ReservaCabanasSite</BasePath>
+      <RelativePath>img/cabanas/ff5f7d83-b496-4ac6-b0e9-03d096fa5210_foto2.jpeg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\ff5f7d83-b496-4ac6-b0e9-03d096fa5210_foto2.jpeg))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\img\cabanas\foto1.jpeg))">
       <SourceType>Package</SourceType>

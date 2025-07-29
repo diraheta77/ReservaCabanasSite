@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using ReservaCabanasSite.Filters;
 
 namespace ReservaCabanasSite.Pages.Reservas
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class ConfirmacionModel : PageModel
     {
         private readonly AppDbContext _context;

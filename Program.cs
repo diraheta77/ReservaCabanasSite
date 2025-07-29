@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Data;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,19 @@ builder.Services.AddHttpContextAccessor();
 // Registrar servicios de autenticación
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+// Configurar autenticación con cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+    });
+
+// Configurar autorización
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +58,8 @@ app.UseRouting();
 // Usar sesiones
 app.UseSession();
 
+// Usar autenticación y autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

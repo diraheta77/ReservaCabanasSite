@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservaCabanasSite.Filters;
 
 namespace ReservaCabanasSite.Pages.Clientes
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class DetailsModel : PageModel
     {
         private readonly AppDbContext _context;

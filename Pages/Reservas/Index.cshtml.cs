@@ -4,9 +4,11 @@ using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using ReservaCabanasSite.Filters;
 
 namespace ReservaCabanasSite.Pages.Reservas
 {
+    [ServiceFilter(typeof(AuthFilter))]
     public class IndexModel : PageModel
     {
         private readonly AppDbContext _context;
