@@ -118,8 +118,6 @@ using (var scope = app.Services.CreateScope())
             db.Usuarios.Add(adminUser);
             db.Usuarios.Add(operadorUser);
             db.SaveChanges();
-            Console.WriteLine("[SEED] Usuario administrador creado: admin / admin123");
-            Console.WriteLine("[SEED] Usuario operador creado: operador / operador123");
         }
         else if (!db.Usuarios.Any(u => u.NombreUsuario == "operador"))
         {
@@ -143,13 +141,11 @@ using (var scope = app.Services.CreateScope())
             
             db.Usuarios.Add(operadorUser);
             db.SaveChanges();
-            Console.WriteLine("[SEED] Usuario operador creado: operador / operador123");
         }
     }
     catch (Exception ex)
     {
         System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", ex.ToString());
-        Console.WriteLine("[MIGRACION] Error: " + ex.ToString());
         throw;
     }
 }
