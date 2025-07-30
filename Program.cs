@@ -74,11 +74,8 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
-        Console.WriteLine("[MIGRACION] Ejecutando EnsureCreated...");
         db.Database.EnsureCreated();
-        Console.WriteLine("[MIGRACION] Ejecutando Migrate...");
         db.Database.Migrate();
-        Console.WriteLine("[MIGRACION] Migraciones aplicadas correctamente.");
         
         // Crear usuarios por defecto si no existen
         if (!db.Usuarios.Any())
