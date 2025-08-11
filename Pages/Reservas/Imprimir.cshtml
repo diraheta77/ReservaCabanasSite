@@ -50,6 +50,14 @@
             <div class="row"><span class="label">Estado del pago:</span><span class="value">@Model.Reserva.EstadoPago</span></div>
             <div class="row total"><span class="label">Monto total:</span><span class="value">$@Model.Reserva.MontoTotal.ToString("N2")</span></div>
         </div>
+        <div class="section">
+            <div class="section-title">📅 Horarios de Check-in y Check-out</div>
+            <div class="row"><span class="label">Check-out:</span><span class="value"><strong>Hasta las 10:00 AM</strong></span></div>
+            <div class="row"><span class="label">Check-in:</span><span class="value"><strong>A partir de las 12:00 PM</strong></span></div>
+            <div style="background: #f0f8ff; border-left: 3px solid #2196f3; padding: 8px; margin-top: 8px; border-radius: 3px; font-size: 0.9rem;">
+                <strong>Nota importante:</strong> El check-out de una reserva y el check-in de otra pueden realizarse en la misma fecha, permitiendo una transición fluida entre huéspedes.
+            </div>
+        </div>
         <div class="no-print" style="text-align:center; margin-top:32px;">
             <button onclick="window.print()" style="padding:12px 32px; font-size:1rem; border-radius:6px; background:#a67c52; color:#fff; border:none; cursor:pointer;">Imprimir</button>
         </div>

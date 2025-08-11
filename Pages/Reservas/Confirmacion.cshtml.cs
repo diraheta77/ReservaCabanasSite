@@ -100,6 +100,19 @@ namespace ReservaCabanasSite.Pages.Reservas
             <tr><td><b>Estado del pago:</b></td><td>{reserva.EstadoPago}</td></tr>
             <tr><td><b>Monto total:</b></td><td><b style='color:#a67c52;'>${reserva.MontoTotal:N2}</b></td></tr>
         </table>
+        
+        <div style='background: #e3f2fd; border-left: 4px solid #2196f3; padding: 16px; margin: 20px 0; border-radius: 4px;'>
+            <h3 style='color: #1976d2; margin-top: 0;'>📅 Horarios de Check-in y Check-out</h3>
+            <table style='width:100%; margin:8px 0;'>
+                <tr><td><b>Check-out:</b></td><td><strong>Hasta las 10:00 AM</strong></td></tr>
+                <tr><td><b>Check-in:</b></td><td><strong>A partir de las 12:00 PM</strong></td></tr>
+            </table>
+            <p style='color: #1976d2; font-style: italic; margin: 8px 0 0 0; font-size: 0.9rem;'>
+                <strong>Nota importante:</strong> El check-out de una reserva y el check-in de otra pueden realizarse en la misma fecha, 
+                permitiendo una transición fluida entre huéspedes.
+            </p>
+        </div>
+        
         <p style='margin-top:24px;'>¡Gracias por elegirnos!<br>Aldea Uruel</p>
     </div>
 </body>
