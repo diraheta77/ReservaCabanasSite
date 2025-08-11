@@ -344,6 +344,43 @@
             <span asp-validation-for="WizardModel.Observaciones" class="text-danger"></span>
         </div>
 
+        <!-- Sección de datos del vehículo -->
+        <div class="search-section">
+            <h5>Datos del Vehículo</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="WizardModel.Patente" class="form-label">Patente</label>
+                        <input asp-for="WizardModel.Patente" class="form-control" />
+                        <span asp-validation-for="WizardModel.Patente" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="WizardModel.Marca" class="form-label">Marca</label>
+                        <input asp-for="WizardModel.Marca" class="form-control" />
+                        <span asp-validation-for="WizardModel.Marca" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="WizardModel.Modelo" class="form-label">Modelo</label>
+                        <input asp-for="WizardModel.Modelo" class="form-control" />
+                        <span asp-validation-for="WizardModel.Modelo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="WizardModel.Color" class="form-label">Color</label>
+                        <input asp-for="WizardModel.Color" class="form-control" />
+                        <span asp-validation-for="WizardModel.Color" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="wizard-buttons">
             <a asp-page="Step1" class="btn btn-secondary-custom btn-custom">Anterior</a>
             <button type="submit" class="btn btn-primary-custom btn-custom">Siguiente</button>
@@ -354,7 +391,7 @@
 @section Scripts {
     <script>
         document.getElementById('btnBuscarCliente').addEventListener('click', async function() {
-            const dni = document.getElementById('searchDni').value.trim();
+            const dni = document.getElementById('searchCliente').value.trim();
             const resultDiv = document.getElementById('searchResult');
             
             if (!dni) {
@@ -388,6 +425,20 @@
                     document.getElementById('WizardModel_Nacionalidad').value = result.cliente.nacionalidad || '';
                     document.getElementById('WizardModel_FechaNacimiento').value = result.cliente.fechaNacimiento || '';
                     
+                    // Cargar datos del vehículo si existe
+                    if (result.cliente.vehiculo) {
+                        document.getElementById('WizardModel_Patente').value = result.cliente.vehiculo.patente || '';
+                        document.getElementById('WizardModel_Marca').value = result.cliente.vehiculo.marca || '';
+                        document.getElementById('WizardModel_Modelo').value = result.cliente.vehiculo.modelo || '';
+                        document.getElementById('WizardModel_Color').value = result.cliente.vehiculo.color || '';
+                    } else {
+                        // Limpiar campos del vehículo si no existe
+                        document.getElementById('WizardModel_Patente').value = '';
+                        document.getElementById('WizardModel_Marca').value = '';
+                        document.getElementById('WizardModel_Modelo').value = '';
+                        document.getElementById('WizardModel_Color').value = '';
+                    }
+                    
                     resultDiv.innerHTML = '<div class="alert alert-success">Cliente encontrado y datos cargados</div>';
                 } else {
                     resultDiv.innerHTML = `<div class="alert alert-info">${result.message}</div>`;
@@ -414,6 +465,12 @@
             document.getElementById('WizardModel_Telefono').value = '';
             document.getElementById('WizardModel_Email').value = '';
             document.getElementById('WizardModel_Observaciones').value = '';
+            
+            // Limpiar campos del vehículo
+            document.getElementById('WizardModel_Patente').value = '';
+            document.getElementById('WizardModel_Marca').value = '';
+            document.getElementById('WizardModel_Modelo').value = '';
+            document.getElementById('WizardModel_Color').value = '';
         });
 
         const searchInput = document.getElementById('searchCliente');
@@ -459,6 +516,13 @@
                 document.getElementById('WizardModel_Telefono').value = c.telefono || '';
                 document.getElementById('WizardModel_Email').value = c.email || '';
                 document.getElementById('WizardModel_Observaciones').value = '';
+                
+                // Cargar datos del vehículo si existen
+                document.getElementById('WizardModel_Patente').value = c.patente || '';
+                document.getElementById('WizardModel_Marca').value = c.marca || '';
+                document.getElementById('WizardModel_Modelo').value = c.modelo || '';
+                document.getElementById('WizardModel_Color').value = c.color || '';
+                
                 searchResults.style.display = 'none';
                 searchInput.value = '';
             }

@@ -98,9 +98,42 @@ namespace ReservaCabanasSite.Pages.Reservas
             // Validar solo los campos del paso 2
             var isValid = true;
             // Si ya existe el cliente, solo asociar y avanzar
-            var clienteExistente = await _context.Clientes.FirstOrDefaultAsync(c => c.Dni == WizardModel.Dni && c.Activo);
+            var clienteExistente = await _context.Clientes
+                .Include(c => c.Vehiculos)
+                .FirstOrDefaultAsync(c => c.Dni == WizardModel.Dni && c.Activo);
             if (clienteExistente != null)
             {
+                // Actualizar o crear vehículo si se proporcionaron datos
+                if (!string.IsNullOrWhiteSpace(WizardModel.Patente) || 
+                    !string.IsNullOrWhiteSpace(WizardModel.Marca) || 
+                    !string.IsNullOrWhiteSpace(WizardModel.Modelo) || 
+                    !string.IsNullOrWhiteSpace(WizardModel.Color))
+                {
+                    var vehiculoExistente = clienteExistente.Vehiculos.FirstOrDefault();
+                    if (vehiculoExistente != null)
+                    {
+                        // Actualizar vehículo existente
+                        vehiculoExistente.Patente = WizardModel.Patente ?? vehiculoExistente.Patente;
+                        vehiculoExistente.Marca = WizardModel.Marca ?? vehiculoExistente.Marca;
+                        vehiculoExistente.Modelo = WizardModel.Modelo ?? vehiculoExistente.Modelo;
+                        vehiculoExistente.Color = WizardModel.Color ?? vehiculoExistente.Color;
+                    }
+                    else
+                    {
+                        // Crear nuevo vehículo
+                        var nuevoVehiculo = new Vehiculo
+                        {
+                            Patente = WizardModel.Patente ?? "",
+                            Marca = WizardModel.Marca ?? "",
+                            Modelo = WizardModel.Modelo ?? "",
+                            Color = WizardModel.Color ?? "",
+                            ClienteId = clienteExistente.Id
+                        };
+                        _context.Vehiculos.Add(nuevoVehiculo);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                
                 WizardModel.ClienteId = clienteExistente.Id;
                 WizardModel.Cliente = clienteExistente;
                 // Guardar datos para el siguiente paso
@@ -186,6 +219,25 @@ namespace ReservaCabanasSite.Pages.Reservas
             };
             _context.Clientes.Add(nuevoCliente);
             await _context.SaveChangesAsync();
+            
+            // Crear vehículo si se proporcionaron datos
+            if (!string.IsNullOrWhiteSpace(WizardModel.Patente) || 
+                !string.IsNullOrWhiteSpace(WizardModel.Marca) || 
+                !string.IsNullOrWhiteSpace(WizardModel.Modelo) || 
+                !string.IsNullOrWhiteSpace(WizardModel.Color))
+            {
+                var nuevoVehiculo = new Vehiculo
+                {
+                    Patente = WizardModel.Patente ?? "",
+                    Marca = WizardModel.Marca ?? "",
+                    Modelo = WizardModel.Modelo ?? "",
+                    Color = WizardModel.Color ?? "",
+                    ClienteId = nuevoCliente.Id
+                };
+                _context.Vehiculos.Add(nuevoVehiculo);
+                await _context.SaveChangesAsync();
+            }
+            
             WizardModel.ClienteId = nuevoCliente.Id;
             WizardModel.Cliente = nuevoCliente;
             // Guardar datos para el siguiente paso
@@ -203,12 +255,16 @@ namespace ReservaCabanasSite.Pages.Reservas
             }
 
             var cliente = await _context.Clientes
+                .Include(c => c.Vehiculos)
                 .FirstOrDefaultAsync(c => c.Dni == dni && c.Activo);
 
             if (cliente == null)
             {
                 return new JsonResult(new { success = false, message = "Cliente no encontrado" });
             }
+
+            // Obtener el primer vehículo del cliente (si existe)
+            var vehiculo = cliente.Vehiculos.FirstOrDefault();
 
             return new JsonResult(new { 
                 success = true, 
@@ -223,7 +279,13 @@ namespace ReservaCabanasSite.Pages.Reservas
                     provincia = cliente.Provincia,
                     pais = cliente.Pais,
                     nacionalidad = cliente.Nacionalidad,
-                    fechaNacimiento = cliente.FechaNacimiento?.ToString("yyyy-MM-dd")
+                    fechaNacimiento = cliente.FechaNacimiento?.ToString("yyyy-MM-dd"),
+                    vehiculo = vehiculo != null ? new {
+                        patente = vehiculo.Patente,
+                        marca = vehiculo.Marca,
+                        modelo = vehiculo.Modelo,
+                        color = vehiculo.Color
+                    } : null
                 }
             });
         }
@@ -235,6 +297,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return new JsonResult(new { success = false, clientes = new List<object>() });
             }
             var clientes = await _context.Clientes
+                .Include(c => c.Vehiculos)
                 .Where(c => c.Activo && (
                     c.Dni.Contains(query) ||
                     c.Nombre.Contains(query) ||
@@ -247,19 +310,26 @@ namespace ReservaCabanasSite.Pages.Reservas
             return new JsonResult(new
             {
                 success = true,
-                clientes = clientes.Select(c => new {
-                    id = c.Id,
-                    dni = c.Dni,
-                    nombre = c.Nombre,
-                    apellido = c.Apellido,
-                    telefono = c.Telefono,
-                    email = c.Email,
-                    direccion = c.Direccion,
-                    ciudad = c.Ciudad,
-                    provincia = c.Provincia,
-                    pais = c.Pais,
-                    nacionalidad = c.Nacionalidad,
-                    fechaNacimiento = c.FechaNacimiento?.ToString("yyyy-MM-dd")
+                clientes = clientes.Select(c => {
+                    var vehiculo = c.Vehiculos.FirstOrDefault();
+                    return new {
+                        id = c.Id,
+                        dni = c.Dni,
+                        nombre = c.Nombre,
+                        apellido = c.Apellido,
+                        telefono = c.Telefono,
+                        email = c.Email,
+                        direccion = c.Direccion,
+                        ciudad = c.Ciudad,
+                        provincia = c.Provincia,
+                        pais = c.Pais,
+                        nacionalidad = c.Nacionalidad,
+                        fechaNacimiento = c.FechaNacimiento?.ToString("yyyy-MM-dd"),
+                        patente = vehiculo?.Patente,
+                        marca = vehiculo?.Marca,
+                        modelo = vehiculo?.Modelo,
+                        color = vehiculo?.Color
+                    };
                 }).ToList()
             });
         }

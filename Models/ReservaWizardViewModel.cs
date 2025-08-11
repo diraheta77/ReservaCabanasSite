@@ -46,6 +46,12 @@ namespace ReservaCabanasSite.Models
         
         public string? Observaciones { get; set; }
 
+        // Datos del vehículo
+        public string? Patente { get; set; }
+        public string? Marca { get; set; }
+        public string? Modelo { get; set; }
+        public string? Color { get; set; }
+
         // Paso 3: Datos de pago
         public decimal MontoTotal { get; set; }
         
