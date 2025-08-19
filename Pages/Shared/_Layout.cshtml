@@ -99,10 +99,29 @@
             </a>
           </li>
           <li class="@(currentPage.StartsWith("/reservas") ? "active" : "")">
-            <a asp-page="/Reservas/Listado">
+            <a href="javascript:;" data-toggle="collapse" data-target="#reservasSubmenu">
               <i class="fa fa-calendar"></i>
-              <p>Reservas</p>
+              <p>
+                Reservas
+                <b class="caret"></b>
+              </p>
             </a>
+            <div class="collapse @(currentPage.StartsWith("/reservas") ? "show" : "")" id="reservasSubmenu">
+              <ul class="nav">
+                <li class="@(currentPage.StartsWith("/reservas/index") ? "active" : "")">
+                  <a asp-page="/Reservas/Index">
+                    <span class="sidebar-mini-icon">C</span>
+                    <span class="sidebar-normal">Calendario</span>
+                  </a>
+                </li>
+                <li class="@(currentPage.StartsWith("/reservas/listado") ? "active" : "")">
+                  <a asp-page="/Reservas/Listado">
+                    <span class="sidebar-mini-icon">L</span>
+                    <span class="sidebar-normal">Listado</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
           <li class="@(currentPage.StartsWith("/clientes") ? "active" : "")">
             <a asp-page="/Clientes/Index">
