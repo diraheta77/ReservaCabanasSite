@@ -94,6 +94,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reservas/Listado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXMvTGlzdGFkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reservas/Step1.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXMvU3RlcDEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

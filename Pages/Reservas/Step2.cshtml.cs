@@ -195,6 +195,29 @@ namespace ReservaCabanasSite.Pages.Reservas
                 WizardDataJson = JsonSerializer.Serialize(WizardModel);
                 return Page();
             }
+            
+            // Validación de edad (mayor de 18 años)
+            if (WizardModel.FechaNacimiento.HasValue)
+            {
+                var edad = DateTime.Today.Year - WizardModel.FechaNacimiento.Value.Year;
+                if (WizardModel.FechaNacimiento.Value.Date > DateTime.Today.AddYears(-edad))
+                {
+                    edad--;
+                }
+                
+                if (edad < 18)
+                {
+                    ModelState.AddModelError("WizardModel.FechaNacimiento", "Debes ser mayor de 18 años para realizar una reserva.");
+                    WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                    return Page();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("WizardModel.FechaNacimiento", "La fecha de nacimiento es requerida.");
+                WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                return Page();
+            }
             if (!isValid)
             {
                 WizardDataJson = JsonSerializer.Serialize(WizardModel);

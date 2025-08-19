@@ -276,9 +276,13 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="WizardModel.FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input asp-for="WizardModel.FechaNacimiento" class="form-control" type="date" />
+            <label asp-for="WizardModel.FechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+            <input asp-for="WizardModel.FechaNacimiento" class="form-control" type="date" id="fechaNacimiento" required />
             <span asp-validation-for="WizardModel.FechaNacimiento" class="text-danger"></span>
+            <div id="edadValidation" class="alert alert-warning" style="display: none; margin-top: 8px;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Importante:</strong> Debes ser mayor de 18 años para realizar una reserva.
+            </div>
         </div>
 
         <div class="row">
@@ -530,6 +534,45 @@
         document.addEventListener('click', function(e) {
             if (!searchResults.contains(e.target) && e.target !== searchInput) {
                 searchResults.style.display = 'none';
+            }
+        });
+        
+        // Validación de edad
+        function validarEdad() {
+            const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+            const edadValidation = document.getElementById('edadValidation');
+            
+            if (fechaNacimiento) {
+                const fechaNac = new Date(fechaNacimiento);
+                const hoy = new Date();
+                const edad = hoy.getFullYear() - fechaNac.getFullYear();
+                const mes = hoy.getMonth() - fechaNac.getMonth();
+                
+                if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                    edad--;
+                }
+                
+                if (edad < 18) {
+                    edadValidation.style.display = 'block';
+                    return false;
+                } else {
+                    edadValidation.style.display = 'none';
+                    return true;
+                }
+            }
+            return true;
+        }
+        
+        // Validar edad cuando cambie la fecha
+        document.getElementById('fechaNacimiento').addEventListener('change', validarEdad);
+        
+        // Validación del formulario antes de enviar
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Validar edad
+            if (!validarEdad()) {
+                e.preventDefault();
+                alert('Debes ser mayor de 18 años para realizar una reserva.');
+                return;
             }
         });
     </script>

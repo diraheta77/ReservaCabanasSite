@@ -1,0 +1,336 @@
+@page
+@model ReservaCabanasSite.Pages.Reservas.ListadoModel
+@{
+    ViewData["Title"] = "Listado de Reservas";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+.btn-danger-custom {
+    background: #dc3545;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c82333;
+    color: #fff;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.table-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5c4a45;
+}
+
+.filters-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.filters-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 16px;
+}
+
+.filters-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.filter-input, .filter-select {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.filter-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.1);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.filter-btn-primary {
+    background: #a67c52;
+    color: white;
+}
+
+.filter-btn-primary:hover {
+    background: #8d6843;
+    color: white;
+}
+
+.filter-btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.filter-btn-secondary:hover {
+    background: #5a6268;
+    color: white;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.table th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    color: #5c4a45;
+    font-weight: 600;
+    padding: 12px 8px;
+}
+
+.table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 0.8rem;
+}
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Listado de Reservas</h1>
+    <a asp-page="Create" class="btn-custom btn-primary-custom">Nueva Reserva</a>
+</div>
+
+<!-- Filtros -->
+<div class="filters-container">
+    <div class="filters-title">Filtros de Búsqueda</div>
+    <form method="get" class="filters-form">
+        <div class="filter-group">
+            <label class="filter-label">Cabaña</label>
+            <select name="cabanaId" class="filter-select">
+                <option value="">Todas las cabañas</option>
+                @foreach (var cabana in Model.Cabanas)
+                {
+                    if (Model.CabanaIdFiltro == cabana.Id)
+                    {
+                        <option value="@cabana.Id" selected>@cabana.Nombre</option>
+                    }
+                    else
+                    {
+                        <option value="@cabana.Id">@cabana.Nombre</option>
+                    }
+                }
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Cliente</label>
+            <input type="text" name="clienteBusqueda" class="filter-input" 
+                   value="@Model.ClienteBusqueda" placeholder="Nombre, apellido o DNI">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Estado</label>
+            <select name="estado" class="filter-select">
+                <option value="">Todos los estados</option>
+                <option value="Activa" selected="@(Model.EstadoFiltro == "Activa")">Activa</option>
+                <option value="Cancelada" selected="@(Model.EstadoFiltro == "Cancelada")">Cancelada</option>
+                <option value="Completada" selected="@(Model.EstadoFiltro == "Completada")">Completada</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Fecha desde</label>
+            <input type="date" name="fechaDesde" class="filter-input" value="@Model.FechaDesdeFiltro">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Fecha hasta</label>
+            <input type="date" name="fechaHasta" class="filter-input" value="@Model.FechaHastaFiltro">
+        </div>
+        
+        <div class="filter-buttons">
+            <button type="submit" class="filter-btn filter-btn-primary">Filtrar</button>
+            <a href="?" class="filter-btn filter-btn-secondary">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Reservas (@Model.Reservas.Count)</div>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cabaña</th>
+                    <th>Cliente</th>
+                    <th>Fechas</th>
+                    <th>Personas</th>
+                    <th>Estado</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reserva in Model.Reservas)
+                {
+                    <tr>
+                        <td>@reserva.Id</td>
+                        <td>@reserva.Cabana?.Nombre</td>
+                        <td>
+                            <div>@reserva.Cliente?.Nombre @reserva.Cliente?.Apellido</div>
+                            <small class="text-muted">DNI: @reserva.Cliente?.Dni</small>
+                        </td>
+                        <td>
+                            <div>@reserva.FechaDesde.ToString("dd/MM/yyyy")</div>
+                            <div>@reserva.FechaHasta.ToString("dd/MM/yyyy")</div>
+                        </td>
+                        <td>@reserva.CantidadPersonas</td>
+                        <td>
+                            @{
+                                var estadoClass = reserva.EstadoReserva switch
+                                {
+                                    "Activa" => "status-active",
+                                    "Cancelada" => "status-cancelled",
+                                    "Completada" => "status-completed",
+                                    _ => "status-active"
+                                };
+                            }
+                            <span class="status-badge @estadoClass">@reserva.EstadoReserva</span>
+                        </td>
+                        <td><strong>$@reserva.MontoTotal.ToString("N2")</strong></td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-page="Details" asp-route-id="@reserva.Id" 
+                                   class="btn-custom btn-secondary-custom btn-sm">Ver</a>
+                                <a asp-page="Edit" asp-route-id="@reserva.Id" 
+                                   class="btn-custom btn-primary-custom btn-sm">Editar</a>
+                                @if (reserva.EstadoReserva == "Activa")
+                                {
+                                    <a asp-page="Cancelar" asp-route-id="@reserva.Id" 
+                                       class="btn-custom btn-danger-custom btn-sm"
+                                       onclick="return confirm('¿Estás seguro de que quieres cancelar esta reserva?')">
+                                        Cancelar
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    @if (!Model.Reservas.Any())
+    {
+        <div class="text-center py-4">
+            <p class="text-muted">No se encontraron reservas con los filtros aplicados.</p>
+        </div>
+    }
+</div>
