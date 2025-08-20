@@ -1,0 +1,239 @@
+@page "{id:int}"
+@model ReservaCabanasSite.Pages.Reservas.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Reserva";
+}
+
+<style>
+.delete-container {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.delete-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.delete-title {
+    color: #dc3545;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.reservation-number {
+    background: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.warning-section {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.warning-icon {
+    font-size: 3rem;
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.warning-text {
+    color: #856404;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.warning-description {
+    color: #856404;
+    font-size: 0.95rem;
+}
+
+.reservation-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-title {
+    color: #5c4a45;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-left: 4px solid #5c4a45;
+    padding-left: 15px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-label {
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.summary-value {
+    color: #6c757d;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-custom {
+    padding: 12px 30px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btn-danger-custom {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger-custom:hover {
+    background: #c82333;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-secondary-custom {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary-custom:hover {
+    background: #5a6268;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-outline-custom {
+    background: transparent;
+    color: #6c757d;
+    border: 2px solid #6c757d;
+}
+
+.btn-outline-custom:hover {
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+</style>
+
+<div class="delete-container">
+    <div class="delete-header">
+        <h1 class="delete-title">Eliminar Reserva</h1>
+        <div class="reservation-number">Reserva #@Model.Reserva.Id</div>
+    </div>
+
+    <div class="warning-section">
+        <div class="warning-icon">
+            <i class="fa fa-exclamation-triangle"></i>
+        </div>
+        <div class="warning-text">¡Atención! Esta acción no se puede deshacer</div>
+        <div class="warning-description">
+            Al eliminar esta reserva, se perderá permanentemente toda la información asociada, 
+            incluyendo datos del cliente, vehículo y pagos relacionados.
+        </div>
+    </div>
+
+    <div class="reservation-summary">
+        <h3 class="summary-title">📋 Resumen de la Reserva a Eliminar</h3>
+        
+        <div class="summary-item">
+            <span class="summary-label">Cabaña:</span>
+            <span class="summary-value">@Model.Cabana.Nombre</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Cliente:</span>
+            <span class="summary-value">@Model.Cliente.Nombre @Model.Cliente.Apellido (@Model.Cliente.Dni)</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Fechas:</span>
+            <span class="summary-value">@Model.Reserva.FechaDesde.ToString("dd/MM/yyyy") - @Model.Reserva.FechaHasta.ToString("dd/MM/yyyy")</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Personas:</span>
+            <span class="summary-value">@Model.Reserva.CantidadPersonas</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Estado:</span>
+            <span class="summary-value">@Model.Reserva.EstadoReserva</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Monto:</span>
+            <span class="summary-value">$@Model.Reserva.MontoTotal.ToString("N2")</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-label">Fecha de creación:</span>
+            <span class="summary-value">@Model.Reserva.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+    </div>
+
+    <form method="post" id="deleteForm">
+        <div class="action-buttons">
+            <button type="submit" class="btn-custom btn-danger-custom" onclick="return confirmDelete()">
+                <i class="fa fa-trash"></i> Confirmar Eliminación
+            </button>
+            <a asp-page="Details" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-outline-custom">
+                <i class="fa fa-times"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+function confirmDelete() {
+    return confirm('¿Estás completamente seguro de que quieres eliminar esta reserva?\n\nEsta acción es IRREVERSIBLE y eliminará permanentemente todos los datos asociados.');
+}
+</script>

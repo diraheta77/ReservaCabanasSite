@@ -1,0 +1,321 @@
+@page "{id:int}"
+@model ReservaCabanasSite.Pages.Reservas.EditModel
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<style>
+.edit-container {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.edit-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.edit-title {
+    color: #5c4a45;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.reservation-number {
+    background: #a67c52;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #5c4a45;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-left: 4px solid #a67c52;
+    padding-left: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #5c4a45;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.1);
+}
+
+.form-control:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 10px;
+}
+
+@@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-custom {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: white;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: white;
+}
+
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: white;
+    text-decoration: none;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    border-color: #17a2b8;
+    color: #0c5460;
+}
+</style>
+
+<div class="edit-container">
+    <div class="edit-header">
+        <h1 class="edit-title">Editar Reserva</h1>
+        <div class="reservation-number">Reserva #@Model.Reserva.Id</div>
+    </div>
+
+    @if (!ModelState.IsValid)
+    {
+        <div class="alert alert-warning">
+            <strong>Error:</strong> Por favor corrige los errores en el formulario.
+        </div>
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="Reserva.Id" />
+        <input type="hidden" asp-for="Reserva.ClienteId" />
+        <input type="hidden" asp-for="Reserva.CabanaId" />
+        <input type="hidden" asp-for="Reserva.FechaCreacion" />
+
+        <!-- Información de la reserva -->
+        <div class="form-section">
+            <h3 class="section-title">📅 Información de la Reserva</h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Cabaña</label>
+                        <input asp-for="CabanaNombre" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Cliente</label>
+                        <input asp-for="ClienteNombre" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.FechaDesde" class="form-label">Fecha de llegada</label>
+                        <input asp-for="Reserva.FechaDesde" class="form-control" type="date" />
+                        <span asp-validation-for="Reserva.FechaDesde" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.FechaHasta" class="form-label">Fecha de salida</label>
+                        <input asp-for="Reserva.FechaHasta" class="form-control" type="date" />
+                        <span asp-validation-for="Reserva.FechaHasta" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.CantidadPersonas" class="form-label">Cantidad de personas</label>
+                        <input asp-for="Reserva.CantidadPersonas" class="form-control" type="number" min="1" />
+                        <span asp-validation-for="Reserva.CantidadPersonas" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.EstadoReserva" class="form-label">Estado</label>
+                        <select asp-for="Reserva.EstadoReserva" class="form-control">
+                            <option value="Activa">Activa</option>
+                            <option value="Cancelada">Cancelada</option>
+                            <option value="Completada">Completada</option>
+                        </select>
+                        <span asp-validation-for="Reserva.EstadoReserva" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de pago -->
+        <div class="form-section">
+            <h3 class="section-title">💳 Información de Pago</h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.MetodoPago" class="form-label">Método de pago</label>
+                        <select asp-for="Reserva.MetodoPago" class="form-control">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+                            <option value="Tarjeta de débito">Tarjeta de débito</option>
+                            <option value="Transferencia bancaria">Transferencia bancaria</option>
+                            <option value="Mercado Pago">Mercado Pago</option>
+                        </select>
+                        <span asp-validation-for="Reserva.MetodoPago" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.EstadoPago" class="form-label">Estado del pago</label>
+                        <select asp-for="Reserva.EstadoPago" class="form-control">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagado">Pagado</option>
+                            <option value="Parcial">Parcial</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                        <span asp-validation-for="Reserva.EstadoPago" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reserva.MontoTotal" class="form-label">Monto total</label>
+                        <input asp-for="Reserva.MontoTotal" class="form-control" type="number" step="0.01" min="0" />
+                        <span asp-validation-for="Reserva.MontoTotal" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="form-section">
+            <h3 class="section-title">📝 Observaciones</h3>
+            <div class="form-group">
+                <label asp-for="Reserva.Observaciones" class="form-label">Observaciones</label>
+                <textarea asp-for="Reserva.Observaciones" class="form-control" rows="4" placeholder="Agregar observaciones adicionales..."></textarea>
+                <span asp-validation-for="Reserva.Observaciones" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="action-buttons">
+            <button type="submit" class="btn-custom btn-primary-custom">
+                <i class="fa fa-save"></i> Guardar Cambios
+            </button>
+            <a asp-page="Details" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-secondary-custom">
+                <i class="fa fa-times"></i> Cancelar
+            </a>
+            <a asp-page="Delete" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom" 
+               onclick="return confirm('¿Estás seguro de que quieres ELIMINAR PERMANENTEMENTE esta reserva? Esta acción no se puede deshacer.')">
+                <i class="fa fa-trash"></i> Eliminar Reserva
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

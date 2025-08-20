@@ -319,6 +319,11 @@
                                         Cancelar
                                     </a>
                                 }
+                                <a asp-page="Delete" asp-route-id="@reserva.Id" 
+                                   class="btn-custom btn-danger-custom btn-sm"
+                                   onclick="return confirm('¿Estás seguro de que quieres ELIMINAR PERMANENTEMENTE la reserva #@reserva.Id? Esta acción no se puede deshacer.')">
+                                    <i class="fa fa-trash"></i> Eliminar
+                                </a>
                             </div>
                         </td>
                     </tr>

@@ -1,0 +1,446 @@
+@page "{id:int}"
+@model ReservaCabanasSite.Pages.Reservas.DetailsModel
+@{
+    ViewData["Title"] = "Detalles de Reserva";
+}
+
+<style>
+.details-container {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.details-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.details-title {
+    color: #5c4a45;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.reservation-number {
+    background: #a67c52;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.details-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #5c4a45;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-left: 4px solid #a67c52;
+    padding-left: 15px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #5c4a45;
+    min-width: 120px;
+}
+
+.detail-value {
+    color: #6c757d;
+    text-align: right;
+    flex: 1;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-custom {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: white;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: white;
+}
+
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-danger-custom {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger-custom:hover {
+    background: #c82333;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-info-custom {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info-custom:hover {
+    background: #138496;
+    color: white;
+    text-decoration: none;
+}
+
+.price-highlight {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #a67c52;
+}
+</style>
+
+<div class="details-container">
+    <div class="details-header">
+        <h1 class="details-title">Detalles de Reserva</h1>
+        <div class="reservation-number">Reserva #@Model.Reserva.Id</div>
+    </div>
+
+    <!-- Información de la reserva -->
+    <div class="details-section">
+        <h3 class="section-title">📅 Información de la Reserva</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">Cabaña:</span>
+                <span class="detail-value">@Model.Cabana.Nombre</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de llegada:</span>
+                <span class="detail-value">@Model.Reserva.FechaDesde.ToString("dd/MM/yyyy")</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de salida:</span>
+                <span class="detail-value">@Model.Reserva.FechaHasta.ToString("dd/MM/yyyy")</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Cantidad de personas:</span>
+                <span class="detail-value">@Model.Reserva.CantidadPersonas</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado:</span>
+                <span class="detail-value">
+                    @{
+                        var estadoClass = Model.Reserva.EstadoReserva switch
+                        {
+                            "Activa" => "status-active",
+                            "Cancelada" => "status-cancelled",
+                            "Completada" => "status-completed",
+                            _ => "status-active"
+                        };
+                    }
+                    <span class="status-badge @estadoClass">@Model.Reserva.EstadoReserva</span>
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de creación:</span>
+                <span class="detail-value">@Model.Reserva.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del cliente -->
+    <div class="details-section">
+        <h3 class="section-title">👤 Información del Cliente</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">ID:</span>
+                <span class="detail-value">@Model.Cliente.Id</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">DNI:</span>
+                <span class="detail-value">@Model.Cliente.Dni</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Nombre:</span>
+                <span class="detail-value">@Model.Cliente.Nombre @Model.Cliente.Apellido</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Teléfono:</span>
+                <span class="detail-value">@Model.Cliente.Telefono</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Email:</span>
+                <span class="detail-value">@Model.Cliente.Email</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Dirección:</span>
+                <span class="detail-value">@Model.Cliente.Direccion, @Model.Cliente.Ciudad, @Model.Cliente.Provincia</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del vehículo -->
+    @if (Model.Vehiculo != null)
+    {
+        <div class="details-section">
+            <h3 class="section-title">🚗 Información del Vehículo</h3>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Patente:</span>
+                    <span class="detail-value">@Model.Vehiculo.Patente</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Marca:</span>
+                    <span class="detail-value">@Model.Vehiculo.Marca</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Modelo:</span>
+                    <span class="detail-value">@Model.Vehiculo.Modelo</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Color:</span>
+                    <span class="detail-value">@Model.Vehiculo.Color</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Información de pago -->
+    <div class="details-section">
+        <h3 class="section-title">💳 Información de Pago</h3>
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">Método de pago:</span>
+                <span class="detail-value">@Model.Reserva.MetodoPago</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado del pago:</span>
+                <span class="detail-value">@Model.Reserva.EstadoPago</span>
+            </div>
+            <div class="price-highlight">
+                <div class="detail-item">
+                    <span class="detail-label">Monto total:</span>
+                    <span class="detail-value total-price">$@Model.Reserva.MontoTotal.ToString("N2")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Observaciones -->
+    @if (!string.IsNullOrEmpty(Model.Reserva.Observaciones))
+    {
+        <div class="details-section">
+            <h3 class="section-title">📝 Observaciones</h3>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #a67c52;">
+                @Model.Reserva.Observaciones
+            </div>
+        </div>
+    }
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <a asp-page="Edit" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-primary-custom">
+            <i class="fa fa-edit"></i> Editar Reserva
+        </a>
+        <a asp-page="Listado" class="btn-custom btn-secondary-custom">
+            <i class="fa fa-arrow-left"></i> Volver al Listado
+        </a>
+        @if (Model.Reserva.EstadoReserva == "Activa")
+        {
+            <a asp-page="Cancelar" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom" 
+               onclick="return confirm('¿Estás seguro de que quieres cancelar esta reserva?')">
+                <i class="fa fa-times"></i> Cancelar Reserva
+            </a>
+        }
+        <a asp-page="Delete" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom" 
+           onclick="return confirm('¿Estás seguro de que quieres ELIMINAR PERMANENTEMENTE esta reserva? Esta acción no se puede deshacer.')">
+            <i class="fa fa-trash"></i> Eliminar Reserva
+        </a>
+        <button type="button" class="btn-custom btn-info-custom" data-toggle="modal" data-target="#emailModal">
+            <i class="fa fa-envelope"></i> Enviar por Email
+        </button>
+        <a asp-page="Imprimir" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-secondary-custom" target="_blank">
+            <i class="fa fa-print"></i> Imprimir
+        </a>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+<!-- Referencias para toastr -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Modal para enviar email -->
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailModalLabel">
+                    <i class="fa fa-envelope"></i> Enviar Detalles de Reserva por Email
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="emailForm" method="post" asp-page-handler="SendEmail">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="emailTo">Email de destino:</label>
+                        <input type="email" class="form-control" id="emailTo" name="emailTo" 
+                               value="@Model.Cliente.Email" required>
+                        <small class="form-text text-muted">Puedes agregar múltiples emails separados por comas</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailSubject">Asunto:</label>
+                        <input type="text" class="form-control" id="emailSubject" name="emailSubject" 
+                               value="Detalles de Reserva #@Model.Reserva.Id - @Model.Cabana.Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailMessage">Mensaje adicional (opcional):</label>
+                        <textarea class="form-control" id="emailMessage" name="emailMessage" rows="3" 
+                                  placeholder="Agregar un mensaje personalizado..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-paper-plane"></i> Enviar Email
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Configurar toastr
+    toastr.options = {
+        closeButton: true,
+        timeOut: 4000,
+        positionClass: 'toast-top-right'
+    };
+    
+    // Manejar el envío del formulario de email
+    $('#emailForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = $(this).serialize();
+        var submitBtn = $(this).find('button[type="submit"]');
+        var originalText = submitBtn.html();
+        
+        // Cambiar el botón a estado de carga
+        submitBtn.html('<i class="fa fa-spinner fa-spin"></i> Enviando...');
+        submitBtn.prop('disabled', true);
+        
+        $.ajax({
+            url: window.location.pathname + '?handler=SendEmail',
+            type: 'POST',
+            data: formData,
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    toastr.success('Email enviado exitosamente');
+                    $('#emailModal').modal('hide');
+                    // Limpiar el formulario
+                    $('#emailForm')[0].reset();
+                } else {
+                    toastr.error('Error al enviar el email: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error AJAX:', xhr.responseText);
+                toastr.error('Error al enviar el email. Por favor, inténtalo de nuevo.');
+            },
+            complete: function() {
+                // Restaurar el botón
+                submitBtn.html(originalText);
+                submitBtn.prop('disabled', false);
+            }
+        });
+    });
+});
+</script>
