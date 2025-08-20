@@ -95,120 +95,49 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         private async Task<string> BuildEmailBody(Reserva reserva, string additionalMessage)
         {
-            // Usar la misma plantilla que en Confirmacion.cshtml.cs
-            var body = $@"
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset='utf-8'>
-                    <style>
-                        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                        .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                        .header {{ background: #a67c52; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }}
-                        .content {{ background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }}
-                        .reservation-details {{ background: white; padding: 15px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #a67c52; }}
-                        .detail-row {{ display: flex; justify-content: space-between; margin: 8px 0; }}
-                        .detail-label {{ font-weight: bold; color: #5c4a45; }}
-                        .detail-value {{ color: #6c757d; }}
-                        .total {{ background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; }}
-                        .total-amount {{ font-size: 1.2em; font-weight: bold; color: #a67c52; }}
-                        .note {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px; margin: 20px 0; border-radius: 4px; }}
-                        .footer {{ text-align: center; margin-top: 20px; color: #6c757d; font-size: 0.9em; }}
-                    </style>
-                </head>
-                <body>
-                    <div class='container'>
-                        <div class='header'>
-                            <h1>🏠 AldeaUruel</h1>
-                            <h2>Detalles de Reserva #{reserva.Id}</h2>
-                        </div>
-                        
-                        <div class='content'>
-                            <div class='reservation-details'>
-                                <h3>📅 Información de la Reserva</h3>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Cabaña:</span>
-                                    <span class='detail-value'>{reserva.Cabana.Nombre}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Fecha de llegada:</span>
-                                    <span class='detail-value'>{reserva.FechaDesde:dd/MM/yyyy}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Fecha de salida:</span>
-                                    <span class='detail-value'>{reserva.FechaHasta:dd/MM/yyyy}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Cantidad de personas:</span>
-                                    <span class='detail-value'>{reserva.CantidadPersonas}</span>
-                                </div>
-                            </div>
-
-                            <div class='reservation-details'>
-                                <h3>👤 Información del Cliente</h3>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Nombre:</span>
-                                    <span class='detail-value'>{reserva.Cliente.Nombre} {reserva.Cliente.Apellido}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>DNI:</span>
-                                    <span class='detail-value'>{reserva.Cliente.Dni}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Teléfono:</span>
-                                    <span class='detail-value'>{reserva.Cliente.Telefono}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Email:</span>
-                                    <span class='detail-value'>{reserva.Cliente.Email}</span>
-                                </div>
-                            </div>
-
-                            <div class='reservation-details'>
-                                <h3>💳 Información de Pago</h3>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Método de pago:</span>
-                                    <span class='detail-value'>{reserva.MetodoPago}</span>
-                                </div>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Estado del pago:</span>
-                                    <span class='detail-value'>{reserva.EstadoPago}</span>
-                                </div>
-                            </div>
-
-                            <div class='total'>
-                                <div class='detail-row'>
-                                    <span class='detail-label'>Monto total:</span>
-                                    <span class='detail-value total-amount'>${reserva.MontoTotal:N2}</span>
-                                </div>
-                            </div>";
+            var body = $@"<!DOCTYPE html>
+<html>
+<body style='font-family: Arial, sans-serif; color: #333;'>
+    <div style='max-width: 600px; margin: 0 auto; border:1px solid #eee; border-radius:10px; padding:24px;'>
+        <div style='text-align:center; margin-bottom:24px;'>
+            <img src='https://i.postimg.cc/j2zvrjYK/temp-Imagee-Bh-Ze-J.avif' alt='Aldea Uruel' style='max-height:75px;'>
+        </div>
+        <h2 style='color:#5c4a45;'>¡Reserva Confirmada!</h2>
+        <p>Hola <b>{reserva.Cliente.Nombre}</b>,<br>
+        Tu reserva ha sido confirmada. Aquí tienes los detalles:</p>
+        <table style='width:100%; margin:16px 0;'>
+            <tr><td><b>Cabaña:</b></td><td>{reserva.Cabana.Nombre}</td></tr>
+            <tr><td><b>Fechas:</b></td><td>{reserva.FechaDesde:dd/MM/yyyy} - {reserva.FechaHasta:dd/MM/yyyy}</td></tr>
+            <tr><td><b>Cantidad de personas:</b></td><td>{reserva.CantidadPersonas}</td></tr>
+            <tr><td><b>Método de pago:</b></td><td>{reserva.MetodoPago}</td></tr>
+            <tr><td><b>Estado del pago:</b></td><td>{reserva.EstadoPago}</td></tr>
+            <tr><td><b>Monto total:</b></td><td><b style='color:#a67c52;'>${reserva.MontoTotal:N2}</b></td></tr>
+        </table>";
 
             // Agregar mensaje adicional si existe
             if (!string.IsNullOrEmpty(additionalMessage))
             {
                 body += $@"
-                            <div class='note'>
-                                <h4>💬 Mensaje adicional:</h4>
-                                <p>{additionalMessage}</p>
-                            </div>";
+        <div style='background: #e3f2fd; border-left: 4px solid #2196f3; padding: 16px; margin: 20px 0; border-radius: 4px;'>
+            <h3 style='color: #1976d2; margin-top: 0;'>💬 Mensaje adicional:</h3>
+            <p style='color: #1976d2; margin: 8px 0 0 0;'>{additionalMessage}</p>
+        </div>";
             }
 
             body += $@"
-                            <div class='note'>
-                                <h3 style='color: #e65100; margin-top: 0;'>¡Importante!</h3>
-                                <p style='color: #e65100; margin: 8px 0 0 0; font-size: 0.9rem;'>
-                                    Por favor, guarda este número de reserva para futuras consultas: <strong>{reserva.Id}</strong>.<br>
-                                    Para cualquier modificación o cancelación, por favor contáctanos directamente.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class='footer'>
-                            <p>© 2025 AldeaUruel - Sistema de Administración de Cabañas</p>
-                        </div>
-                    </div>
-                </body>
-                </html>";
+        <div style='background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px; margin: 20px 0; border-radius: 4px;'>
+            <h3 style='color: #856404; margin-top: 0;'>¡Importante!</h3>
+            <ul style='color: #856404; margin: 8px 0; padding-left: 20px;'>
+                <li>Guarda el número de reserva (#{reserva.Id}) para futuras consultas</li>
+                <li>Revisa tu email para la confirmación detallada</li>
+                <li>Para modificaciones o cancelaciones, contacta con nosotros</li>
+            </ul>
+        </div>
+        
+        <p style='margin-top:24px;'>¡Gracias por elegirnos!<br>Aldea Uruel</p>
+    </div>
+</body>
+</html>";
 
             return body;
         }
