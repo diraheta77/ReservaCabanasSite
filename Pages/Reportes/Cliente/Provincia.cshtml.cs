@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Data;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Filters;
+using ReservaCabanasSite.Services;
 
 namespace ReservaCabanasSite.Pages.Reportes.Cliente
 {
@@ -11,10 +12,12 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
     public class ProvinciaModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly IExportacionService _exportacionService;
 
-        public ProvinciaModel(AppDbContext context)
+        public ProvinciaModel(AppDbContext context, IExportacionService exportacionService)
         {
             _context = context;
+            _exportacionService = exportacionService;
         }
 
         [BindProperty]
@@ -66,7 +69,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 .Select(g => new ReporteReservacionItem
                 {
                     ClienteId = 0, // No aplica para agrupación por provincia
-                    ClienteNombre = g.Key, // Usamos el nombre del cliente para mostrar la provincia
+                    ClienteNombre = g.Key, // Provincia
                     ClienteApellido = "", // No aplica
                     ClienteDni = "N/A",
                     ClienteEmail = "N/A",
@@ -85,6 +88,120 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 .ToList();
 
             ReporteModel.Reservaciones = reservasPorProvincia;
+        }
+
+        public async Task<IActionResult> OnGetExportarExcelAsync(DateTime? fechaDesde, DateTime? fechaHasta)
+        {
+            // Configurar los filtros para exportación
+            ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
+            ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
+
+            // Obtener todos los datos (sin paginación para exportación completa)
+            await CargarReporte();
+
+            // Preparar datos para exportación
+            var datosExportacion = new DatosExportacion
+            {
+                TituloReporte = "Reporte de Reservaciones por Provincia",
+                Periodo = $"{ReporteModel.FechaDesde:dd/MM/yyyy} - {ReporteModel.FechaHasta:dd/MM/yyyy}",
+                NombreEmpresa = "Aldea Uruel"
+            };
+
+            // Definir columnas
+            datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
+            {
+                new() { Nombre = "Provincia", TipoDato = "string", Ancho = 30, Alineacion = "left" },
+                new() { Nombre = "Total Reservas", TipoDato = "number", Ancho = 20, Alineacion = "center" },
+                new() { Nombre = "Total Gastado", TipoDato = "currency", Ancho = 25, Alineacion = "right" }
+            });
+
+            // Agregar datos
+            foreach (var item in ReporteModel.Reservaciones)
+            {
+                var fila = new Dictionary<string, object>
+                {
+                    ["provincia"] = item.ClienteNombre,
+                    ["total_reservas"] = item.TotalReservaciones,
+                    ["total_gastado"] = item.MontoTotalAcumulado
+                };
+                datosExportacion.Filas.Add(fila);
+            }
+
+            // Agregar estadísticas
+            datosExportacion.Estadisticas.Add("Total de Provincias", ReporteModel.TotalClientes);
+            datosExportacion.Estadisticas.Add("Total de Reservaciones", ReporteModel.TotalReservaciones);
+            datosExportacion.Estadisticas.Add("Ingresos Totales", ReporteModel.TotalIngresos);
+            datosExportacion.Estadisticas.Add("Total de Personas", ReporteModel.TotalPersonas);
+
+            // Generar Excel
+            var resultado = await _exportacionService.ExportarAExcel(datosExportacion);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Error"] = resultado.Error;
+                return RedirectToPage();
+            }
+        }
+
+        public async Task<IActionResult> OnGetExportarPdfAsync(DateTime? fechaDesde, DateTime? fechaHasta)
+        {
+            // Configurar los filtros para exportación
+            ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
+            ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
+
+            // Obtener todos los datos (sin paginación para exportación completa)
+            await CargarReporte();
+
+            // Preparar datos para exportación
+            var datosExportacion = new DatosExportacion
+            {
+                TituloReporte = "Reporte de Reservaciones por Provincia",
+                Periodo = $"{ReporteModel.FechaDesde:dd/MM/yyyy} - {ReporteModel.FechaHasta:dd/MM/yyyy}",
+                NombreEmpresa = "Aldea Uruel"
+            };
+
+            // Definir columnas
+            datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
+            {
+                new() { Nombre = "Provincia", TipoDato = "string", Ancho = 30, Alineacion = "left" },
+                new() { Nombre = "Total Reservas", TipoDato = "number", Ancho = 20, Alineacion = "center" },
+                new() { Nombre = "Total Gastado", TipoDato = "currency", Ancho = 25, Alineacion = "right" }
+            });
+
+            // Agregar datos
+            foreach (var item in ReporteModel.Reservaciones)
+            {
+                var fila = new Dictionary<string, object>
+                {
+                    ["provincia"] = item.ClienteNombre,
+                    ["total_reservas"] = item.TotalReservaciones,
+                    ["total_gastado"] = item.MontoTotalAcumulado
+                };
+                datosExportacion.Filas.Add(fila);
+            }
+
+            // Agregar estadísticas
+            datosExportacion.Estadisticas.Add("Total de Provincias", ReporteModel.TotalClientes);
+            datosExportacion.Estadisticas.Add("Total de Reservaciones", ReporteModel.TotalReservaciones);
+            datosExportacion.Estadisticas.Add("Ingresos Totales", ReporteModel.TotalIngresos);
+            datosExportacion.Estadisticas.Add("Total de Personas", ReporteModel.TotalPersonas);
+
+            // Generar PDF
+            var resultado = await _exportacionService.ExportarAPdf(datosExportacion);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Error"] = resultado.Error;
+                return RedirectToPage();
+            }
         }
     }
 }
