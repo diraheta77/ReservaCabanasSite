@@ -26,3 +26,7 @@ Migrations/
 # Archivos de sistema
 .DS_Store
 Thumbs.db
+
+
+# Archios de claude
+claude/

@@ -33,6 +33,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AuthFilter>();
 builder.Services.AddScoped<AdminAuthFilter>();
 
+// Registrar servicio de exportación
+builder.Services.AddScoped<IExportacionService, ExportacionService>();
+
 // Configurar autenticación con cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

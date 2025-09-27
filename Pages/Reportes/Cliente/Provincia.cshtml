@@ -1,0 +1,424 @@
+@page
+@model ReservaCabanasSite.Pages.Reportes.Cliente.ProvinciaModel
+@{
+    ViewData["Title"] = "Reportes de Reservaciones por Provincia";
+}
+
+<style>
+.report-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.report-header {
+    border-bottom: 2px solid #a67c52;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.report-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 8px;
+}
+
+.report-subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.filters-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid #dee2e6;
+}
+
+.filters-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto auto;
+    gap: 16px;
+    align-items: end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.form-control {
+    padding: 10px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.1);
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+}
+
+.btn-secondary-custom {
+    background: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary-custom:hover {
+    background: #5a6268;
+    color: white;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #a67c52;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #dee2e6;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background: #a67c52;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 12px 8px;
+    font-size: 0.9rem;
+}
+
+.table td {
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+}
+
+.btn-export {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s;
+}
+
+.btn-excel {
+    background: #217346;
+    color: white;
+    border-color: #217346;
+}
+
+.btn-excel:hover {
+    background: #1d5f39;
+    color: white;
+}
+
+.btn-pdf {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.btn-pdf:hover {
+    background: #c82333;
+    color: white;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.no-data i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+@@media (max-width: 768px) {
+    .filters-form {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
+<div class="report-container">
+    <div class="report-header">
+        <h1 class="report-title">
+            <i class="fa fa-map-marker"></i>
+            Reporte de Reservaciones por Provincia
+        </h1>
+        <p class="report-subtitle">Análisis de reservaciones agrupadas por provincia de origen</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters-container">
+        <form method="post" class="filters-form">
+            <div class="form-group">
+                <label asp-for="ReporteModel.FechaDesde" class="form-label"></label>
+                <input asp-for="ReporteModel.FechaDesde" class="form-control" type="date" />
+                <span asp-validation-for="ReporteModel.FechaDesde" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReporteModel.FechaHasta" class="form-label"></label>
+                <input asp-for="ReporteModel.FechaHasta" class="form-control" type="date" />
+                <span asp-validation-for="ReporteModel.FechaHasta" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-primary-custom">
+                <i class="fa fa-search"></i>
+                Generar Reporte
+            </button>
+
+            <a href="/Reportes/Cliente/Provincia" class="btn-secondary-custom">
+                <i class="fa fa-refresh"></i>
+                Limpiar
+            </a>
+        </form>
+    </div>
+
+    <!-- Estadísticas Resumen -->
+    @if (Model.ReporteModel.Reservaciones.Any())
+    {
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.TotalClientes</div>
+                <div class="stat-label">Total Provincias</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.TotalReservaciones</div>
+                <div class="stat-label">Total Reservaciones</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-label">Total Ingresos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Math.Max(Model.ReporteModel.TotalReservaciones, 1)).ToString("N0"))</div>
+                <div class="stat-label">Promedio por Reserva</div>
+            </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div class="export-buttons">
+            <span class="text-muted" style="margin-right: auto; align-self: center;">
+                <i class="fa fa-info-circle"></i>
+                Período: @Model.ReporteModel.FechaDesde.ToString("dd/MM/yyyy") - @Model.ReporteModel.FechaHasta.ToString("dd/MM/yyyy")
+            </span>
+            <a href="#" class="btn-export btn-excel" onclick="alert('Próximamente disponible')">
+                <i class="fa fa-file-excel-o"></i>
+                Exportar Excel
+            </a>
+            <a href="#" class="btn-export btn-pdf" onclick="alert('Próximamente disponible')">
+                <i class="fa fa-file-pdf-o"></i>
+                Exportar PDF
+            </a>
+        </div>
+
+        <!-- Tabla de Reservaciones por Provincia -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Provincia</th>
+                        <th>Total Reservas</th>
+                        <th>Primera Reserva</th>
+                        <th>Última Reserva</th>
+                        <th>Última Cabaña</th>
+                        <th>Total Personas</th>
+                        <th>Último Estado</th>
+                        <th>Total Gastado</th>
+                        <th>Promedio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var provincia in Model.ReporteModel.Reservaciones)
+                    {
+                        <tr>
+                            <td>
+                                <strong>
+                                    <i class="fa fa-map-marker"></i>
+                                    @provincia.ClienteNombre
+                                </strong>
+                            </td>
+                            <td>
+                                <span class="badge @(provincia.TotalReservaciones > 5 ? "badge-success" : provincia.TotalReservaciones > 2 ? "badge-warning" : "badge-info")">
+                                    @provincia.TotalReservaciones reservas
+                                </span>
+                            </td>
+                            <td>
+                                <small>@provincia.PrimeraReservaFecha.ToString("dd/MM/yyyy")</small>
+                            </td>
+                            <td>
+                                <div style="font-size: 0.85rem;">
+                                    <div><strong>@provincia.UltimaReservaFecha.ToString("dd/MM/yyyy")</strong></div>
+                                    <small class="text-muted">(@((DateTime.Now - provincia.UltimaReservaFecha).Days) días atrás)</small>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-info">@provincia.UltimaCabana</span>
+                            </td>
+                            <td class="text-center">
+                                <strong>@provincia.TotalPersonasAcumulado</strong>
+                                <br><small class="text-muted">⌀ @provincia.PromedioPersonasPorReserva.ToString("F1")</small>
+                            </td>
+                            <td>
+                                @{
+                                    var badgeClass = provincia.UltimoEstado?.ToLower() switch
+                                    {
+                                        "confirmada" or "confirmado" => "badge-success",
+                                        "pendiente" => "badge-warning",
+                                        "cancelada" or "cancelado" => "badge-danger",
+                                        _ => "badge-info"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@provincia.UltimoEstado</span>
+                            </td>
+                            <td class="text-right">
+                                <strong>$@provincia.MontoTotalAcumulado.ToString("N0")</strong>
+                            </td>
+                            <td class="text-right">
+                                <strong>$@provincia.PromedioMontoReserva.ToString("N0")</strong>
+                                <br><small class="text-muted">por reserva</small>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="no-data">
+            <i class="fa fa-search text-muted"></i>
+            <h3>No se encontraron reservaciones</h3>
+            <p>No hay reservaciones en el rango de fechas seleccionado.<br>
+            Intenta con un rango de fechas diferente.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

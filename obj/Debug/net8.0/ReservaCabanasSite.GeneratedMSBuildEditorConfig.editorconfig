@@ -78,6 +78,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reportes/Cabana/Cabana.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0ZXMvQ2FiYW5hL0NhYmFuYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reportes/Cabana/Meses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0ZXMvQ2FiYW5hL01lc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reportes/Cabana/Temporada.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0ZXMvQ2FiYW5hL1RlbXBvcmFkYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reportes/Cliente/Clientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0ZXMvQ2xpZW50ZS9DbGllbnRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reportes/Cliente/Provincia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0ZXMvQ2xpZW50ZS9Qcm92aW5jaWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/diegoiraheta/Documents/ReservaCabanasSite/Pages/Reservas/Confirmacion.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVzZXJ2YXMvQ29uZmlybWFjaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

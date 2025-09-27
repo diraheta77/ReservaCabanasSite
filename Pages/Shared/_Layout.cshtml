@@ -144,11 +144,77 @@
                   <p>Usuarios</p>
                 </a>
               </li>
-              <li>
-                <a href="javascript:;">
+              <li class="@(currentPage.StartsWith("/reportes") ? "active" : "")">
+                <a href="javascript:;" data-toggle="collapse" data-target="#reportesSubmenu">
                   <i class="fa fa-bar-chart"></i>
-                  <p>Reportes</p>
+                  <p>
+                    Reportes
+                    <b class="caret"></b>
+                  </p>
                 </a>
+                <div class="collapse @(currentPage.StartsWith("/reportes") ? "show" : "")" id="reportesSubmenu">
+                  <ul class="nav">
+                    <!-- Reportes de Reservas por Cliente -->
+                    <li class="@(currentPage.StartsWith("/reportes/cliente") ? "active" : "")">
+                      <a href="javascript:;" data-toggle="collapse" data-target="#reportesClienteSubmenu">
+                        <i class="fa fa-users"></i>
+                        <span class="sidebar-normal">
+                          Reservas por Cliente
+                          <b class="caret"></b>
+                        </span>
+                      </a>
+                      <div class="collapse @(currentPage.StartsWith("/reportes/cliente") ? "show" : "")" id="reportesClienteSubmenu">
+                        <ul class="nav" style="margin-left: 20px;">
+                          <li class="@(currentPage.Contains("/reportes/cliente/clientes") ? "active" : "")">
+                            <a asp-page="/Reportes/Cliente/Clientes">
+                              <i class="fa fa-user"></i>
+                              <span class="sidebar-normal">Clientes</span>
+                            </a>
+                          </li>
+                          <li class="@(currentPage.Contains("/reportes/cliente/provincia") ? "active" : "")">
+                            <a asp-page="/Reportes/Cliente/Provincia">
+                              <i class="fa fa-map-marker"></i>
+                              <span class="sidebar-normal">Provincia</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+
+                    <!-- Reportes de Reservas por Cabañas -->
+                    <li class="@(currentPage.StartsWith("/reportes/cabana") ? "active" : "")">
+                      <a href="javascript:;" data-toggle="collapse" data-target="#reportesCabanaSubmenu">
+                        <i class="fa fa-home"></i>
+                        <span class="sidebar-normal">
+                          Reservas por Cabañas
+                          <b class="caret"></b>
+                        </span>
+                      </a>
+                      <div class="collapse @(currentPage.StartsWith("/reportes/cabana") ? "show" : "")" id="reportesCabanaSubmenu">
+                        <ul class="nav" style="margin-left: 20px;">
+                          <li class="@(currentPage.Contains("/reportes/cabana/cabana") ? "active" : "")">
+                            <a asp-page="/Reportes/Cabana/Cabana">
+                              <i class="fa fa-home"></i>
+                              <span class="sidebar-normal">Cabaña</span>
+                            </a>
+                          </li>
+                          <li class="@(currentPage.Contains("/reportes/cabana/temporada") ? "active" : "")">
+                            <a asp-page="/Reportes/Cabana/Temporada">
+                              <i class="fa fa-calendar"></i>
+                              <span class="sidebar-normal">Temporada</span>
+                            </a>
+                          </li>
+                          <li class="@(currentPage.Contains("/reportes/cabana/meses") ? "active" : "")">
+                            <a asp-page="/Reportes/Cabana/Meses">
+                              <i class="fa fa-calendar-o"></i>
+                              <span class="sidebar-normal">Meses</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </li>
           }
           
