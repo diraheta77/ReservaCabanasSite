@@ -1,0 +1,513 @@
+@page
+@model ReservaCabanasSite.Pages.Reportes.Cliente.EdadesModel
+@{
+    ViewData["Title"] = "Reporte de Edades de Clientes";
+}
+
+<style>
+.report-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.report-header {
+    border-bottom: 2px solid #a67c52;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.report-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 8px;
+}
+
+.report-subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.filters-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid #dee2e6;
+}
+
+.filters-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto auto;
+    gap: 16px;
+    align-items: end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.form-control {
+    padding: 10px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.1);
+}
+
+.btn-primary-custom {
+    background: #a67c52;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background: #8d6843;
+}
+
+.btn-secondary-custom {
+    background: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary-custom:hover {
+    background: #5a6268;
+    color: white;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #a67c52;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.chart-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 400px;
+    margin: 20px 0;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #dee2e6;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background: #a67c52;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 12px 8px;
+    font-size: 0.9rem;
+}
+
+.table td {
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+}
+
+.btn-export {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s;
+}
+
+.btn-excel {
+    background: #217346;
+    color: white;
+    border-color: #217346;
+}
+
+.btn-excel:hover {
+    background: #1d5f39;
+    color: white;
+}
+
+.btn-pdf {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.btn-pdf:hover {
+    background: #c82333;
+    color: white;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.no-data i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+@@media (max-width: 768px) {
+    .filters-form {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chart-wrapper {
+        height: 300px;
+    }
+}
+</style>
+
+<div class="report-container">
+    <div class="report-header">
+        <h1 class="report-title">
+            <i class="fa fa-pie-chart"></i>
+            Reporte de Edades de Clientes
+        </h1>
+        <p class="report-subtitle">Distribución de edades de clientes que realizaron reservaciones</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters-container">
+        <form method="post" class="filters-form">
+            <div class="form-group">
+                <label asp-for="ReporteModel.FechaDesde" class="form-label"></label>
+                <input asp-for="ReporteModel.FechaDesde" class="form-control" type="date" />
+                <span asp-validation-for="ReporteModel.FechaDesde" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReporteModel.FechaHasta" class="form-label"></label>
+                <input asp-for="ReporteModel.FechaHasta" class="form-control" type="date" />
+                <span asp-validation-for="ReporteModel.FechaHasta" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReporteModel.DniCliente" class="form-label"></label>
+                <input asp-for="ReporteModel.DniCliente" class="form-control" type="text" placeholder="Ej: 12345678" />
+                <span asp-validation-for="ReporteModel.DniCliente" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-primary-custom">
+                <i class="fa fa-search"></i>
+                Generar Reporte
+            </button>
+
+            <a href="/Reportes/Cliente/Edades" class="btn-secondary-custom">
+                <i class="fa fa-refresh"></i>
+                Limpiar
+            </a>
+        </form>
+    </div>
+
+    <!-- Estadísticas Resumen -->
+    @if (Model.ReporteModel.DatosGrafica.Any())
+    {
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.TotalClientes</div>
+                <div class="stat-label">Total Clientes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.TotalReservas</div>
+                <div class="stat-label">Total Reservas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-label">Total Ingresos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.PromedioEdad.ToString("F1")</div>
+                <div class="stat-label">Edad Promedio</div>
+            </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div class="export-buttons">
+            <div class="text-muted" style="margin-right: auto; align-self: center;">
+                <div>
+                    <i class="fa fa-info-circle"></i>
+                    Período: @Model.ReporteModel.FechaDesde.ToString("dd/MM/yyyy") - @Model.ReporteModel.FechaHasta.ToString("dd/MM/yyyy")
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.ReporteModel.DniCliente))
+                {
+                    <div>
+                        <i class="fa fa-filter"></i> Cliente DNI: @Model.ReporteModel.DniCliente
+                    </div>
+                }
+            </div>
+            <a href="?handler=ExportarExcel&fechaDesde=@Model.ReporteModel.FechaDesde.ToString("yyyy-MM-dd")&fechaHasta=@Model.ReporteModel.FechaHasta.ToString("yyyy-MM-dd")&dniCliente=@Model.ReporteModel.DniCliente"
+               class="btn-export btn-excel">
+                <i class="fa fa-file-excel-o"></i>
+                Exportar Excel
+            </a>
+            <a href="?handler=ExportarPdf&fechaDesde=@Model.ReporteModel.FechaDesde.ToString("yyyy-MM-dd")&fechaHasta=@Model.ReporteModel.FechaHasta.ToString("yyyy-MM-dd")&dniCliente=@Model.ReporteModel.DniCliente"
+               class="btn-export btn-pdf">
+                <i class="fa fa-file-pdf-o"></i>
+                Exportar PDF
+            </a>
+        </div>
+
+        <!-- Gráfica de Pastel -->
+        <div class="chart-container">
+            <h3 class="chart-title">
+                <i class="fa fa-pie-chart"></i>
+                Distribución por Rangos de Edad
+            </h3>
+            <div class="chart-wrapper">
+                <canvas id="edadChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabla de Datos -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">
+                            <i class="fa fa-users"></i>
+                            Rango de Edad
+                        </th>
+                        <th style="width: 25%; text-align: center;">
+                            <i class="fa fa-user"></i>
+                            Cantidad
+                        </th>
+                        <th style="width: 25%; text-align: center;">
+                            <i class="fa fa-percent"></i>
+                            Porcentaje
+                        </th>
+                        <th style="width: 20%; text-align: center;">
+                            <i class="fa fa-bar-chart"></i>
+                            Representación
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rango in Model.ReporteModel.DatosGrafica)
+                    {
+                        <tr>
+                            <td>
+                                <div style="padding: 8px 0;">
+                                    <div style="font-size: 1rem; font-weight: bold; color: #5c4a45;">
+                                        @rango.Rango años
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center" style="vertical-align: middle;">
+                                <span class="badge @(rango.Cantidad > 5 ? "badge-success" : rango.Cantidad > 2 ? "badge-warning" : "badge-info")"
+                                      style="font-size: 1rem; padding: 8px 16px;">
+                                    @rango.Cantidad
+                                </span>
+                                <div style="font-size: 0.8rem; color: #6c757d; margin-top: 4px;">
+                                    @(rango.Cantidad == 1 ? "cliente" : "clientes")
+                                </div>
+                            </td>
+                            <td class="text-center" style="vertical-align: middle;">
+                                <div style="font-size: 1rem; font-weight: bold; color: #5c4a45;">
+                                    @rango.Porcentaje%
+                                </div>
+                            </td>
+                            <td class="text-center" style="vertical-align: middle;">
+                                <div style="background: #e9ecef; border-radius: 4px; height: 20px; position: relative; overflow: hidden;">
+                                    <div style="background: #a67c52; height: 100%; width: @(rango.Porcentaje)%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="no-data">
+            <i class="fa fa-search text-muted"></i>
+            <h3>No se encontraron datos</h3>
+            <p>No hay clientes con fechas de nacimiento válidas en el rango de fechas seleccionado.<br>
+            Intenta con un rango de fechas diferente.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        @if (Model.ReporteModel.DatosGrafica.Any())
+        {
+            <text>
+            const ctx = document.getElementById('edadChart').getContext('2d');
+            const data = @Html.Raw(Json.Serialize(Model.ReporteModel.DatosGrafica.Select(d => new { label = d.Rango + " años", value = d.Cantidad, percentage = d.Porcentaje })));
+            
+            const colors = [
+                '#a67c52', '#8d6843', '#6c757d', '#5a6268', 
+                '#17a2b8', '#138496', '#28a745', '#20c997'
+            ];
+            
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.map(item => item.label),
+                    datasets: [{
+                        data: data.map(item => item.value),
+                        backgroundColor: colors.slice(0, data.length),
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const item = data[context.dataIndex];
+                                    return item.label + ': ' + item.value + ' clientes (' + item.percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            </text>
+        }
+    </script>
+}

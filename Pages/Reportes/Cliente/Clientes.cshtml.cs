@@ -25,9 +25,13 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
 
         public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta, string? dniCliente, int? pagina)
         {
-            // Establecer fechas por defecto si no se proporcionan (julio 2025)
-            ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
-            ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
+            // Establecer fechas por defecto si no se proporcionan (mes actual)
+            var hoy = DateTime.Today;
+            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
+            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
+            
+            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
+            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
             ReporteModel.DniCliente = dniCliente;
             ReporteModel.PaginaActual = pagina ?? 1;
 
@@ -86,8 +90,8 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                     TotalReservaciones = g.Count(),
                     MontoTotalAcumulado = g.Sum(r => r.MontoTotal),
                     TotalPersonasAcumulado = g.Sum(r => r.CantidadPersonas),
-                    UltimaReservaFecha = g.Max(r => r.FechaCreacion),
-                    PrimeraReservaFecha = g.Min(r => r.FechaCreacion),
+                    UltimaReservaFecha = g.Max(r => r.FechaDesde),
+                    PrimeraReservaFecha = g.Min(r => r.FechaDesde),
                     UltimaCabana = g.OrderByDescending(r => r.FechaCreacion).First().Cabana?.Nombre ?? "N/A",
                     UltimoEstado = g.OrderByDescending(r => r.FechaCreacion).First().EstadoReserva ?? "N/A"
                 })
@@ -116,8 +120,12 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
         public async Task<IActionResult> OnGetExportarExcelAsync(DateTime? fechaDesde, DateTime? fechaHasta, string? dniCliente)
         {
             // Configurar los filtros para exportación
-            ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
-            ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
+            var hoy = DateTime.Today;
+            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
+            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
+            
+            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
+            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
             ReporteModel.DniCliente = dniCliente;
 
             // Obtener todos los datos (sin paginación para exportación completa)
@@ -177,8 +185,12 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
         public async Task<IActionResult> OnGetExportarPdfAsync(DateTime? fechaDesde, DateTime? fechaHasta, string? dniCliente)
         {
             // Configurar los filtros para exportación
-            ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
-            ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
+            var hoy = DateTime.Today;
+            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
+            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
+            
+            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
+            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
             ReporteModel.DniCliente = dniCliente;
 
             // Obtener todos los datos (sin paginación para exportación completa)
@@ -268,8 +280,8 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                     TotalReservaciones = g.Count(),
                     MontoTotalAcumulado = g.Sum(r => r.MontoTotal),
                     TotalPersonasAcumulado = g.Sum(r => r.CantidadPersonas),
-                    UltimaReservaFecha = g.Max(r => r.FechaCreacion),
-                    PrimeraReservaFecha = g.Min(r => r.FechaCreacion),
+                    UltimaReservaFecha = g.Max(r => r.FechaDesde),
+                    PrimeraReservaFecha = g.Min(r => r.FechaDesde),
                     UltimaCabana = g.OrderByDescending(r => r.FechaCreacion).First().Cabana?.Nombre ?? "N/A",
                     UltimoEstado = g.OrderByDescending(r => r.FechaCreacion).First().EstadoReserva ?? "N/A"
                 })

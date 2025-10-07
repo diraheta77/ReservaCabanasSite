@@ -58,4 +58,110 @@ namespace ReservaCabanasSite.Models
         public decimal PromedioPersonasPorReserva => TotalReservaciones > 0 ? (decimal)TotalPersonasAcumulado / TotalReservaciones : 0;
         public string FrecuenciaTexto => TotalReservaciones == 1 ? "Primera vez" : $"{TotalReservaciones} reservas";
     }
+
+    public class ReporteEdadesViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(2025, 7, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+
+        [Display(Name = "DNI Cliente (opcional)")]
+        public string? DniCliente { get; set; }
+
+        public List<DatosEdadRango> DatosGrafica { get; set; } = new();
+        public int TotalClientes { get; set; }
+        public int TotalReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PromedioEdad { get; set; }
+    }
+
+    public class DatosEdadRango
+    {
+        public string Rango { get; set; } = "";
+        public int Cantidad { get; set; }
+        public double Porcentaje { get; set; }
+    }
+
+    public class ReporteCabanasViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(2025, 7, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+
+        public List<ReporteCabanaItem> ReservasPorCabana { get; set; } = new();
+        public int TotalReservas { get; set; }
+        public int TotalDias { get; set; }
+        public decimal TotalIngresos { get; set; }
+    }
+
+    public class ReporteCabanaItem
+    {
+        public int CabanaId { get; set; }
+        public string CabanaNombre { get; set; } = "";
+        public int CantidadReservas { get; set; }
+        public int CantidadDiasReservados { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PorcentajeReservas { get; set; }
+        public double PorcentajeDias { get; set; }
+        public double PorcentajeIngresos { get; set; }
+    }
+
+    public class ReporteTemporadasViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(2025, 7, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+
+        public List<ReporteTemporadaItem> ReservasPorTemporada { get; set; } = new();
+        public int TotalReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+    }
+
+    public class ReporteTemporadaItem
+    {
+        public int TemporadaId { get; set; }
+        public string TemporadaNombre { get; set; } = "";
+        public int CantidadReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PorcentajeReservas { get; set; }
+        public double PorcentajeIngresos { get; set; }
+    }
+
+    public class ReporteMesesViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(2025, 7, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+
+        public List<ReporteMesItem> ReservasPorMes { get; set; } = new();
+        public int TotalReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+    }
+
+    public class ReporteMesItem
+    {
+        public int Ano { get; set; }
+        public int Mes { get; set; }
+        public string NombreMes { get; set; } = "";
+        public int CantidadReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PorcentajeReservas { get; set; }
+        public double PorcentajeIngresos { get; set; }
+    }
 }
