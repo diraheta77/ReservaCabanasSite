@@ -99,7 +99,7 @@ using (var scope = app.Services.CreateScope())
             {
                 NombreUsuario = "operador",
                 Password = "operador123", // Se hasheará en el servicio
-                NombreCompleto = "Operador del Sistema",
+                NombreCompleto = "Operador del Sistema Test",
                 Rol = "Operador",
                 Activo = true,
                 FechaCreacion = DateTime.Now
