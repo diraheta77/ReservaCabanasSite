@@ -413,7 +413,7 @@
                     {
                         <div class="reservation-indicator"
                              style="background-color: @Model.ObtenerColorReserva(reserva);"
-                             title="Código: @reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre">
+                             title="Reservación @reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre">
                         </div>
                     }
                     
@@ -427,7 +427,7 @@
                     <div class="reservation-tooltip">
                         @foreach (var reserva in reservasDelDia.Take(5))
                         {
-                            <div>Código: @reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre</div>
+                            <div>Reservación @reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre</div>
                         }
                         @if (reservasDelDia.Count > 5)
                         {
