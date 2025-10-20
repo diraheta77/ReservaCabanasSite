@@ -4,6 +4,7 @@ using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Data;
 using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Filters;
+using ReservaCabanasSite.Services;
 
 namespace ReservaCabanasSite.Pages.Cabanas
 {
@@ -11,11 +12,14 @@ namespace ReservaCabanasSite.Pages.Cabanas
     public class IndexModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly IAuthService _authService;
         public List<Cabana> Cabanas { get; set; } = new();
+        public bool EsAdministrador { get; set; }
 
-        public IndexModel(AppDbContext context)
+        public IndexModel(AppDbContext context, IAuthService authService)
         {
             _context = context;
+            _authService = authService;
         }
 
         public void OnGet()
@@ -23,6 +27,8 @@ namespace ReservaCabanasSite.Pages.Cabanas
             Cabanas = _context.Cabanas
             .Include(c => c.Imagenes)
             .ToList();
+
+            EsAdministrador = _authService.GetCurrentUserRole() == "Administrador";
         }
     }
 }
