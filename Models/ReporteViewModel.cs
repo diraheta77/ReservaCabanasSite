@@ -96,6 +96,12 @@ namespace ReservaCabanasSite.Models
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
 
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        [Display(Name = "Temporada")]
+        public int? TemporadaId { get; set; }
+
         public List<ReporteCabanaItem> ReservasPorCabana { get; set; } = new();
         public int TotalReservas { get; set; }
         public int TotalDias { get; set; }
@@ -123,6 +129,12 @@ namespace ReservaCabanasSite.Models
         [Display(Name = "Fecha Hasta")]
         [DataType(DataType.Date)]
         public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        [Display(Name = "Temporada")]
+        public int? TemporadaId { get; set; }
 
         public List<ReporteTemporadaItem> ReservasPorTemporada { get; set; } = new();
         public int TotalReservas { get; set; }

@@ -273,28 +273,54 @@
 
     <!-- Filtros -->
     <div class="filters-container">
-        <form method="post" class="filters-form">
-            <div class="form-group">
-                <label asp-for="ReporteModel.FechaDesde" class="form-label"></label>
-                <input asp-for="ReporteModel.FechaDesde" class="form-control" type="date" />
-                <span asp-validation-for="ReporteModel.FechaDesde" class="text-danger"></span>
+        <form method="post">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                <div class="form-group">
+                    <label asp-for="ReporteModel.FechaDesde" class="form-label"></label>
+                    <input asp-for="ReporteModel.FechaDesde" class="form-control" type="date" />
+                    <span asp-validation-for="ReporteModel.FechaDesde" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ReporteModel.FechaHasta" class="form-label"></label>
+                    <input asp-for="ReporteModel.FechaHasta" class="form-control" type="date" />
+                    <span asp-validation-for="ReporteModel.FechaHasta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ReporteModel.CabanaId" class="form-label"></label>
+                    <select asp-for="ReporteModel.CabanaId" class="form-control">
+                        <option value="">Todas las cabañas</option>
+                        @foreach (var cabana in Model.Cabanas)
+                        {
+                            <option value="@cabana.Id">@cabana.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ReporteModel.TemporadaId" class="form-label"></label>
+                    <select asp-for="ReporteModel.TemporadaId" class="form-control">
+                        <option value="">Todas las temporadas</option>
+                        @foreach (var temporada in Model.Temporadas)
+                        {
+                            <option value="@temporada.Id">@temporada.Nombre</option>
+                        }
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ReporteModel.FechaHasta" class="form-label"></label>
-                <input asp-for="ReporteModel.FechaHasta" class="form-control" type="date" />
-                <span asp-validation-for="ReporteModel.FechaHasta" class="text-danger"></span>
+            <div style="display: flex; gap: 12px;">
+                <button type="submit" class="btn-primary-custom">
+                    <i class="fa fa-search"></i>
+                    Generar Reporte
+                </button>
+
+                <a href="/Reportes/Cabana/Cabana" class="btn-secondary-custom">
+                    <i class="fa fa-refresh"></i>
+                    Limpiar
+                </a>
             </div>
-
-            <button type="submit" class="btn-primary-custom">
-                <i class="fa fa-search"></i>
-                Generar Reporte
-            </button>
-
-            <a href="/Reportes/Cabana/Cabana" class="btn-secondary-custom">
-                <i class="fa fa-refresh"></i>
-                Limpiar
-            </a>
         </form>
     </div>
 

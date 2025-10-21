@@ -23,7 +23,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
         [BindProperty]
         public ReporteCabanasViewModel ReporteModel { get; set; } = new();
 
-        public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta)
+        public List<Models.Cabana> Cabanas { get; set; } = new();
+        public List<Temporada> Temporadas { get; set; } = new();
+
+        public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta, int? cabanaId, int? temporadaId)
         {
             // Establecer fechas por defecto si no se proporcionan (mes actual)
             var hoy = DateTime.Today;
@@ -32,7 +35,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
             
             ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
             ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
+            ReporteModel.CabanaId = cabanaId;
+            ReporteModel.TemporadaId = temporadaId;
 
+            await CargarCatalogos();
             await CargarReporte();
             return Page();
         }
@@ -51,19 +57,46 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
                 return Page();
             }
 
+            await CargarCatalogos();
             await CargarReporte();
             return Page();
+        }
+
+        private async Task CargarCatalogos()
+        {
+            Cabanas = await _context.Cabanas
+                .Where(c => c.Activa)
+                .OrderBy(c => c.Nombre)
+                .ToListAsync();
+
+            Temporadas = await _context.Temporadas
+                .Where(t => t.Activa)
+                .OrderBy(t => t.Nombre)
+                .ToListAsync();
         }
 
         private async Task CargarReporte()
         {
             // Buscar reservas por fecha de estadía
-            var reservas = await _context.Reservas
+            var query = _context.Reservas
                 .Include(r => r.Cabana)
                 .Where(r => r.Activa &&
                            r.FechaDesde.Date >= ReporteModel.FechaDesde.Date &&
-                           r.FechaDesde.Date <= ReporteModel.FechaHasta.Date)
-                .ToListAsync();
+                           r.FechaDesde.Date <= ReporteModel.FechaHasta.Date);
+
+            // Filtrar por cabaña si se seleccionó
+            if (ReporteModel.CabanaId.HasValue)
+            {
+                query = query.Where(r => r.CabanaId == ReporteModel.CabanaId.Value);
+            }
+
+            // Filtrar por temporada si se seleccionó
+            if (ReporteModel.TemporadaId.HasValue)
+            {
+                query = query.Where(r => r.TemporadaId == ReporteModel.TemporadaId.Value);
+            }
+
+            var reservas = await query.ToListAsync();
 
             // Agrupar por cabaña y calcular estadísticas
             var reservasPorCabana = reservas

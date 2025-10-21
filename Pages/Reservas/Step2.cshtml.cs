@@ -28,9 +28,9 @@ namespace ReservaCabanasSite.Pages.Reservas
         {
             System.Diagnostics.Debug.WriteLine("=== OnGetAsync iniciado ===");
             string wizardDataJson = null;
-            if (TempData["WizardData"] != null)
+            if (TempData.Peek("WizardData") != null)
             {
-                wizardDataJson = TempData["WizardData"].ToString();
+                wizardDataJson = TempData.Peek("WizardData").ToString();
             }
             else if (!string.IsNullOrEmpty(WizardDataJson))
             {
@@ -61,9 +61,9 @@ namespace ReservaCabanasSite.Pages.Reservas
         {
             System.Diagnostics.Debug.WriteLine("=== OnPostAsync iniciado ===");
             string wizardDataJson = null;
-            if (TempData["WizardData"] != null)
+            if (TempData.Peek("WizardData") != null)
             {
-                wizardDataJson = TempData["WizardData"].ToString();
+                wizardDataJson = TempData.Peek("WizardData").ToString();
             }
             else if (!string.IsNullOrEmpty(WizardDataJson))
             {
@@ -168,16 +168,47 @@ namespace ReservaCabanasSite.Pages.Reservas
                 ModelState.AddModelError("WizardModel.Email", "El email es requerido");
                 isValid = false;
             }
-            else if (!WizardModel.Email.Contains("@"))
+            else
             {
-                ModelState.AddModelError("WizardModel.Email", "El formato del email no es válido");
-                isValid = false;
+                // Validación más robusta de email
+                try
+                {
+                    var mailAddress = new System.Net.Mail.MailAddress(WizardModel.Email);
+                    if (mailAddress.Address != WizardModel.Email)
+                    {
+                        ModelState.AddModelError("WizardModel.Email", "El formato del email no es válido");
+                        isValid = false;
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("WizardModel.Email", "El formato del email no es válido");
+                    isValid = false;
+                }
             }
             // Validación personalizada para Dirección
-            if (string.IsNullOrWhiteSpace(WizardModel.Direccion) ||
-                (!System.Text.RegularExpressions.Regex.IsMatch(WizardModel.Direccion, @"\d") && WizardModel.Direccion.Trim().ToUpper() != "S/N"))
+            if (string.IsNullOrWhiteSpace(WizardModel.Direccion))
             {
-                ModelState.AddModelError("WizardModel.Direccion", "La dirección debe contener calle y número o decir S/N (sin numeración)");
+                ModelState.AddModelError("WizardModel.Direccion", "La dirección es requerida");
+                isValid = false;
+            }
+            else
+            {
+                var direccion = WizardModel.Direccion.Trim().ToUpper();
+                // Permitir S/N o direcciones con número o direcciones con palabras clave válidas (Av., Avenida, Calle, etc.)
+                bool tieneNumero = System.Text.RegularExpressions.Regex.IsMatch(WizardModel.Direccion, @"\d");
+                bool esSN = direccion == "S/N" || direccion.Contains("S/N");
+                bool tienePalabrasClave = System.Text.RegularExpressions.Regex.IsMatch(direccion, @"\b(AVENIDA|AVDA|AV\.?|CALLE|PASAJE|RUTA|KM|KILOMETRO)\b");
+
+                if (!tieneNumero && !esSN && !tienePalabrasClave)
+                {
+                    ModelState.AddModelError("WizardModel.Direccion", "La dirección debe contener calle y número, o indicar S/N");
+                    isValid = false;
+                }
+            }
+
+            if (!isValid)
+            {
                 WizardDataJson = JsonSerializer.Serialize(WizardModel);
                 return Page();
             }

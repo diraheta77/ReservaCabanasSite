@@ -209,7 +209,7 @@
     <form method="get" class="filters-form">
         <div class="filter-group">
             <label class="filter-label">Cabaña</label>
-            <select name="cabanaId" class="filter-select">
+            <select name="cabanaIdFiltro" class="filter-select">
                 <option value="">Todas las cabañas</option>
                 @foreach (var cabana in Model.Cabanas)
                 {
@@ -233,22 +233,43 @@
         
         <div class="filter-group">
             <label class="filter-label">Estado</label>
-            <select name="estado" class="filter-select">
+            <select name="estadoFiltro" class="filter-select">
                 <option value="">Todos los estados</option>
-                <option value="Activa" selected="@(Model.EstadoFiltro == "Activa")">Activa</option>
-                <option value="Cancelada" selected="@(Model.EstadoFiltro == "Cancelada")">Cancelada</option>
-                <option value="Completada" selected="@(Model.EstadoFiltro == "Completada")">Completada</option>
+                @if (Model.EstadoFiltro == "Activa")
+                {
+                    <option value="Activa" selected>Activa</option>
+                }
+                else
+                {
+                    <option value="Activa">Activa</option>
+                }
+                @if (Model.EstadoFiltro == "Cancelada")
+                {
+                    <option value="Cancelada" selected>Cancelada</option>
+                }
+                else
+                {
+                    <option value="Cancelada">Cancelada</option>
+                }
+                @if (Model.EstadoFiltro == "Completada")
+                {
+                    <option value="Completada" selected>Completada</option>
+                }
+                else
+                {
+                    <option value="Completada">Completada</option>
+                }
             </select>
         </div>
-        
+
         <div class="filter-group">
             <label class="filter-label">Fecha desde</label>
-            <input type="date" name="fechaDesde" class="filter-input" value="@Model.FechaDesdeFiltro">
+            <input type="date" name="fechaDesdeFiltro" class="filter-input" value="@Model.FechaDesdeFiltro">
         </div>
-        
+
         <div class="filter-group">
             <label class="filter-label">Fecha hasta</label>
-            <input type="date" name="fechaHasta" class="filter-input" value="@Model.FechaHastaFiltro">
+            <input type="date" name="fechaHastaFiltro" class="filter-input" value="@Model.FechaHastaFiltro">
         </div>
         
         <div class="filter-buttons">

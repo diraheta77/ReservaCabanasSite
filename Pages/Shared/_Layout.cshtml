@@ -132,11 +132,30 @@
           
           @if (userRole == "Administrador")
           {
-              <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
-                <a asp-page="/Temporadas/Index">
-                  <i class="nc-icon nc-calendar-60"></i>
-                  <p>Temporadas</p>
+              <li class="@(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") ? "active" : "")">
+                <a href="javascript:;" data-toggle="collapse" data-target="#ajustesSubmenu">
+                  <i class="fa fa-cog"></i>
+                  <p>
+                    Ajustes
+                    <b class="caret"></b>
+                  </p>
                 </a>
+                <div class="collapse @(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") ? "show" : "")" id="ajustesSubmenu">
+                  <ul class="nav">
+                    <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
+                      <a asp-page="/Temporadas/Index">
+                        <i class="nc-icon nc-calendar-60"></i>
+                        <span class="sidebar-normal">Temporadas</span>
+                      </a>
+                    </li>
+                    <li class="@(currentPage.StartsWith("/mediospago") ? "active" : "")">
+                      <a asp-page="/MediosPago/Index">
+                        <i class="fa fa-credit-card"></i>
+                        <span class="sidebar-normal">Medios de Pago</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li class="@(currentPage.StartsWith("/usuarios") ? "active" : "")">
                 <a asp-page="/Usuarios/Index">

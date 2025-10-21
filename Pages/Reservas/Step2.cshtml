@@ -496,7 +496,7 @@
                 });
                 const data = await resp.json();
                 if (data.success && data.clientes.length > 0) {
-                    searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action" data-id="${c.id}" data-dni="${c.dni}" data-nombre="${c.nombre}" data-apellido="${c.apellido}" data-telefono="${c.telefono}" data-email="${c.email}" data-direccion="${c.direccion}" data-ciudad="${c.ciudad}" data-provincia="${c.provincia}" data-pais="${c.pais}" data-nacionalidad="${c.nacionalidad}" data-fechanacimiento="${c.fechaNacimiento}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');
+                    searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action" data-id="${c.id}" data-dni="${c.dni}" data-nombre="${c.nombre}" data-apellido="${c.apellido}" data-telefono="${c.telefono}" data-email="${c.email}" data-direccion="${c.direccion || ''}" data-ciudad="${c.ciudad || ''}" data-provincia="${c.provincia || ''}" data-pais="${c.pais || ''}" data-nacionalidad="${c.nacionalidad || ''}" data-fechanacimiento="${c.fechaNacimiento || ''}" data-patente="${c.patente || ''}" data-marca="${c.marca || ''}" data-modelo="${c.modelo || ''}" data-color="${c.color || ''}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');
                     searchResults.style.display = 'block';
                 } else {
                     searchResults.innerHTML = '<div class="list-group-item">Sin resultados</div>';

@@ -14,5 +14,6 @@ namespace ReservaCabanasSite.Data
         public DbSet<Temporada> Temporadas { get; set; }
         public DbSet<Vehiculo> Vehiculos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<MedioPago> MediosPago { get; set; }
     }
 }

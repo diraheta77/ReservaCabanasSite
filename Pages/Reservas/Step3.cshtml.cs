@@ -30,9 +30,9 @@ namespace ReservaCabanasSite.Pages.Reservas
         public async Task<IActionResult> OnGetAsync()
         {
             string wizardDataJson = null;
-            if (TempData["WizardData"] != null)
+            if (TempData.Peek("WizardData") != null)
             {
-                wizardDataJson = TempData["WizardData"].ToString();
+                wizardDataJson = TempData.Peek("WizardData").ToString();
             }
             else if (!string.IsNullOrEmpty(WizardDataJson))
             {
@@ -67,9 +67,9 @@ namespace ReservaCabanasSite.Pages.Reservas
         public async Task<IActionResult> OnPostAsync()
         {
             string wizardDataJson = null;
-            if (TempData["WizardData"] != null)
+            if (TempData.Peek("WizardData") != null)
             {
-                wizardDataJson = TempData["WizardData"].ToString();
+                wizardDataJson = TempData.Peek("WizardData").ToString();
             }
             else if (!string.IsNullOrEmpty(WizardDataJson))
             {
@@ -141,6 +141,15 @@ namespace ReservaCabanasSite.Pages.Reservas
             }
             else
             {
+                // Verificar si ya existe un cliente con ese DNI
+                var clienteExistente = await _context.Clientes.FirstOrDefaultAsync(c => c.Dni == WizardModel.Dni && c.Activo);
+                if (clienteExistente != null)
+                {
+                    ModelState.AddModelError("WizardModel.Dni", "Ya existe un cliente con ese DNI.");
+                    WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                    return Page();
+                }
+
                 // Crear nuevo cliente
                 cliente = new Cliente
                 {
@@ -165,6 +174,21 @@ namespace ReservaCabanasSite.Pages.Reservas
             {
                 await _context.SaveChangesAsync();
             }
+
+            // Re-validar que la cabaña sigue disponible en las fechas seleccionadas
+            var conflicto = await _context.Reservas.AnyAsync(r =>
+                r.CabanaId == WizardModel.CabanaId.Value &&
+                r.Activa &&
+                r.FechaDesde < WizardModel.FechaHasta.Value &&
+                r.FechaHasta > WizardModel.FechaDesde.Value);
+
+            if (conflicto)
+            {
+                ModelState.AddModelError("", "La cabaña ya no está disponible en las fechas seleccionadas. Por favor, selecciona otras fechas.");
+                WizardDataJson = JsonSerializer.Serialize(WizardModel);
+                return Page();
+            }
+
             // Crear la reserva
             var reserva = new Reserva
             {

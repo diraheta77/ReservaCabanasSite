@@ -1,0 +1,184 @@
+@page
+@model ReservaCabanasSite.Pages.MediosPago.IndexModel
+@{
+    ViewData["Title"] = "Medios de Pago";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-primary-custom {
+    background: #a67c52;
+    color: #fff;
+}
+.btn-primary-custom:hover {
+    background: #8d6843;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+.btn-danger-custom {
+    background: #dc3545;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c82333;
+    color: #fff;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.table-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5c4a45;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.table th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    color: #5c4a45;
+    font-weight: 600;
+    padding: 12px 8px;
+}
+
+.table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 0.8rem;
+}
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Medios de Pago</h1>
+    <a asp-page="Create" class="btn-custom btn-primary-custom">Nuevo Medio de Pago</a>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Lista de Medios de Pago (@Model.MediosPago.Count)</div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Fecha Creación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var medio in Model.MediosPago)
+                {
+                    <tr>
+                        <td>@medio.Id</td>
+                        <td><strong>@medio.Nombre</strong></td>
+                        <td>@(medio.Descripcion ?? "-")</td>
+                        <td>
+                            @if (medio.Activo)
+                            {
+                                <span class="status-badge status-active">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge status-inactive">Inactivo</span>
+                            }
+                        </td>
+                        <td>@medio.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-page="Edit" asp-route-id="@medio.Id"
+                                   class="btn-custom btn-primary-custom btn-sm">Editar</a>
+                                @if (medio.Activo)
+                                {
+                                    <a asp-page="Inactivate" asp-route-id="@medio.Id"
+                                       class="btn-custom btn-danger-custom btn-sm"
+                                       onclick="return confirm('¿Estás seguro de que quieres inactivar este medio de pago?')">
+                                        Inactivar
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-page="Activate" asp-route-id="@medio.Id"
+                                       class="btn-custom btn-secondary-custom btn-sm">
+                                        Activar
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.MediosPago.Any())
+    {
+        <div class="text-center py-4">
+            <p class="text-muted">No hay medios de pago registrados.</p>
+        </div>
+    }
+</div>
