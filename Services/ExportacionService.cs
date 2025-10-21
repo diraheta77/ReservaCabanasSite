@@ -18,10 +18,12 @@ namespace ReservaCabanasSite.Services
     public class ExportacionService : IExportacionService
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public ExportacionService(AppDbContext context)
+        public ExportacionService(AppDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         private async Task<string> ObtenerNombreEmpresa()
@@ -33,6 +35,15 @@ namespace ReservaCabanasSite.Services
             return datosEmpresa?.NombreEmpresa ?? "Aldea Auriel";
         }
 
+        private async Task<string?> ObtenerRutaLogo()
+        {
+            var datosEmpresa = await _context.DatosEmpresa
+                .Where(d => d.MostrarEnReportes)
+                .FirstOrDefaultAsync();
+
+            return datosEmpresa?.RutaLogo;
+        }
+
         public async Task<ResultadoExportacion> ExportarAExcel(DatosExportacion datos)
         {
             try
@@ -41,6 +52,28 @@ namespace ReservaCabanasSite.Services
                 var worksheet = workbook.Worksheets.Add("Reporte");
 
                 int filaActual = 1;
+
+                // Insertar logo si existe
+                var rutaLogo = await ObtenerRutaLogo();
+                if (!string.IsNullOrEmpty(rutaLogo))
+                {
+                    try
+                    {
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, rutaLogo.TrimStart('/'));
+                        if (File.Exists(rutaCompleta))
+                        {
+                            var imagen = worksheet.AddPicture(rutaCompleta)
+                                .MoveTo(worksheet.Cell(filaActual, 1))
+                                .Scale(0.15); // Escalar al 15% del tamaño original
+
+                            filaActual += 4; // Dejar espacio para el logo
+                        }
+                    }
+                    catch
+                    {
+                        // Si falla la carga del logo, continuar sin él
+                    }
+                }
 
                 // Título del reporte
                 worksheet.Cell(filaActual, 1).Value = datos.TituloReporte;
@@ -203,6 +236,28 @@ namespace ReservaCabanasSite.Services
                 var fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
                 var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
                 var fuenteEncabezado = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.WHITE);
+
+                // Insertar logo si existe
+                var rutaLogo = await ObtenerRutaLogo();
+                if (!string.IsNullOrEmpty(rutaLogo))
+                {
+                    try
+                    {
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, rutaLogo.TrimStart('/'));
+                        if (File.Exists(rutaCompleta))
+                        {
+                            var imagen = iTextSharp.text.Image.GetInstance(rutaCompleta);
+                            imagen.ScaleToFit(120f, 60f); // Tamaño máximo del logo
+                            imagen.Alignment = Element.ALIGN_LEFT;
+                            imagen.SpacingAfter = 10f;
+                            document.Add(imagen);
+                        }
+                    }
+                    catch
+                    {
+                        // Si falla la carga del logo, continuar sin él
+                    }
+                }
 
                 // Título
                 var titulo = new Paragraph(datos.TituloReporte, fuenteTitulo);
