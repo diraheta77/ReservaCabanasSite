@@ -15,6 +15,12 @@ namespace ReservaCabanasSite.Models
         [Display(Name = "DNI Cliente (opcional)")]
         public string? DniCliente { get; set; }
 
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        [Display(Name = "Temporada")]
+        public int? TemporadaId { get; set; }
+
         public List<ReporteReservacionItem> Reservaciones { get; set; } = new();
 
         // Propiedades de paginación
@@ -71,6 +77,12 @@ namespace ReservaCabanasSite.Models
 
         [Display(Name = "DNI Cliente (opcional)")]
         public string? DniCliente { get; set; }
+
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        [Display(Name = "Temporada")]
+        public int? TemporadaId { get; set; }
 
         public List<DatosEdadRango> DatosGrafica { get; set; } = new();
         public int TotalClientes { get; set; }

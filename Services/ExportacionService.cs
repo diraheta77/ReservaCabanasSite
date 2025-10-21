@@ -2,6 +2,8 @@ using ClosedXML.Excel;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using ReservaCabanasSite.Models;
+using ReservaCabanasSite.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using Color = System.Drawing.Color;
 
@@ -15,6 +17,22 @@ namespace ReservaCabanasSite.Services
 
     public class ExportacionService : IExportacionService
     {
+        private readonly AppDbContext _context;
+
+        public ExportacionService(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        private async Task<string> ObtenerNombreEmpresa()
+        {
+            var datosEmpresa = await _context.DatosEmpresa
+                .Where(d => d.MostrarEnReportes)
+                .FirstOrDefaultAsync();
+
+            return datosEmpresa?.NombreEmpresa ?? "Aldea Auriel";
+        }
+
         public async Task<ResultadoExportacion> ExportarAExcel(DatosExportacion datos)
         {
             try
@@ -138,8 +156,9 @@ namespace ReservaCabanasSite.Services
 
                 // Pie de página con fecha de generación
                 filaActual += 2;
+                var nombreEmpresa = await ObtenerNombreEmpresa();
                 var pieCell = worksheet.Cell(filaActual, 1);
-                pieCell.Value = $"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por Aldea Auriel";
+                pieCell.Value = $"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por {nombreEmpresa}";
                 pieCell.Style.Font.FontSize = 10;
                 pieCell.Style.Font.Italic = true;
                 pieCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -298,7 +317,8 @@ namespace ReservaCabanasSite.Services
                 }
 
                 // Pie de página
-                var piePagina = new Paragraph($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por Aldea Auriel",
+                var nombreEmpresaPdf = await ObtenerNombreEmpresa();
+                var piePagina = new Paragraph($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por {nombreEmpresaPdf}",
                     FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 8, BaseColor.GRAY));
                 piePagina.Alignment = Element.ALIGN_CENTER;
                 piePagina.SpacingBefore = 20;

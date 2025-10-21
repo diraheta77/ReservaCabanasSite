@@ -23,13 +23,19 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
         [BindProperty]
         public ReporteEdadesViewModel ReporteModel { get; set; } = new();
 
-        public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta, string? dniCliente)
+        public List<Models.Cabana> Cabanas { get; set; } = new();
+        public List<Temporada> Temporadas { get; set; } = new();
+
+        public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta, string? dniCliente, int? cabanaId, int? temporadaId)
         {
             // Establecer fechas por defecto si no se proporcionan (julio 2025)
             ReporteModel.FechaDesde = fechaDesde ?? new DateTime(2025, 7, 1);
             ReporteModel.FechaHasta = fechaHasta ?? new DateTime(2025, 7, 31);
             ReporteModel.DniCliente = dniCliente;
+            ReporteModel.CabanaId = cabanaId;
+            ReporteModel.TemporadaId = temporadaId;
 
+            await CargarCatalogos();
             await CargarReporte();
             return Page();
         }
@@ -38,6 +44,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
         {
             if (!ModelState.IsValid)
             {
+                await CargarCatalogos();
                 return Page();
             }
 
@@ -45,11 +52,26 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             if (ReporteModel.FechaDesde > ReporteModel.FechaHasta)
             {
                 ModelState.AddModelError("ReporteModel.FechaDesde", "La fecha desde debe ser menor o igual a la fecha hasta.");
+                await CargarCatalogos();
                 return Page();
             }
 
+            await CargarCatalogos();
             await CargarReporte();
             return Page();
+        }
+
+        private async Task CargarCatalogos()
+        {
+            Cabanas = await _context.Cabanas
+                .Where(c => c.Activa)
+                .OrderBy(c => c.Nombre)
+                .ToListAsync();
+
+            Temporadas = await _context.Temporadas
+                .Where(t => t.Activa)
+                .OrderBy(t => t.Nombre)
+                .ToListAsync();
         }
 
         private async Task CargarReporte()
@@ -65,6 +87,18 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             if (!string.IsNullOrWhiteSpace(ReporteModel.DniCliente))
             {
                 query = query.Where(r => r.Cliente != null && r.Cliente.Dni.Contains(ReporteModel.DniCliente));
+            }
+
+            // Filtrar por cabaña si se seleccionó
+            if (ReporteModel.CabanaId.HasValue)
+            {
+                query = query.Where(r => r.CabanaId == ReporteModel.CabanaId.Value);
+            }
+
+            // Filtrar por temporada si se seleccionó
+            if (ReporteModel.TemporadaId.HasValue)
+            {
+                query = query.Where(r => r.TemporadaId == ReporteModel.TemporadaId.Value);
             }
 
             var reservas = await query.ToListAsync();

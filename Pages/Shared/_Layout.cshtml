@@ -132,7 +132,7 @@
           
           @if (userRole == "Administrador")
           {
-              <li class="@(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") ? "active" : "")">
+              <li class="@(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/datosempresa") ? "active" : "")">
                 <a href="javascript:;" data-toggle="collapse" data-target="#ajustesSubmenu">
                   <i class="fa fa-cog"></i>
                   <p>
@@ -140,8 +140,14 @@
                     <b class="caret"></b>
                   </p>
                 </a>
-                <div class="collapse @(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") ? "show" : "")" id="ajustesSubmenu">
+                <div class="collapse @(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/datosempresa") ? "show" : "")" id="ajustesSubmenu">
                   <ul class="nav">
+                    <li class="@(currentPage.StartsWith("/datosempresa") ? "active" : "")">
+                      <a asp-page="/DatosEmpresa/Index">
+                        <i class="fa fa-building"></i>
+                        <span class="sidebar-normal">Datos de la Empresa</span>
+                      </a>
+                    </li>
                     <li class="@(currentPage.StartsWith("/temporadas") ? "active" : "")">
                       <a asp-page="/Temporadas/Index">
                         <i class="nc-icon nc-calendar-60"></i>
