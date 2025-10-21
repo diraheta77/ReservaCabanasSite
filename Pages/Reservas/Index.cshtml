@@ -427,7 +427,7 @@
                     <div class="reservation-tooltip">
                         @foreach (var reserva in reservasDelDia.Take(5))
                         {
-                            <div>Reservación #@reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre</div>
+                            <div>#@reserva.Id - @reserva.Cliente?.Apellido @reserva.Cliente?.Nombre</div>
                         }
                         @if (reservasDelDia.Count > 5)
                         {

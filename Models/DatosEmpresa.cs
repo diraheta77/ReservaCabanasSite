@@ -40,6 +40,10 @@ namespace ReservaCabanasSite.Models
         [Display(Name = "Sitio Web")]
         public string? SitioWeb { get; set; }
 
+        [StringLength(500, ErrorMessage = "La ruta del logo no puede exceder 500 caracteres")]
+        [Display(Name = "Ruta del Logo")]
+        public string? RutaLogo { get; set; } = "/assets/logo/logocabanas.png";
+
         [Display(Name = "Mostrar en Reportes")]
         public bool MostrarEnReportes { get; set; } = true;
 

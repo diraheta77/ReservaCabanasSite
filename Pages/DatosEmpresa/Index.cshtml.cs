@@ -9,14 +9,19 @@ namespace ReservaCabanasSite.Pages.DatosEmpresa
     public class IndexModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public IndexModel(AppDbContext context)
+        public IndexModel(AppDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         [BindProperty]
         public Models.DatosEmpresa DatosEmpresa { get; set; } = default!;
+
+        [BindProperty]
+        public IFormFile? ArchivoLogo { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -38,6 +43,40 @@ namespace ReservaCabanasSite.Pages.DatosEmpresa
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            // Manejar la carga del logo si se proporciona
+            if (ArchivoLogo != null && ArchivoLogo.Length > 0)
+            {
+                // Validar que sea una imagen
+                var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif", ".svg" };
+                var extension = Path.GetExtension(ArchivoLogo.FileName).ToLowerInvariant();
+
+                if (!extensionesPermitidas.Contains(extension))
+                {
+                    ModelState.AddModelError("ArchivoLogo", "Solo se permiten archivos de imagen (jpg, jpeg, png, gif, svg).");
+                    return Page();
+                }
+
+                // Validar tamaño (máximo 5MB)
+                if (ArchivoLogo.Length > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("ArchivoLogo", "El archivo no puede exceder 5MB.");
+                    return Page();
+                }
+
+                // Generar nombre único para el archivo
+                var nombreArchivo = $"logo_{DateTime.Now:yyyyMMddHHmmss}{extension}";
+                var rutaCompleta = Path.Combine(_environment.WebRootPath, "uploads", "empresa", nombreArchivo);
+
+                // Guardar el archivo
+                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                {
+                    await ArchivoLogo.CopyToAsync(stream);
+                }
+
+                // Actualizar la ruta en el modelo
+                DatosEmpresa.RutaLogo = $"/uploads/empresa/{nombreArchivo}";
             }
 
             DatosEmpresa.FechaActualizacion = DateTime.Now;
