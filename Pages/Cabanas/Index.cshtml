@@ -62,6 +62,26 @@
     text-align: center;
     margin-bottom: 4px;
 }
+.placeholder-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    color: #999;
+}
+.placeholder-img i {
+    font-size: 3rem;
+    margin-bottom: 8px;
+    color: #bbb;
+}
+.placeholder-img span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #999;
+}
 </style>
 
 <div class="cabana-header-row">
@@ -78,11 +98,20 @@
         <div class="cabana-card-img">
             @if (cabana.Imagenes != null && cabana.Imagenes.Any())
             {
-                <img src="@cabana.Imagenes.First().ImagenUrl" alt="Imagen de @cabana.Nombre" />
+                <img src="@cabana.Imagenes.First().ImagenUrl"
+                     alt="Imagen de @cabana.Nombre"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="placeholder-img" style="display:none;">
+                    <i class="fa fa-home"></i>
+                    <span>Sin imagen</span>
+                </div>
             }
             else
             {
-                <span style="color:#bbb;">Sin imagen</span>
+                <div class="placeholder-img">
+                    <i class="fa fa-home"></i>
+                    <span>Sin imagen</span>
+                </div>
             }
         </div>
         <div class="cabana-card-name">@cabana.Nombre</div>
