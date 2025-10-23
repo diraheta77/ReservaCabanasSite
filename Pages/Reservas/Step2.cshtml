@@ -496,7 +496,23 @@
                 });
                 const data = await resp.json();
                 if (data.success && data.clientes.length > 0) {
-                    searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action" data-id="${c.id}" data-dni="${c.dni}" data-nombre="${c.nombre}" data-apellido="${c.apellido}" data-telefono="${c.telefono}" data-email="${c.email}" data-direccion="${c.direccion || ''}" data-ciudad="${c.ciudad || ''}" data-provincia="${c.provincia || ''}" data-pais="${c.pais || ''}" data-nacionalidad="${c.nacionalidad || ''}" data-fechanacimiento="${c.fechaNacimiento || ''}" data-patente="${c.patente || ''}" data-marca="${c.marca || ''}" data-modelo="${c.modelo || ''}" data-color="${c.color || ''}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');
+                    searchResults.innerHTML = data.clientes.map(c => `<a href="#" class="list-group-item list-group-item-action"
+                        data-id="${c.id}"
+                        data-dni="${c.dni}"
+                        data-nombre="${c.nombre}"
+                        data-apellido="${c.apellido}"
+                        data-telefono="${c.telefono || ''}"
+                        data-email="${c.email || ''}"
+                        data-direccion="${c.direccion || ''}"
+                        data-ciudad="${c.ciudad || ''}"
+                        data-provincia="${c.provincia || ''}"
+                        data-pais="${c.pais || ''}"
+                        data-nacionalidad="${c.nacionalidad || ''}"
+                        data-fecha-nacimiento="${c.fechaNacimiento || ''}"
+                        data-patente="${c.patente || ''}"
+                        data-marca="${c.marca || ''}"
+                        data-modelo="${c.modelo || ''}"
+                        data-color="${c.color || ''}">${c.nombre} ${c.apellido} - DNI: ${c.dni}</a>`).join('');
                     searchResults.style.display = 'block';
                 } else {
                     searchResults.innerHTML = '<div class="list-group-item">Sin resultados</div>';
@@ -508,10 +524,12 @@
             if (e.target && e.target.matches('a.list-group-item')) {
                 e.preventDefault();
                 const c = e.target.dataset;
-                document.getElementById('WizardModel_Dni').value = c.dni;
-                document.getElementById('WizardModel_Nombre').value = c.nombre;
-                document.getElementById('WizardModel_Apellido').value = c.apellido;
-                document.getElementById('WizardModel_FechaNacimiento').value = c.fechanacimiento || '';
+
+                // Llenar datos del cliente
+                document.getElementById('WizardModel_Dni').value = c.dni || '';
+                document.getElementById('WizardModel_Nombre').value = c.nombre || '';
+                document.getElementById('WizardModel_Apellido').value = c.apellido || '';
+                document.getElementById('WizardModel_FechaNacimiento').value = c.fechaNacimiento || '';  // camelCase por dataset
                 document.getElementById('WizardModel_Nacionalidad').value = c.nacionalidad || '';
                 document.getElementById('WizardModel_Direccion').value = c.direccion || '';
                 document.getElementById('WizardModel_Ciudad').value = c.ciudad || '';
@@ -520,15 +538,18 @@
                 document.getElementById('WizardModel_Telefono').value = c.telefono || '';
                 document.getElementById('WizardModel_Email').value = c.email || '';
                 document.getElementById('WizardModel_Observaciones').value = '';
-                
+
                 // Cargar datos del vehículo si existen
                 document.getElementById('WizardModel_Patente').value = c.patente || '';
                 document.getElementById('WizardModel_Marca').value = c.marca || '';
                 document.getElementById('WizardModel_Modelo').value = c.modelo || '';
                 document.getElementById('WizardModel_Color').value = c.color || '';
-                
+
                 searchResults.style.display = 'none';
                 searchInput.value = '';
+
+                // Mostrar mensaje de éxito
+                document.getElementById('searchResult').innerHTML = '<div class="alert alert-success">Cliente encontrado y datos cargados</div>';
             }
         });
         document.addEventListener('click', function(e) {
