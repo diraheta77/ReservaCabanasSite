@@ -26,17 +26,22 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
         public List<Models.Cabana> Cabanas { get; set; } = new();
         public List<Temporada> Temporadas { get; set; } = new();
 
-        public async Task<IActionResult> OnGetAsync(DateTime? fechaDesde, DateTime? fechaHasta, int? cabanaId, int? temporadaId)
+        public async Task<IActionResult> OnGetAsync(int? ano, int? cabanaId, int? temporadaId, List<int>? meses)
         {
-            // Establecer fechas por defecto si no se proporcionan (mes actual)
-            var hoy = DateTime.Today;
-            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
-            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
-            
-            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
-            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
+            // Establecer año por defecto (año actual)
+            ReporteModel.Ano = ano ?? DateTime.Now.Year;
             ReporteModel.CabanaId = cabanaId;
             ReporteModel.TemporadaId = temporadaId;
+
+            // Si no se proporcionan meses, seleccionar el mes actual
+            if (meses == null || !meses.Any())
+            {
+                ReporteModel.MesesSeleccionados = new List<int> { DateTime.Now.Month };
+            }
+            else
+            {
+                ReporteModel.MesesSeleccionados = meses;
+            }
 
             await CargarCatalogos();
             await CargarReporte();
@@ -47,13 +52,15 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
         {
             if (!ModelState.IsValid)
             {
+                await CargarCatalogos();
                 return Page();
             }
 
-            // Validar que fecha desde sea menor que fecha hasta
-            if (ReporteModel.FechaDesde > ReporteModel.FechaHasta)
+            // Validar que se haya seleccionado al menos un mes
+            if (ReporteModel.MesesSeleccionados == null || !ReporteModel.MesesSeleccionados.Any())
             {
-                ModelState.AddModelError("ReporteModel.FechaDesde", "La fecha desde debe ser menor o igual a la fecha hasta.");
+                ModelState.AddModelError("ReporteModel.MesesSeleccionados", "Debe seleccionar al menos un mes.");
+                await CargarCatalogos();
                 return Page();
             }
 
@@ -77,11 +84,20 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
 
         private async Task CargarReporte()
         {
-            // Buscar reservas por fecha de estadía
+            // Si no hay meses seleccionados, no cargar datos
+            if (ReporteModel.MesesSeleccionados == null || !ReporteModel.MesesSeleccionados.Any())
+            {
+                ReporteModel.ReservasPorMes = new List<ReporteMesItem>();
+                ReporteModel.TotalReservas = 0;
+                ReporteModel.TotalIngresos = 0;
+                return;
+            }
+
+            // Buscar reservas por año y meses seleccionados
             var query = _context.Reservas
                 .Where(r => r.Activa &&
-                           r.FechaDesde.Date >= ReporteModel.FechaDesde.Date &&
-                           r.FechaDesde.Date <= ReporteModel.FechaHasta.Date);
+                           r.FechaDesde.Year == ReporteModel.Ano &&
+                           ReporteModel.MesesSeleccionados.Contains(r.FechaDesde.Month));
 
             // Filtrar por cabaña si se seleccionó
             if (ReporteModel.CabanaId.HasValue)
@@ -104,7 +120,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
                 {
                     Ano = g.Key.Year,
                     Mes = g.Key.Month,
-                    NombreMes = GetNombreMes(g.Key.Month),
+                    NombreMes = GetNombreMes(g.Key.Month) + " " + g.Key.Year,
                     CantidadReservas = g.Count(),
                     TotalIngresos = g.Sum(r => r.MontoTotal)
                 })
@@ -148,24 +164,29 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
             };
         }
 
-        public async Task<IActionResult> OnGetExportarExcelAsync(DateTime? fechaDesde, DateTime? fechaHasta)
+        public async Task<IActionResult> OnGetExportarExcelAsync(int? ano, List<int>? meses)
         {
             // Configurar los filtros para exportación
-            var hoy = DateTime.Today;
-            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
-            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
-            
-            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
-            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
+            ReporteModel.Ano = ano ?? DateTime.Now.Year;
+
+            if (meses == null || !meses.Any())
+            {
+                ReporteModel.MesesSeleccionados = new List<int> { DateTime.Now.Month };
+            }
+            else
+            {
+                ReporteModel.MesesSeleccionados = meses;
+            }
 
             // Obtener todos los datos
             await CargarReporte();
 
             // Preparar datos para exportación
+            var mesesTexto = string.Join(", ", ReporteModel.MesesSeleccionados.Select(m => GetNombreMes(m)));
             var datosExportacion = new DatosExportacion
             {
                 TituloReporte = "Reporte de Reservas por Meses",
-                Periodo = $"{ReporteModel.FechaDesde:dd/MM/yyyy} - {ReporteModel.FechaHasta:dd/MM/yyyy}",
+                Periodo = $"{mesesTexto} {ReporteModel.Ano}",
                 NombreEmpresa = "Aldea Auriel"
             };
 
@@ -211,24 +232,29 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
             }
         }
 
-        public async Task<IActionResult> OnGetExportarPdfAsync(DateTime? fechaDesde, DateTime? fechaHasta)
+        public async Task<IActionResult> OnGetExportarPdfAsync(int? ano, List<int>? meses)
         {
             // Configurar los filtros para exportación
-            var hoy = DateTime.Today;
-            var primerDiaDelMes = new DateTime(hoy.Year, hoy.Month, 1);
-            var ultimoDiaDelMes = primerDiaDelMes.AddMonths(1).AddDays(-1);
-            
-            ReporteModel.FechaDesde = fechaDesde ?? primerDiaDelMes;
-            ReporteModel.FechaHasta = fechaHasta ?? ultimoDiaDelMes;
+            ReporteModel.Ano = ano ?? DateTime.Now.Year;
+
+            if (meses == null || !meses.Any())
+            {
+                ReporteModel.MesesSeleccionados = new List<int> { DateTime.Now.Month };
+            }
+            else
+            {
+                ReporteModel.MesesSeleccionados = meses;
+            }
 
             // Obtener todos los datos
             await CargarReporte();
 
             // Preparar datos para exportación
+            var mesesTexto = string.Join(", ", ReporteModel.MesesSeleccionados.Select(m => GetNombreMes(m)));
             var datosExportacion = new DatosExportacion
             {
                 TituloReporte = "Reporte de Reservas por Meses",
-                Periodo = $"{ReporteModel.FechaDesde:dd/MM/yyyy} - {ReporteModel.FechaHasta:dd/MM/yyyy}",
+                Periodo = $"{mesesTexto} {ReporteModel.Ano}",
                 NombreEmpresa = "Aldea Auriel"
             };
 

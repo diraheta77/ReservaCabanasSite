@@ -46,18 +46,18 @@
     display: flex;
     flex-direction: column;
   }
-  
+
   .content {
     flex: 1;
     background-color: #f4f3ef;
     padding: 20px;
   }
-  
+
   .footer {
     margin-top: auto;
     background-color: white;
   }
-  
+
   /* Asegurar que las tablas se muestren correctamente */
   .table {
     background-color: white;
@@ -65,10 +65,65 @@
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-  
+
   /* Asegurar que los formularios se muestren correctamente */
   .form-group {
     margin-bottom: 1rem;
+  }
+
+  /* FIX: Mejorar scroll del sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+  }
+
+  .sidebar .logo {
+    flex-shrink: 0;
+  }
+
+  .sidebar .sidebar-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    max-height: calc(100vh - 80px); /* Altura total menos el logo */
+    padding-bottom: 20px; /* Espacio adicional al final */
+  }
+
+  /* Mejorar estilos del scrollbar del sidebar */
+  .sidebar .sidebar-wrapper::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar .sidebar-wrapper::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+  }
+
+  .sidebar .sidebar-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }
+
+  .sidebar .sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.3);
+  }
+
+  /* Asegurar que todos los submenús sean visibles */
+  .sidebar .nav .collapse,
+  .sidebar .nav .collapsing {
+    transition: height 0.3s ease;
+  }
+
+  /* Ajustar padding de los items del menú para mejor scroll */
+  .sidebar .nav li a {
+    padding: 10px 15px;
   }
   </style>
 

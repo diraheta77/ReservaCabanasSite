@@ -364,17 +364,6 @@
             </a>
         </div>
 
-        <!-- Gráfica de Pastel -->
-        <div class="chart-container" style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #dee2e6;">
-            <h4 style="color: #5c4a45; margin-bottom: 20px; text-align: center;">
-                <i class="fa fa-pie-chart"></i>
-                Distribución de Reservaciones por Provincia
-            </h4>
-            <div style="position: relative; height: 400px; width: 100%;">
-                <canvas id="provinciaChart"></canvas>
-            </div>
-        </div>
-
         <!-- Tabla de Reservaciones por Provincia -->
         <div class="table-container">
             <table class="table">
@@ -422,77 +411,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Datos para la gráfica
-            var provincias = @Html.Raw(Json.Serialize(Model.ReporteModel.Reservaciones.Select(r => r.ClienteNombre)));
-            var reservaciones = @Html.Raw(Json.Serialize(Model.ReporteModel.Reservaciones.Select(r => r.TotalReservaciones)));
-            var montos = @Html.Raw(Json.Serialize(Model.ReporteModel.Reservaciones.Select(r => r.MontoTotalAcumulado)));
-            
-            // Colores para la gráfica
-            var colores = [
-                '#a67c52', '#8d6843', '#6c757d', '#28a745', '#dc3545', 
-                '#ffc107', '#17a2b8', '#6f42c1', '#e83e8c', '#fd7e14',
-                '#20c997', '#6c757d', '#343a40', '#007bff', '#6610f2'
-            ];
-            
-            // Configuración de la gráfica
-            var ctx = document.getElementById('provinciaChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: provincias,
-                    datasets: [{
-                        data: reservaciones,
-                        backgroundColor: colores.slice(0, provincias.length),
-                        borderColor: '#fff',
-                        borderWidth: 2,
-                        hoverBorderWidth: 3,
-                        hoverBorderColor: '#333'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    var label = context.label || '';
-                                    var value = context.parsed;
-                                    var total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    var percentage = ((value / total) * 100).toFixed(1);
-                                    
-                                    // Buscar el monto correspondiente
-                                    var index = context.dataIndex;
-                                    var monto = montos[index];
-                                    
-                                    return label + ': ' + value + ' reservas (' + percentage + '%) - $' + monto.toLocaleString();
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        animateRotate: true,
-                        animateScale: true,
-                        duration: 2000
-                    }
-                }
-            });
-        });
-    </script>
 }

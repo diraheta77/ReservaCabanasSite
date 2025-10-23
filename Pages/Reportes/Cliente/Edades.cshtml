@@ -134,29 +134,6 @@
     font-weight: 500;
 }
 
-.chart-container {
-    background: white;
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 24px;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.chart-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #5c4a45;
-    margin-bottom: 16px;
-    text-align: center;
-}
-
-.chart-wrapper {
-    position: relative;
-    height: 400px;
-    margin: 20px 0;
-}
-
 .table-container {
     background: white;
     border-radius: 8px;
@@ -278,10 +255,6 @@
     .stats-container {
         grid-template-columns: repeat(2, 1fr);
     }
-
-    .chart-wrapper {
-        height: 300px;
-    }
 }
 </style>
 
@@ -401,17 +374,6 @@
             </a>
         </div>
 
-        <!-- Gráfica de Pastel -->
-        <div class="chart-container">
-            <h3 class="chart-title">
-                <i class="fa fa-pie-chart"></i>
-                Distribución por Rangos de Edad
-            </h3>
-            <div class="chart-wrapper">
-                <canvas id="edadChart"></canvas>
-            </div>
-        </div>
-
         <!-- Tabla de Datos -->
         <div class="table-container">
             <table class="table">
@@ -484,56 +446,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        @if (Model.ReporteModel.DatosGrafica.Any())
-        {
-            <text>
-            const ctx = document.getElementById('edadChart').getContext('2d');
-            const data = @Html.Raw(Json.Serialize(Model.ReporteModel.DatosGrafica.Select(d => new { label = d.Rango + " años", value = d.Cantidad, percentage = d.Porcentaje })));
-            
-            const colors = [
-                '#a67c52', '#8d6843', '#6c757d', '#5a6268', 
-                '#17a2b8', '#138496', '#28a745', '#20c997'
-            ];
-            
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: data.map(item => item.label),
-                    datasets: [{
-                        data: data.map(item => item.value),
-                        backgroundColor: colors.slice(0, data.length),
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const item = data[context.dataIndex];
-                                    return item.label + ': ' + item.value + ' clientes (' + item.percentage + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            </text>
-        }
-    </script>
 }

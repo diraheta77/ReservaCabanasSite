@@ -26,22 +26,11 @@ namespace ReservaCabanasSite.Services
             _environment = environment;
         }
 
-        private async Task<string> ObtenerNombreEmpresa()
+        private async Task<DatosEmpresa?> ObtenerDatosEmpresa()
         {
-            var datosEmpresa = await _context.DatosEmpresa
+            return await _context.DatosEmpresa
                 .Where(d => d.MostrarEnReportes)
                 .FirstOrDefaultAsync();
-
-            return datosEmpresa?.NombreEmpresa ?? "Aldea Auriel";
-        }
-
-        private async Task<string?> ObtenerRutaLogo()
-        {
-            var datosEmpresa = await _context.DatosEmpresa
-                .Where(d => d.MostrarEnReportes)
-                .FirstOrDefaultAsync();
-
-            return datosEmpresa?.RutaLogo;
         }
 
         public async Task<ResultadoExportacion> ExportarAExcel(DatosExportacion datos)
@@ -52,21 +41,26 @@ namespace ReservaCabanasSite.Services
                 var worksheet = workbook.Worksheets.Add("Reporte");
 
                 int filaActual = 1;
+                var datosEmpresa = await ObtenerDatosEmpresa();
 
-                // Insertar logo si existe
-                var rutaLogo = await ObtenerRutaLogo();
-                if (!string.IsNullOrEmpty(rutaLogo))
+                // Header: Logo e Información de la Empresa (lado a lado)
+                int columnaLogo = 1;
+                int columnaInfo = 3; // La información empieza en la columna 3
+                int filaInicioHeader = filaActual;
+
+                // Insertar logo si existe (más grande)
+                if (datosEmpresa != null && !string.IsNullOrEmpty(datosEmpresa.RutaLogo))
                 {
                     try
                     {
-                        var rutaCompleta = Path.Combine(_environment.WebRootPath, rutaLogo.TrimStart('/'));
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, datosEmpresa.RutaLogo.TrimStart('/'));
                         if (File.Exists(rutaCompleta))
                         {
                             var imagen = worksheet.AddPicture(rutaCompleta)
-                                .MoveTo(worksheet.Cell(filaActual, 1))
-                                .Scale(0.15); // Escalar al 15% del tamaño original
+                                .MoveTo(worksheet.Cell(filaActual, columnaLogo))
+                                .Scale(0.3); // Aumentado de 0.15 a 0.3 (el doble)
 
-                            filaActual += 4; // Dejar espacio para el logo
+                            // El logo ahora ocupa más espacio
                         }
                     }
                     catch
@@ -74,6 +68,61 @@ namespace ReservaCabanasSite.Services
                         // Si falla la carga del logo, continuar sin él
                     }
                 }
+
+                // Información de la empresa (al lado del logo)
+                if (datosEmpresa != null)
+                {
+                    // Nombre de la empresa
+                    worksheet.Cell(filaActual, columnaInfo).Value = datosEmpresa.NombreEmpresa;
+                    worksheet.Cell(filaActual, columnaInfo).Style.Font.FontSize = 14;
+                    worksheet.Cell(filaActual, columnaInfo).Style.Font.Bold = true;
+                    worksheet.Cell(filaActual, columnaInfo).Style.Font.FontColor = XLColor.FromHtml("#5c4a45");
+                    filaActual++;
+
+                    // Dirección completa
+                    if (!string.IsNullOrEmpty(datosEmpresa.Direccion))
+                    {
+                        var direccionCompleta = datosEmpresa.Direccion;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Ciudad))
+                            direccionCompleta += ", " + datosEmpresa.Ciudad;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Provincia))
+                            direccionCompleta += ", " + datosEmpresa.Provincia;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Pais))
+                            direccionCompleta += ", " + datosEmpresa.Pais;
+
+                        worksheet.Cell(filaActual, columnaInfo).Value = direccionCompleta;
+                        worksheet.Cell(filaActual, columnaInfo).Style.Font.FontSize = 10;
+                        filaActual++;
+                    }
+
+                    // Teléfono
+                    if (!string.IsNullOrEmpty(datosEmpresa.Telefono))
+                    {
+                        worksheet.Cell(filaActual, columnaInfo).Value = "Tel: " + datosEmpresa.Telefono;
+                        worksheet.Cell(filaActual, columnaInfo).Style.Font.FontSize = 10;
+                        filaActual++;
+                    }
+
+                    // Email
+                    if (!string.IsNullOrEmpty(datosEmpresa.Email))
+                    {
+                        worksheet.Cell(filaActual, columnaInfo).Value = "Email: " + datosEmpresa.Email;
+                        worksheet.Cell(filaActual, columnaInfo).Style.Font.FontSize = 10;
+                        filaActual++;
+                    }
+
+                    // Sitio Web
+                    if (!string.IsNullOrEmpty(datosEmpresa.SitioWeb))
+                    {
+                        worksheet.Cell(filaActual, columnaInfo).Value = "Web: " + datosEmpresa.SitioWeb;
+                        worksheet.Cell(filaActual, columnaInfo).Style.Font.FontSize = 10;
+                        filaActual++;
+                    }
+                }
+
+                // Ajustar fila actual para dejar espacio para el logo (si es más alto que la info)
+                filaActual = Math.Max(filaActual, filaInicioHeader + 6);
+                filaActual += 2; // Espacio adicional después del header
 
                 // Título del reporte
                 worksheet.Cell(filaActual, 1).Value = datos.TituloReporte;
@@ -189,9 +238,9 @@ namespace ReservaCabanasSite.Services
 
                 // Pie de página con fecha de generación
                 filaActual += 2;
-                var nombreEmpresa = await ObtenerNombreEmpresa();
+                var nombreEmpresaPie = datosEmpresa?.NombreEmpresa ?? "Aldea Auriel";
                 var pieCell = worksheet.Cell(filaActual, 1);
-                pieCell.Value = $"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por {nombreEmpresa}";
+                pieCell.Value = $"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por {nombreEmpresaPie}";
                 pieCell.Style.Font.FontSize = 10;
                 pieCell.Style.Font.Italic = true;
                 pieCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -235,29 +284,108 @@ namespace ReservaCabanasSite.Services
                 var fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.BLACK);
                 var fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
                 var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
+                var fuenteNormalPequeña = FontFactory.GetFont(FontFactory.HELVETICA, 9, BaseColor.BLACK);
+                var fuenteEmpresa = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 13, new BaseColor(92, 74, 69)); // #5c4a45
                 var fuenteEncabezado = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.WHITE);
 
-                // Insertar logo si existe
-                var rutaLogo = await ObtenerRutaLogo();
-                if (!string.IsNullOrEmpty(rutaLogo))
+                var datosEmpresa = await ObtenerDatosEmpresa();
+
+                // Header: Tabla con Logo e Información de la Empresa lado a lado
+                var tablaHeader = new PdfPTable(2);
+                tablaHeader.WidthPercentage = 100;
+                tablaHeader.SetWidths(new float[] { 1, 2 }); // Logo: 1 parte, Info: 2 partes
+                tablaHeader.SpacingAfter = 15f;
+
+                // Celda del Logo
+                PdfPCell celdaLogo;
+                if (datosEmpresa != null && !string.IsNullOrEmpty(datosEmpresa.RutaLogo))
                 {
                     try
                     {
-                        var rutaCompleta = Path.Combine(_environment.WebRootPath, rutaLogo.TrimStart('/'));
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, datosEmpresa.RutaLogo.TrimStart('/'));
                         if (File.Exists(rutaCompleta))
                         {
                             var imagen = iTextSharp.text.Image.GetInstance(rutaCompleta);
-                            imagen.ScaleToFit(120f, 60f); // Tamaño máximo del logo
-                            imagen.Alignment = Element.ALIGN_LEFT;
-                            imagen.SpacingAfter = 10f;
-                            document.Add(imagen);
+                            imagen.ScaleToFit(180f, 90f); // Aumentado de 120x60 a 180x90 (50% más grande)
+                            celdaLogo = new PdfPCell(imagen);
+                            celdaLogo.HorizontalAlignment = Element.ALIGN_CENTER;
+                            celdaLogo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                        }
+                        else
+                        {
+                            celdaLogo = new PdfPCell(new Phrase(""));
                         }
                     }
                     catch
                     {
-                        // Si falla la carga del logo, continuar sin él
+                        celdaLogo = new PdfPCell(new Phrase(""));
                     }
                 }
+                else
+                {
+                    celdaLogo = new PdfPCell(new Phrase(""));
+                }
+                celdaLogo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaLogo.PaddingRight = 10f;
+                tablaHeader.AddCell(celdaLogo);
+
+                // Celda de Información de la Empresa
+                var infoEmpresa = new Paragraph();
+                if (datosEmpresa != null)
+                {
+                    // Nombre de la empresa
+                    infoEmpresa.Add(new Chunk(datosEmpresa.NombreEmpresa + "\n", fuenteEmpresa));
+
+                    // Dirección completa
+                    if (!string.IsNullOrEmpty(datosEmpresa.Direccion))
+                    {
+                        var direccionCompleta = datosEmpresa.Direccion;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Ciudad))
+                            direccionCompleta += ", " + datosEmpresa.Ciudad;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Provincia))
+                            direccionCompleta += ", " + datosEmpresa.Provincia;
+                        if (!string.IsNullOrEmpty(datosEmpresa.Pais))
+                            direccionCompleta += ", " + datosEmpresa.Pais;
+
+                        infoEmpresa.Add(new Chunk(direccionCompleta + "\n", fuenteNormalPequeña));
+                    }
+
+                    // Teléfono
+                    if (!string.IsNullOrEmpty(datosEmpresa.Telefono))
+                    {
+                        infoEmpresa.Add(new Chunk("Tel: " + datosEmpresa.Telefono + "\n", fuenteNormalPequeña));
+                    }
+
+                    // Email
+                    if (!string.IsNullOrEmpty(datosEmpresa.Email))
+                    {
+                        infoEmpresa.Add(new Chunk("Email: " + datosEmpresa.Email + "\n", fuenteNormalPequeña));
+                    }
+
+                    // Sitio Web
+                    if (!string.IsNullOrEmpty(datosEmpresa.SitioWeb))
+                    {
+                        infoEmpresa.Add(new Chunk("Web: " + datosEmpresa.SitioWeb, fuenteNormalPequeña));
+                    }
+                }
+                else
+                {
+                    infoEmpresa.Add(new Chunk("Aldea Auriel", fuenteEmpresa));
+                }
+
+                var celdaInfo = new PdfPCell(infoEmpresa);
+                celdaInfo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaInfo.VerticalAlignment = Element.ALIGN_MIDDLE;
+                celdaInfo.PaddingLeft = 10f;
+                tablaHeader.AddCell(celdaInfo);
+
+                document.Add(tablaHeader);
+
+                // Línea separadora
+                var linea = new Paragraph("_________________________________________________________________");
+                linea.Alignment = Element.ALIGN_CENTER;
+                linea.SpacingAfter = 15f;
+                document.Add(linea);
 
                 // Título
                 var titulo = new Paragraph(datos.TituloReporte, fuenteTitulo);
@@ -372,7 +500,7 @@ namespace ReservaCabanasSite.Services
                 }
 
                 // Pie de página
-                var nombreEmpresaPdf = await ObtenerNombreEmpresa();
+                var nombreEmpresaPdf = datosEmpresa?.NombreEmpresa ?? "Aldea Auriel";
                 var piePagina = new Paragraph($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm} por {nombreEmpresaPdf}",
                     FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 8, BaseColor.GRAY));
                 piePagina.Alignment = Element.ALIGN_CENTER;

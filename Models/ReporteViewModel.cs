@@ -165,13 +165,11 @@ namespace ReservaCabanasSite.Models
 
     public class ReporteMesesViewModel
     {
-        [Display(Name = "Fecha Desde")]
-        [DataType(DataType.Date)]
-        public DateTime FechaDesde { get; set; } = new DateTime(2025, 7, 1);
+        [Display(Name = "Año")]
+        public int Ano { get; set; } = DateTime.Now.Year;
 
-        [Display(Name = "Fecha Hasta")]
-        [DataType(DataType.Date)]
-        public DateTime FechaHasta { get; set; } = new DateTime(2025, 7, 31);
+        [Display(Name = "Meses")]
+        public List<int> MesesSeleccionados { get; set; } = new();
 
         [Display(Name = "Cabaña")]
         public int? CabanaId { get; set; }
