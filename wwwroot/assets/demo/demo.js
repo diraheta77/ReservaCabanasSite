@@ -188,7 +188,7 @@ demo = {
             '#e3e3e3',
             '#4acccd',
             '#fcc468',
-            '#ef8157'
+            '#483d3d'
           ],
           borderWidth: 0,
           data: [342, 480, 530, 120]

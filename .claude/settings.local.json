@@ -1,20 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build)",
-      "Bash(dotnet add package:*)",
-      "Bash(dotnet run:*)",
-      "Bash(git config user.name \"diraheta77\")",
-      "Bash(git config user.email \"diraheta@outlook.es\")",
-      "Bash(git add Pages/Reservas/Index.cshtml Pages/Cabanas/Index.cshtml Pages/Cabanas/Index.cshtml.cs)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Mejorar tooltips de reservas y control de acceso en cabañas\n\n- Tooltip del calendario ahora muestra código de reservación y apellido/nombre completo del cliente\n- Botón \"Nueva Cabaña\" solo visible para usuarios Administrador\n- Operadores ya no pueden crear nuevas cabañas desde la interfaz\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push)",
-      "Bash(git add Pages/Reservas/Index.cshtml)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nfix: Cambiar etiqueta de ''Código'' a ''Reservación'' en tooltips\n\n- Tooltips ahora muestran \"Reservación 56\" en lugar de \"Código: 56\"\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(dotnet ef migrations:*)",
-      "Bash(dotnet ef database update:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

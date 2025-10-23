@@ -46,3 +46,9 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+
+.sidebar[data-active-color="danger"] .nav li.active > a, .sidebar[data-active-color="danger"] .nav li.active > a i, .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"], .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] i, .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active .sidebar-mini-icon, .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active > a, .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a, .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a i, .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] i, .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active .sidebar-mini-icon, .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active > a {
+  color: #483d3d;
+  opacity: 1;
+}

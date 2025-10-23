@@ -46,3 +46,9 @@ button.accept-policy[b-ggv3v7r9ih] {
   white-space: nowrap;
   line-height: 60px;
 }
+
+
+.sidebar[data-active-color="danger"] .nav li.active > a[b-ggv3v7r9ih], .sidebar[data-active-color="danger"] .nav li.active > a i[b-ggv3v7r9ih], .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"][b-ggv3v7r9ih], .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] i[b-ggv3v7r9ih], .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active .sidebar-mini-icon[b-ggv3v7r9ih], .sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active > a[b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a i[b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"][b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] i[b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active .sidebar-mini-icon[b-ggv3v7r9ih], .off-canvas-sidebar[data-active-color="danger"] .nav li.active > a[data-toggle="collapse"] ~ div > ul > li.active > a[b-ggv3v7r9ih] {
+  color: #483d3d;
+  opacity: 1;
+}

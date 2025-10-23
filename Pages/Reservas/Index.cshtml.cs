@@ -33,10 +33,10 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         // Colores para las cabañas
         private readonly string[] ColoresCabanas = {
-            "#e74c3c", // Rojo
-            "#3498db", // Azul
+            "#00353e", // Rojo
+            "#007186", // Azul
             "#2ecc71", // Verde
-            "#f39c12", // Naranja
+            "#0097b2", // Naranja
             "#9b59b6", // Púrpura
             "#1abc9c", // Turquesa
             "#e67e22", // Naranja oscuro
