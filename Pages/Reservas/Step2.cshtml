@@ -394,15 +394,25 @@
 
 @section Scripts {
     <script>
+        // Función helper para asignar valores de forma segura
+        function setValueSafe(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.value = value || '';
+            } else {
+                console.warn(`Elemento no encontrado: ${elementId}`);
+            }
+        }
+
         document.getElementById('btnBuscarCliente').addEventListener('click', async function() {
             const dni = document.getElementById('searchCliente').value.trim();
             const resultDiv = document.getElementById('searchResult');
-            
+
             if (!dni) {
                 resultDiv.innerHTML = '<div class="alert alert-danger">Por favor ingresa un DNI</div>';
                 return;
             }
-            
+
             try {
                 const response = await fetch('?handler=BuscarCliente', {
                     method: 'POST',
@@ -412,37 +422,37 @@
                     },
                     body: `dni=${encodeURIComponent(dni)}`
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
-                    // Llenar el formulario con los datos del cliente
-                    document.getElementById('WizardModel_Dni').value = result.cliente.dni;
-                    document.getElementById('WizardModel_Nombre').value = result.cliente.nombre;
-                    document.getElementById('WizardModel_Apellido').value = result.cliente.apellido;
-                    document.getElementById('WizardModel_Telefono').value = result.cliente.telefono;
-                    document.getElementById('WizardModel_Email').value = result.cliente.email;
-                    document.getElementById('WizardModel_Direccion').value = result.cliente.direccion || '';
-                    document.getElementById('WizardModel_Ciudad').value = result.cliente.ciudad || '';
-                    document.getElementById('WizardModel_Provincia').value = result.cliente.provincia || '';
-                    document.getElementById('WizardModel_Pais').value = result.cliente.pais || '';
-                    document.getElementById('WizardModel_Nacionalidad').value = result.cliente.nacionalidad || '';
-                    document.getElementById('WizardModel_FechaNacimiento').value = result.cliente.fechaNacimiento || '';
-                    
+                    // Llenar el formulario con los datos del cliente usando la función segura
+                    setValueSafe('WizardModel_Dni', result.cliente.dni);
+                    setValueSafe('WizardModel_Nombre', result.cliente.nombre);
+                    setValueSafe('WizardModel_Apellido', result.cliente.apellido);
+                    setValueSafe('WizardModel_Telefono', result.cliente.telefono);
+                    setValueSafe('WizardModel_Email', result.cliente.email);
+                    setValueSafe('WizardModel_Direccion', result.cliente.direccion);
+                    setValueSafe('WizardModel_Ciudad', result.cliente.ciudad);
+                    setValueSafe('WizardModel_Provincia', result.cliente.provincia);
+                    setValueSafe('WizardModel_Pais', result.cliente.pais);
+                    setValueSafe('WizardModel_Nacionalidad', result.cliente.nacionalidad);
+                    setValueSafe('WizardModel_FechaNacimiento', result.cliente.fechaNacimiento);
+
                     // Cargar datos del vehículo si existe
                     if (result.cliente.vehiculo) {
-                        document.getElementById('WizardModel_Patente').value = result.cliente.vehiculo.patente || '';
-                        document.getElementById('WizardModel_Marca').value = result.cliente.vehiculo.marca || '';
-                        document.getElementById('WizardModel_Modelo').value = result.cliente.vehiculo.modelo || '';
-                        document.getElementById('WizardModel_Color').value = result.cliente.vehiculo.color || '';
+                        setValueSafe('WizardModel_Patente', result.cliente.vehiculo.patente);
+                        setValueSafe('WizardModel_Marca', result.cliente.vehiculo.marca);
+                        setValueSafe('WizardModel_Modelo', result.cliente.vehiculo.modelo);
+                        setValueSafe('WizardModel_Color', result.cliente.vehiculo.color);
                     } else {
                         // Limpiar campos del vehículo si no existe
-                        document.getElementById('WizardModel_Patente').value = '';
-                        document.getElementById('WizardModel_Marca').value = '';
-                        document.getElementById('WizardModel_Modelo').value = '';
-                        document.getElementById('WizardModel_Color').value = '';
+                        setValueSafe('WizardModel_Patente', '');
+                        setValueSafe('WizardModel_Marca', '');
+                        setValueSafe('WizardModel_Modelo', '');
+                        setValueSafe('WizardModel_Color', '');
                     }
-                    
+
                     resultDiv.innerHTML = '<div class="alert alert-success">Cliente encontrado y datos cargados</div>';
                 } else {
                     resultDiv.innerHTML = `<div class="alert alert-info">${result.message}</div>`;
@@ -453,28 +463,25 @@
         });
 
         document.getElementById('btnLimpiarCliente').addEventListener('click', function() {
-            // Limpiar todos los campos del formulario de cliente
-            document.querySelectorAll('input[type="text"], input[type="email"], input[type="date"], textarea').forEach(function(input) {
-                input.value = '';
-            });
-            document.getElementById('WizardModel_Dni').value = '';
-            document.getElementById('WizardModel_Nombre').value = '';
-            document.getElementById('WizardModel_Apellido').value = '';
-            document.getElementById('WizardModel_FechaNacimiento').value = '';
-            document.getElementById('WizardModel_Nacionalidad').value = '';
-            document.getElementById('WizardModel_Direccion').value = '';
-            document.getElementById('WizardModel_Ciudad').value = '';
-            document.getElementById('WizardModel_Provincia').value = '';
-            document.getElementById('WizardModel_Pais').value = '';
-            document.getElementById('WizardModel_Telefono').value = '';
-            document.getElementById('WizardModel_Email').value = '';
-            document.getElementById('WizardModel_Observaciones').value = '';
-            
+            // Limpiar todos los campos del formulario de cliente usando setValueSafe
+            setValueSafe('WizardModel_Dni', '');
+            setValueSafe('WizardModel_Nombre', '');
+            setValueSafe('WizardModel_Apellido', '');
+            setValueSafe('WizardModel_FechaNacimiento', '');
+            setValueSafe('WizardModel_Nacionalidad', '');
+            setValueSafe('WizardModel_Direccion', '');
+            setValueSafe('WizardModel_Ciudad', '');
+            setValueSafe('WizardModel_Provincia', '');
+            setValueSafe('WizardModel_Pais', '');
+            setValueSafe('WizardModel_Telefono', '');
+            setValueSafe('WizardModel_Email', '');
+            setValueSafe('WizardModel_Observaciones', '');
+
             // Limpiar campos del vehículo
-            document.getElementById('WizardModel_Patente').value = '';
-            document.getElementById('WizardModel_Marca').value = '';
-            document.getElementById('WizardModel_Modelo').value = '';
-            document.getElementById('WizardModel_Color').value = '';
+            setValueSafe('WizardModel_Patente', '');
+            setValueSafe('WizardModel_Marca', '');
+            setValueSafe('WizardModel_Modelo', '');
+            setValueSafe('WizardModel_Color', '');
         });
 
         const searchInput = document.getElementById('searchCliente');
@@ -525,25 +532,25 @@
                 e.preventDefault();
                 const c = e.target.dataset;
 
-                // Llenar datos del cliente
-                document.getElementById('WizardModel_Dni').value = c.dni || '';
-                document.getElementById('WizardModel_Nombre').value = c.nombre || '';
-                document.getElementById('WizardModel_Apellido').value = c.apellido || '';
-                document.getElementById('WizardModel_FechaNacimiento').value = c.fechaNacimiento || '';  // camelCase por dataset
-                document.getElementById('WizardModel_Nacionalidad').value = c.nacionalidad || '';
-                document.getElementById('WizardModel_Direccion').value = c.direccion || '';
-                document.getElementById('WizardModel_Ciudad').value = c.ciudad || '';
-                document.getElementById('WizardModel_Provincia').value = c.provincia || '';
-                document.getElementById('WizardModel_Pais').value = c.pais || '';
-                document.getElementById('WizardModel_Telefono').value = c.telefono || '';
-                document.getElementById('WizardModel_Email').value = c.email || '';
-                document.getElementById('WizardModel_Observaciones').value = '';
+                // Llenar datos del cliente usando setValueSafe
+                setValueSafe('WizardModel_Dni', c.dni);
+                setValueSafe('WizardModel_Nombre', c.nombre);
+                setValueSafe('WizardModel_Apellido', c.apellido);
+                setValueSafe('WizardModel_FechaNacimiento', c.fechaNacimiento);
+                setValueSafe('WizardModel_Nacionalidad', c.nacionalidad);
+                setValueSafe('WizardModel_Direccion', c.direccion);
+                setValueSafe('WizardModel_Ciudad', c.ciudad);
+                setValueSafe('WizardModel_Provincia', c.provincia);
+                setValueSafe('WizardModel_Pais', c.pais);
+                setValueSafe('WizardModel_Telefono', c.telefono);
+                setValueSafe('WizardModel_Email', c.email);
+                setValueSafe('WizardModel_Observaciones', '');
 
                 // Cargar datos del vehículo si existen
-                document.getElementById('WizardModel_Patente').value = c.patente || '';
-                document.getElementById('WizardModel_Marca').value = c.marca || '';
-                document.getElementById('WizardModel_Modelo').value = c.modelo || '';
-                document.getElementById('WizardModel_Color').value = c.color || '';
+                setValueSafe('WizardModel_Patente', c.patente);
+                setValueSafe('WizardModel_Marca', c.marca);
+                setValueSafe('WizardModel_Modelo', c.modelo);
+                setValueSafe('WizardModel_Color', c.color);
 
                 searchResults.style.display = 'none';
                 searchInput.value = '';
