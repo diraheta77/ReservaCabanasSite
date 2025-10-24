@@ -120,8 +120,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 System.Diagnostics.Debug.WriteLine($"Step1 - Datos guardados en TempData: {jsonData}");
                 System.Diagnostics.Debug.WriteLine($"Step1 - CabanaId: {WizardModel.CabanaId}");
                 System.Diagnostics.Debug.WriteLine($"Step1 - FechaDesde: {WizardModel.FechaDesde}");
-                System.Diagnostics.Debug.WriteLine($"Step1 - FechaHasta: {WizardModel.FechaHasta}");
-                TempData["DebugMessage"] = $"Datos guardados: CabanaId={WizardModel.CabanaId}, FechaDesde={WizardModel.FechaDesde:yyyy-MM-dd}";
+                System.Diagnostics.Debug.WriteLine($"Step1 - FechaHasta: {WizardModel.FechaHasta}");                
                 System.Diagnostics.Debug.WriteLine("Step1 - Redirigiendo a Step2");
                 return RedirectToPage("Step2");
             }

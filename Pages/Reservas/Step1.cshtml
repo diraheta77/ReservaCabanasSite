@@ -186,13 +186,6 @@
         </div>
     }
     
-    @if (TempData["DebugMessage"] != null)
-    {
-        <div class="alert alert-info">
-            Debug: @TempData["DebugMessage"]
-        </div>
-    }
-    
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger">

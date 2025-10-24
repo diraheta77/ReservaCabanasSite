@@ -652,7 +652,7 @@ namespace ReservaCabanasSite.Services
                 document.Add(numeroReserva);
 
                 // Línea separadora
-                var linea1 = new Paragraph(new string('_', 100));
+                var linea1 = new Paragraph(new string('_', 75));
                 linea1.SpacingAfter = 15f;
                 document.Add(linea1);
 
@@ -682,11 +682,11 @@ namespace ReservaCabanasSite.Services
 
                 // ===== DATOS DEL TITULAR =====
                 var tituloTitular = new Paragraph("Datos del Titular de la Reserva", fuenteSeccion);
-                tituloTitular.SpacingBefore = 15f;
-                tituloTitular.SpacingAfter = 10f;
+                tituloTitular.SpacingBefore = 5f;
+                tituloTitular.SpacingAfter = 5f;
                 document.Add(tituloTitular);
 
-                var lineaSeparadora = new Paragraph(new string('_', 100));
+                var lineaSeparadora = new Paragraph(new string('_', 75));
                 lineaSeparadora.SpacingAfter = 10f;
                 document.Add(lineaSeparadora);
 
@@ -777,7 +777,7 @@ namespace ReservaCabanasSite.Services
                     tituloAcomp.SpacingAfter = 10f;
                     document.Add(tituloAcomp);
 
-                    var lineaAcomp = new Paragraph(new string('_', 100));
+                    var lineaAcomp = new Paragraph(new string('_', 75));
                     lineaAcomp.SpacingAfter = 10f;
                     document.Add(lineaAcomp);
 

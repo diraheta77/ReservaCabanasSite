@@ -45,8 +45,7 @@ namespace ReservaCabanasSite.Pages.Reservas
             try
             {
                 WizardModel = JsonSerializer.Deserialize<ReservaWizardViewModel>(wizardDataJson);
-                WizardModel.PasoActual = 2;
-                TempData["DebugMessage"] = $"Datos cargados: CabanaId={WizardModel.CabanaId}, FechaDesde={WizardModel.FechaDesde:yyyy-MM-dd}, FechaHasta={WizardModel.FechaHasta:yyyy-MM-dd}";
+                WizardModel.PasoActual = 2;                
                 WizardDataJson = wizardDataJson;
             }
             catch (Exception ex)
