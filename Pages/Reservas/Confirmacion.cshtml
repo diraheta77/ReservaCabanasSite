@@ -333,9 +333,16 @@
     <!-- Acciones disponibles -->
     <div class="actions-section">
         <h5>Acciones Disponibles</h5>
-        
+
         <a href="/Reservas/Imprimir/@Model.Reserva.Id" target="_blank" class="btn btn-primary-custom btn-custom">🧾 IMPRIMIR COMPROBANTE</a>
-        
+
+        <form method="post" style="display: inline;">
+            <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
+            <button type="submit" asp-page-handler="DescargarRegistro" class="btn btn-primary-custom btn-custom">
+                📄 DESCARGAR REGISTRO DE RESERVA PDF
+            </button>
+        </form>
+
         <form method="post" style="display: inline;">
             <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
             <button type="submit" asp-page-handler="EnviarEmail" class="btn btn-success-custom btn-custom">

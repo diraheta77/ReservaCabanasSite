@@ -13,6 +13,7 @@ namespace ReservaCabanasSite.Services
     {
         Task<ResultadoExportacion> ExportarAExcel(DatosExportacion datos);
         Task<ResultadoExportacion> ExportarAPdf(DatosExportacion datos);
+        Task<ResultadoExportacion> GenerarRegistroReservaPdf(int reservaId);
     }
 
     public class ExportacionService : IExportacionService
@@ -526,6 +527,309 @@ namespace ReservaCabanasSite.Services
                 {
                     Exito = false,
                     Error = $"Error al generar PDF: {ex.Message}"
+                };
+            }
+        }
+
+        public async Task<ResultadoExportacion> GenerarRegistroReservaPdf(int reservaId)
+        {
+            try
+            {
+                // Obtener datos de la reserva con todas las relaciones
+                var reserva = await _context.Reservas
+                    .Include(r => r.Cliente)
+                        .ThenInclude(c => c.Vehiculos)
+                    .Include(r => r.Cabana)
+                    .FirstOrDefaultAsync(r => r.Id == reservaId);
+
+                if (reserva == null)
+                {
+                    return new ResultadoExportacion
+                    {
+                        Exito = false,
+                        Error = "Reserva no encontrada"
+                    };
+                }
+
+                var datosEmpresa = await ObtenerDatosEmpresa();
+
+                using var stream = new MemoryStream();
+                var document = new Document(PageSize.A4, 40, 40, 40, 40); // Márgenes
+                var writer = PdfWriter.GetInstance(document, stream);
+
+                document.Open();
+
+                // Fuentes
+                var fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK);
+                var fuenteSeccion = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+                var fuenteLabel = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.BLACK);
+                var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
+                var fuentePequeña = FontFactory.GetFont(FontFactory.HELVETICA, 9, new BaseColor(92, 74, 69));
+
+                // ===== HEADER: Logo y Datos de Empresa =====
+                var tablaHeader = new PdfPTable(2);
+                tablaHeader.WidthPercentage = 100;
+                tablaHeader.SetWidths(new float[] { 1, 2 });
+                tablaHeader.SpacingAfter = 10f;
+
+                // Logo
+                PdfPCell celdaLogo;
+                if (datosEmpresa != null && !string.IsNullOrEmpty(datosEmpresa.RutaLogo))
+                {
+                    try
+                    {
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, datosEmpresa.RutaLogo.TrimStart('/'));
+                        if (File.Exists(rutaCompleta))
+                        {
+                            var imagen = iTextSharp.text.Image.GetInstance(rutaCompleta);
+                            imagen.ScaleToFit(120f, 80f);
+                            celdaLogo = new PdfPCell(imagen);
+                            celdaLogo.HorizontalAlignment = Element.ALIGN_LEFT;
+                            celdaLogo.VerticalAlignment = Element.ALIGN_TOP;
+                        }
+                        else
+                        {
+                            celdaLogo = new PdfPCell(new Phrase("[LOGO - EMPRESA]", fuenteLabel));
+                        }
+                    }
+                    catch
+                    {
+                        celdaLogo = new PdfPCell(new Phrase("[LOGO - EMPRESA]", fuenteLabel));
+                    }
+                }
+                else
+                {
+                    celdaLogo = new PdfPCell(new Phrase("[LOGO - EMPRESA]", fuenteLabel));
+                }
+                celdaLogo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaLogo.PaddingTop = 5f;
+                tablaHeader.AddCell(celdaLogo);
+
+                // Información empresa + Fecha
+                var infoEmpresa = new Paragraph();
+                if (datosEmpresa != null)
+                {
+                    infoEmpresa.Add(new Chunk(datosEmpresa.NombreEmpresa + "\n", fuentePequeña));
+                    if (!string.IsNullOrEmpty(datosEmpresa.Direccion))
+                        infoEmpresa.Add(new Chunk(datosEmpresa.Direccion + "\n", fuentePequeña));
+
+                    var ubicacion = "";
+                    if (!string.IsNullOrEmpty(datosEmpresa.Provincia))
+                        ubicacion = datosEmpresa.Provincia;
+                    if (!string.IsNullOrEmpty(datosEmpresa.Ciudad))
+                        ubicacion += (string.IsNullOrEmpty(ubicacion) ? "" : " - ") + datosEmpresa.Ciudad;
+                    if (!string.IsNullOrEmpty(ubicacion))
+                        infoEmpresa.Add(new Chunk(ubicacion + "\n", fuentePequeña));
+
+                    if (!string.IsNullOrEmpty(datosEmpresa.Telefono))
+                        infoEmpresa.Add(new Chunk(datosEmpresa.Telefono + "\n", fuentePequeña));
+                }
+
+                var celdaInfo = new PdfPCell(infoEmpresa);
+                celdaInfo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaInfo.HorizontalAlignment = Element.ALIGN_RIGHT;
+                celdaInfo.VerticalAlignment = Element.ALIGN_TOP;
+                celdaInfo.PaddingTop = 5f;
+                tablaHeader.AddCell(celdaInfo);
+
+                document.Add(tablaHeader);
+
+                // Fecha actual (arriba a la derecha)
+                var fechaActual = new Paragraph(DateTime.Now.ToString("dd/MM/yyyy"), fuenteNormal);
+                fechaActual.Alignment = Element.ALIGN_RIGHT;
+                fechaActual.SpacingAfter = 10f;
+                document.Add(fechaActual);
+
+                // ===== TÍTULO =====
+                var titulo = new Paragraph("REGISTRO DE RESERVA", fuenteTitulo);
+                titulo.Alignment = Element.ALIGN_CENTER;
+                titulo.SpacingAfter = 5f;
+                document.Add(titulo);
+
+                var numeroReserva = new Paragraph($"N° {reserva.Id.ToString().PadLeft(10, '0')}", fuenteSeccion);
+                numeroReserva.Alignment = Element.ALIGN_CENTER;
+                numeroReserva.SpacingAfter = 15f;
+                document.Add(numeroReserva);
+
+                // Línea separadora
+                var linea1 = new Paragraph(new string('_', 100));
+                linea1.SpacingAfter = 15f;
+                document.Add(linea1);
+
+                // ===== DATOS DE LA CABAÑA =====
+                var tablaCabana = new PdfPTable(2);
+                tablaCabana.WidthPercentage = 100;
+                tablaCabana.SetWidths(new float[] { 1, 1 });
+                tablaCabana.SpacingAfter = 10f;
+
+                var celdaCabana = new PdfPCell(new Phrase($"Cabaña: {reserva.Cabana?.Nombre ?? "N/A"}", fuenteLabel));
+                celdaCabana.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaCabana.Colspan = 2;
+                celdaCabana.PaddingBottom = 10f;
+                tablaCabana.AddCell(celdaCabana);
+
+                var celdaFechaIngreso = new PdfPCell(new Phrase($"Fecha de Ingreso: {reserva.FechaDesde:dd/MM/yyyy}", fuenteNormal));
+                celdaFechaIngreso.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaFechaIngreso.PaddingBottom = 5f;
+                tablaCabana.AddCell(celdaFechaIngreso);
+
+                var celdaFechaEgreso = new PdfPCell(new Phrase($"Fecha de Egreso: {reserva.FechaHasta:dd/MM/yyyy}", fuenteNormal));
+                celdaFechaEgreso.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaFechaEgreso.PaddingBottom = 5f;
+                tablaCabana.AddCell(celdaFechaEgreso);
+
+                document.Add(tablaCabana);
+
+                // ===== DATOS DEL TITULAR =====
+                var tituloTitular = new Paragraph("Datos del Titular de la Reserva", fuenteSeccion);
+                tituloTitular.SpacingBefore = 15f;
+                tituloTitular.SpacingAfter = 10f;
+                document.Add(tituloTitular);
+
+                var lineaSeparadora = new Paragraph(new string('_', 100));
+                lineaSeparadora.SpacingAfter = 10f;
+                document.Add(lineaSeparadora);
+
+                // Tabla para datos del titular (2 columnas)
+                var tablaTitular = new PdfPTable(2);
+                tablaTitular.WidthPercentage = 100;
+                tablaTitular.SetWidths(new float[] { 1, 1 });
+                tablaTitular.SpacingAfter = 10f;
+
+                var cliente = reserva.Cliente;
+                var vehiculo = cliente?.Vehiculos?.FirstOrDefault();
+
+                // Apellido y Nombre (full width)
+                var celdaNombre = new PdfPCell(new Phrase($"Apellido y Nombre: {cliente?.Apellido ?? ""} {cliente?.Nombre ?? ""}", fuenteNormal));
+                celdaNombre.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaNombre.Colspan = 2;
+                celdaNombre.PaddingBottom = 5f;
+                celdaNombre.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaNombre);
+
+                // DNI y Fecha de Nacimiento
+                var celdaDni = new PdfPCell(new Phrase($"DNI: {cliente?.Dni ?? ""}", fuenteNormal));
+                celdaDni.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaDni.PaddingBottom = 5f;
+                celdaDni.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaDni);
+
+                var celdaFechaNac = new PdfPCell(new Phrase($"Fecha de Nacimiento: {(cliente?.FechaNacimiento.HasValue == true ? cliente.FechaNacimiento.Value.ToString("dd/MM/yyyy") : "")}", fuenteNormal));
+                celdaFechaNac.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaFechaNac.PaddingBottom = 5f;
+                celdaFechaNac.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaFechaNac);
+
+                // Dirección (full width)
+                var celdaDireccion = new PdfPCell(new Phrase($"Dirección: {cliente?.Direccion ?? ""}", fuenteNormal));
+                celdaDireccion.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaDireccion.Colspan = 2;
+                celdaDireccion.PaddingBottom = 5f;
+                celdaDireccion.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaDireccion);
+
+                // Provincia y Localidad
+                var celdaProvincia = new PdfPCell(new Phrase($"Provincia: {cliente?.Provincia ?? ""}", fuenteNormal));
+                celdaProvincia.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaProvincia.PaddingBottom = 5f;
+                celdaProvincia.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaProvincia);
+
+                var celdaLocalidad = new PdfPCell(new Phrase($"Localidad: {cliente?.Ciudad ?? ""}", fuenteNormal));
+                celdaLocalidad.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaLocalidad.PaddingBottom = 5f;
+                celdaLocalidad.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaLocalidad);
+
+                // Teléfono y Email
+                var celdaTelefono = new PdfPCell(new Phrase($"Teléfono: {cliente?.Telefono ?? ""}", fuenteNormal));
+                celdaTelefono.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaTelefono.PaddingBottom = 5f;
+                celdaTelefono.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaTelefono);
+
+                var celdaEmail = new PdfPCell(new Phrase($"E-mail: {cliente?.Email ?? ""}", fuenteNormal));
+                celdaEmail.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaEmail.PaddingBottom = 5f;
+                celdaEmail.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaEmail);
+
+                // Vehículo y Patente
+                var celdaVehiculo = new PdfPCell(new Phrase($"Vehículo: {vehiculo?.Modelo ?? ""}", fuenteNormal));
+                celdaVehiculo.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaVehiculo.PaddingBottom = 5f;
+                celdaVehiculo.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaVehiculo);
+
+                var celdaPatente = new PdfPCell(new Phrase($"Patente: {vehiculo?.Patente ?? ""}", fuenteNormal));
+                celdaPatente.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                celdaPatente.PaddingBottom = 5f;
+                celdaPatente.PaddingTop = 5f;
+                tablaTitular.AddCell(celdaPatente);
+
+                document.Add(tablaTitular);
+
+                // ===== DATOS DE ACOMPAÑANTES (5 secciones vacías) =====
+                for (int i = 1; i <= 5; i++)
+                {
+                    var tituloAcomp = new Paragraph($"Datos de Acompañante {i}", fuenteSeccion);
+                    tituloAcomp.SpacingBefore = 15f;
+                    tituloAcomp.SpacingAfter = 10f;
+                    document.Add(tituloAcomp);
+
+                    var lineaAcomp = new Paragraph(new string('_', 100));
+                    lineaAcomp.SpacingAfter = 10f;
+                    document.Add(lineaAcomp);
+
+                    var tablaAcomp = new PdfPTable(2);
+                    tablaAcomp.WidthPercentage = 100;
+                    tablaAcomp.SetWidths(new float[] { 1, 1 });
+                    tablaAcomp.SpacingAfter = 10f;
+
+                    // Apellido y Nombre
+                    var celdaNombreAcomp = new PdfPCell(new Phrase("Apellido y Nombre: _______________________________", fuenteNormal));
+                    celdaNombreAcomp.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    celdaNombreAcomp.Colspan = 2;
+                    celdaNombreAcomp.PaddingBottom = 5f;
+                    celdaNombreAcomp.PaddingTop = 5f;
+                    tablaAcomp.AddCell(celdaNombreAcomp);
+
+                    // DNI
+                    var celdaDniAcomp = new PdfPCell(new Phrase("DNI: _______________________________", fuenteNormal));
+                    celdaDniAcomp.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    celdaDniAcomp.PaddingBottom = 5f;
+                    celdaDniAcomp.PaddingTop = 5f;
+                    tablaAcomp.AddCell(celdaDniAcomp);
+
+                    // Teléfono
+                    var celdaTelAcomp = new PdfPCell(new Phrase("Teléfono: _______________________________", fuenteNormal));
+                    celdaTelAcomp.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    celdaTelAcomp.PaddingBottom = 5f;
+                    celdaTelAcomp.PaddingTop = 5f;
+                    tablaAcomp.AddCell(celdaTelAcomp);
+
+                    document.Add(tablaAcomp);
+                }
+
+                document.Close();
+
+                var archivo = stream.ToArray();
+                var nombreArchivo = $"Registro_Reserva_{reserva.Id}_{DateTime.Now:yyyyMMdd}.pdf";
+
+                return new ResultadoExportacion
+                {
+                    Archivo = archivo,
+                    NombreArchivo = nombreArchivo,
+                    TipoContenido = "application/pdf",
+                    Exito = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResultadoExportacion
+                {
+                    Exito = false,
+                    Error = $"Error al generar registro de reserva: {ex.Message}"
                 };
             }
         }

@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using ReservaCabanasSite.Filters;
+using ReservaCabanasSite.Services;
 
 namespace ReservaCabanasSite.Pages.Reservas
 {
@@ -15,10 +16,13 @@ namespace ReservaCabanasSite.Pages.Reservas
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
-        public ConfirmacionModel(AppDbContext context, IConfiguration config)
+        private readonly IExportacionService _exportacionService;
+
+        public ConfirmacionModel(AppDbContext context, IConfiguration config, IExportacionService exportacionService)
         {
             _context = context;
             _config = config;
+            _exportacionService = exportacionService;
         }
 
         public Reserva Reserva { get; set; }
@@ -133,6 +137,22 @@ namespace ReservaCabanasSite.Pages.Reservas
                 TempData["Mensaje"] = $"Error al enviar el email: {ex.Message}";
             }
             return RedirectToPage("Confirmacion", new { id = reservaId });
+        }
+
+        public async Task<IActionResult> OnPostDescargarRegistroAsync(int reservaId)
+        {
+            // Generar PDF del registro de reserva
+            var resultado = await _exportacionService.GenerarRegistroReservaPdf(reservaId);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Mensaje"] = $"Error al generar el registro: {resultado.Error}";
+                return RedirectToPage("Confirmacion", new { id = reservaId });
+            }
         }
     }
 } 
