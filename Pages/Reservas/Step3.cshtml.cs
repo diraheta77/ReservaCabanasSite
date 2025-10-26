@@ -25,7 +25,7 @@ namespace ReservaCabanasSite.Pages.Reservas
         [BindProperty]
         public string EstadoPagoInput { get; set; }
         [BindProperty]
-        public string ObservacionesInput { get; set; }
+        public string? ObservacionesInput { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {

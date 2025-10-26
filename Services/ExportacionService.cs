@@ -773,7 +773,7 @@ namespace ReservaCabanasSite.Services
                 for (int i = 1; i <= 5; i++)
                 {
                     var tituloAcomp = new Paragraph($"Datos de Acompañante {i}", fuenteSeccion);
-                    tituloAcomp.SpacingBefore = 15f;
+                    tituloAcomp.SpacingBefore = 32f;
                     tituloAcomp.SpacingAfter = 10f;
                     document.Add(tituloAcomp);
 
