@@ -154,5 +154,21 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return RedirectToPage("Confirmacion", new { id = reservaId });
             }
         }
+
+        public async Task<IActionResult> OnPostDescargarTerminosAsync(int reservaId)
+        {
+            // Generar PDF de términos y condiciones
+            var resultado = await _exportacionService.GenerarTerminosCondicionesPdf(reservaId);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Mensaje"] = $"Error al generar términos y condiciones: {resultado.Error}";
+                return RedirectToPage("Confirmacion", new { id = reservaId });
+            }
+        }
     }
 } 

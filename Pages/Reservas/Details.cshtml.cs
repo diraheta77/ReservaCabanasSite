@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Data;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Filters;
+using ReservaCabanasSite.Services;
 using System.Net.Mail;
 using System.Net;
 
@@ -14,11 +15,13 @@ namespace ReservaCabanasSite.Pages.Reservas
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
+        private readonly IExportacionService _exportacionService;
 
-        public DetailsModel(AppDbContext context, IConfiguration config)
+        public DetailsModel(AppDbContext context, IConfiguration config, IExportacionService exportacionService)
         {
             _context = context;
             _config = config;
+            _exportacionService = exportacionService;
         }
 
         public Reserva Reserva { get; set; } = default!;
@@ -171,6 +174,38 @@ namespace ReservaCabanasSite.Pages.Reservas
             catch (Exception ex)
             {
                 throw new Exception($"Error al enviar el email: {ex.Message}");
+            }
+        }
+
+        public async Task<IActionResult> OnPostDescargarRegistroAsync(int reservaId)
+        {
+            // Generar PDF del registro de reserva
+            var resultado = await _exportacionService.GenerarRegistroReservaPdf(reservaId);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Mensaje"] = $"Error al generar el registro: {resultado.Error}";
+                return RedirectToPage("Details", new { id = reservaId });
+            }
+        }
+
+        public async Task<IActionResult> OnPostDescargarTerminosAsync(int reservaId)
+        {
+            // Generar PDF de términos y condiciones
+            var resultado = await _exportacionService.GenerarTerminosCondicionesPdf(reservaId);
+
+            if (resultado.Exito)
+            {
+                return File(resultado.Archivo, resultado.TipoContenido, resultado.NombreArchivo);
+            }
+            else
+            {
+                TempData["Mensaje"] = $"Error al generar términos y condiciones: {resultado.Error}";
+                return RedirectToPage("Details", new { id = reservaId });
             }
         }
     }

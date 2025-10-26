@@ -345,6 +345,13 @@
 
         <form method="post" style="display: inline;">
             <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
+            <button type="submit" asp-page-handler="DescargarTerminos" class="btn btn-info-custom btn-custom">
+                📋 DESCARGAR TÉRMINOS Y CONDICIONES PDF
+            </button>
+        </form>
+
+        <form method="post" style="display: inline;">
+            <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
             <button type="submit" asp-page-handler="EnviarEmail" class="btn btn-success-custom btn-custom">
                 📧 Enviar Email de Confirmación
             </button>

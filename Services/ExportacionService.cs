@@ -14,6 +14,7 @@ namespace ReservaCabanasSite.Services
         Task<ResultadoExportacion> ExportarAExcel(DatosExportacion datos);
         Task<ResultadoExportacion> ExportarAPdf(DatosExportacion datos);
         Task<ResultadoExportacion> GenerarRegistroReservaPdf(int reservaId);
+        Task<ResultadoExportacion> GenerarTerminosCondicionesPdf(int reservaId);
     }
 
     public class ExportacionService : IExportacionService
@@ -830,6 +831,234 @@ namespace ReservaCabanasSite.Services
                 {
                     Exito = false,
                     Error = $"Error al generar registro de reserva: {ex.Message}"
+                };
+            }
+        }
+
+        public async Task<ResultadoExportacion> GenerarTerminosCondicionesPdf(int reservaId)
+        {
+            try
+            {
+                // Obtener datos de la reserva
+                var reserva = await _context.Reservas
+                    .Include(r => r.Cliente)
+                    .Include(r => r.Cabana)
+                    .FirstOrDefaultAsync(r => r.Id == reservaId);
+
+                if (reserva == null)
+                {
+                    return new ResultadoExportacion
+                    {
+                        Exito = false,
+                        Error = "Reserva no encontrada"
+                    };
+                }
+
+                var datosEmpresa = await ObtenerDatosEmpresa();
+
+                using var stream = new MemoryStream();
+                var document = new Document(PageSize.A4, 40, 40, 40, 40);
+                var writer = PdfWriter.GetInstance(document, stream);
+
+                document.Open();
+
+                // Fuentes
+                var fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.BLACK);
+                var fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11, BaseColor.BLACK);
+                var fuenteNormal = FontFactory.GetFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
+                var fuentePequeña = FontFactory.GetFont(FontFactory.HELVETICA, 9, BaseColor.DARK_GRAY);
+
+                // ===== HEADER: Logo y Datos de Empresa =====
+                var tablaHeader = new PdfPTable(2);
+                tablaHeader.WidthPercentage = 100;
+                tablaHeader.SetWidths(new float[] { 1, 2 });
+                tablaHeader.SpacingAfter = 15f;
+
+                // Logo
+                PdfPCell celdaLogo;
+                if (datosEmpresa != null && !string.IsNullOrEmpty(datosEmpresa.RutaLogo))
+                {
+                    try
+                    {
+                        var rutaCompleta = Path.Combine(_environment.WebRootPath, datosEmpresa.RutaLogo.TrimStart('/'));
+                        if (File.Exists(rutaCompleta))
+                        {
+                            var imagen = iTextSharp.text.Image.GetInstance(rutaCompleta);
+                            imagen.ScaleToFit(100f, 60f);
+                            celdaLogo = new PdfPCell(imagen);
+                            celdaLogo.HorizontalAlignment = Element.ALIGN_LEFT;
+                            celdaLogo.VerticalAlignment = Element.ALIGN_TOP;
+                        }
+                        else
+                        {
+                            celdaLogo = new PdfPCell(new Phrase(""));
+                        }
+                    }
+                    catch
+                    {
+                        celdaLogo = new PdfPCell(new Phrase(""));
+                    }
+                }
+                else
+                {
+                    celdaLogo = new PdfPCell(new Phrase(""));
+                }
+                celdaLogo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                tablaHeader.AddCell(celdaLogo);
+
+                // Información empresa
+                var infoEmpresa = new Paragraph();
+                if (datosEmpresa != null)
+                {
+                    infoEmpresa.Add(new Chunk(datosEmpresa.NombreEmpresa + "\n", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11, new BaseColor(92, 74, 69))));
+                    if (!string.IsNullOrEmpty(datosEmpresa.Direccion))
+                        infoEmpresa.Add(new Chunk(datosEmpresa.Direccion + "\n", fuentePequeña));
+                    if (!string.IsNullOrEmpty(datosEmpresa.Telefono))
+                        infoEmpresa.Add(new Chunk(datosEmpresa.Telefono + "\n", fuentePequeña));
+                }
+
+                var celdaInfo = new PdfPCell(infoEmpresa);
+                celdaInfo.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                celdaInfo.HorizontalAlignment = Element.ALIGN_RIGHT;
+                celdaInfo.VerticalAlignment = Element.ALIGN_TOP;
+                tablaHeader.AddCell(celdaInfo);
+
+                document.Add(tablaHeader);
+
+                // Línea separadora
+                var linea = new Paragraph(new string('_', 70));
+                linea.SpacingAfter = 15f;
+                document.Add(linea);
+
+                // ===== TÍTULO =====
+                var titulo = new Paragraph($"TÉRMINOS Y CONDICIONES DE RESERVA N° {reserva.Id.ToString().PadLeft(10, '0')}", fuenteTitulo);
+                titulo.Alignment = Element.ALIGN_CENTER;
+                titulo.SpacingAfter = 15f;
+                document.Add(titulo);
+
+                // ===== INTRODUCCIÓN =====
+                var intro = new Paragraph("Al realizar una reserva en nuestro complejo de cabañas, el huésped acepta los siguientes términos y condiciones:", fuenteNormal);
+                intro.SpacingAfter = 15f;
+                intro.Alignment = Element.ALIGN_JUSTIFIED;
+                document.Add(intro);
+
+                // ===== SERVICIOS INCLUIDOS =====
+                var tituloServicios = new Paragraph("Servicios incluidos en la estadía:", fuenteSubtitulo);
+                tituloServicios.SpacingAfter = 10f;
+                document.Add(tituloServicios);
+
+                var servicios = new List(List.UNORDERED);
+                servicios.SetListSymbol("•");
+                servicios.IndentationLeft = 20f;
+                servicios.Add(new ListItem("Cabañas individuales con entrada independiente.", fuenteNormal));
+                servicios.Add(new ListItem("Ropa blanca (sábanas y toallas).", fuenteNormal));
+                servicios.Add(new ListItem("Aire acondicionado.", fuenteNormal));
+                servicios.Add(new ListItem("Cocina totalmente equipada.", fuenteNormal));
+                servicios.Add(new ListItem("Servicio de mucama.", fuenteNormal));
+                servicios.Add(new ListItem("Calefacción a gas natural.", fuenteNormal));
+                servicios.Add(new ListItem("Televisión por cable con LED 32\".", fuenteNormal));
+                servicios.Add(new ListItem("Parrilleros individuales.", fuenteNormal));
+                servicios.Add(new ListItem("Cocheras cubiertas e individuales.", fuenteNormal));
+                servicios.Add(new ListItem("Piscina climatizada (disponible en primavera y verano, cercada para mayor seguridad).", fuenteNormal));
+                servicios.Add(new ListItem("Juegos infantiles.", fuenteNormal));
+                servicios.Add(new ListItem("Cancha de bochas.", fuenteNormal));
+                servicios.Add(new ListItem("Conexión Wi-Fi en todo el predio.", fuenteNormal));
+                document.Add(servicios);
+                document.Add(new Paragraph(" ") { SpacingAfter = 15f });
+
+                // ===== HORARIOS =====
+                var tituloHorarios = new Paragraph("Horarios:", fuenteSubtitulo);
+                tituloHorarios.SpacingAfter = 5f;
+                document.Add(tituloHorarios);
+
+                var horarios = new Paragraph();
+                horarios.Add(new Chunk("Check-in: ", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.BLACK)));
+                horarios.Add(new Chunk("a partir de las 12:00 hs.\n", fuenteNormal));
+                horarios.Add(new Chunk("Check-out: ", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.BLACK)));
+                horarios.Add(new Chunk("hasta las 10:00 hs.", fuenteNormal));
+                horarios.SpacingAfter = 15f;
+                document.Add(horarios);
+
+                // ===== POLÍTICAS DE CANCELACIÓN =====
+                var tituloCancelacion = new Paragraph("Políticas de cancelación:", fuenteSubtitulo);
+                tituloCancelacion.SpacingAfter = 10f;
+                document.Add(tituloCancelacion);
+
+                var cancelaciones = new List(List.UNORDERED);
+                cancelaciones.SetListSymbol("•");
+                cancelaciones.IndentationLeft = 20f;
+                cancelaciones.Add(new ListItem("Las cancelaciones realizadas con más de 15 días de anticipación a la fecha de ingreso serán reembolsadas al 100%.", fuenteNormal));
+                cancelaciones.Add(new ListItem("Las cancelaciones entre 7 y 15 días antes del ingreso recibirán un reembolso del 50%.", fuenteNormal));
+                cancelaciones.Add(new ListItem("Las cancelaciones con menos de 7 días de anticipación no tendrán derecho a reembolso.", fuenteNormal));
+                cancelaciones.Add(new ListItem("En caso de no presentarse (no-show), se cobrará el total de la reserva.", fuenteNormal));
+                document.Add(cancelaciones);
+                document.Add(new Paragraph(" ") { SpacingAfter = 15f });
+
+                // ===== POLÍTICAS DE PAGO =====
+                var tituloPago = new Paragraph("Políticas de pago:", fuenteSubtitulo);
+                tituloPago.SpacingAfter = 10f;
+                document.Add(tituloPago);
+
+                var pagos = new List(List.UNORDERED);
+                pagos.SetListSymbol("•");
+                pagos.IndentationLeft = 20f;
+                pagos.Add(new ListItem("Para confirmar la reserva, se requiere una seña del 30% del total de la estadía.", fuenteNormal));
+                pagos.Add(new ListItem("El saldo restante debe ser abonado al momento del ingreso al complejo.", fuenteNormal));
+                pagos.Add(new ListItem("Los medios de pago aceptados son: efectivo, transferencia bancaria y tarjetas de débito/crédito (consultar tarjetas habilitadas).", fuenteNormal));
+                document.Add(pagos);
+                document.Add(new Paragraph(" ") { SpacingAfter = 15f });
+
+                // ===== CONDICIONES GENERALES =====
+                var tituloCondiciones = new Paragraph("Condiciones Generales:", fuenteSubtitulo);
+                tituloCondiciones.SpacingAfter = 10f;
+                document.Add(tituloCondiciones);
+
+                var condiciones = new List(List.UNORDERED);
+                condiciones.SetListSymbol("•");
+                condiciones.IndentationLeft = 20f;
+                condiciones.Add(new ListItem("El complejo no se responsabiliza por daños, robos o pérdidas de automóviles, motocicletas u otros vehículos que ingresen al predio, ni por objetos de valor pertenecientes a los pasajeros.", fuenteNormal));
+                condiciones.Add(new ListItem("Cualquier daño causado a las instalaciones, mobiliario o equipamiento por parte del huésped será cobrado al responsable.", fuenteNormal));
+                condiciones.Add(new ListItem("El cuidado y supervisión de niños en la piscina es exclusiva responsabilidad de los adultos a cargo. La piscina cuenta con cerramiento, pero se recomienda extrema precaución.", fuenteNormal));
+                document.Add(condiciones);
+                document.Add(new Paragraph(" ") { SpacingAfter = 25f });
+
+                // ===== ACEPTACIÓN =====
+                var aceptacion = new Paragraph("Al confirmar su reserva, el huésped manifiesta haber leído y aceptado estos términos y condiciones en su totalidad.", fuenteNormal);
+                aceptacion.SpacingAfter = 40f;
+                aceptacion.Alignment = Element.ALIGN_JUSTIFIED;
+                document.Add(aceptacion);
+
+                // ===== FIRMA =====
+                var firma = new Paragraph("Firma ______________________________________", fuenteNormal);
+                firma.SpacingAfter = 15f;
+                document.Add(firma);
+
+                // ===== PIE DE PÁGINA =====
+                var pie = new Paragraph($"Documento generado el {DateTime.Now:dd/MM/yyyy HH:mm}",
+                    FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 8, BaseColor.GRAY));
+                pie.Alignment = Element.ALIGN_CENTER;
+                pie.SpacingBefore = 20f;
+                document.Add(pie);
+
+                document.Close();
+
+                var archivo = stream.ToArray();
+                var nombreArchivo = $"Terminos_Condiciones_Reserva_{reserva.Id}_{DateTime.Now:yyyyMMdd}.pdf";
+
+                return new ResultadoExportacion
+                {
+                    Archivo = archivo,
+                    NombreArchivo = nombreArchivo,
+                    TipoContenido = "application/pdf",
+                    Exito = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResultadoExportacion
+                {
+                    Exito = false,
+                    Error = $"Error al generar términos y condiciones: {ex.Message}"
                 };
             }
         }
