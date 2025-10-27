@@ -1,0 +1,77 @@
+@page
+@model ReservaCabanasSite.Pages.Usuarios.InactivateModel
+@{
+    ViewData["Title"] = Model.Usuario.Activo ? "Inactivar Usuario" : "Activar Usuario";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-danger-custom {
+    background: #00353e;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c0392b;
+    color: #fff;
+}
+.btn-success-custom {
+    background: #27ae60;
+    color: #fff;
+}
+.btn-success-custom:hover {
+    background: #229954;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>@(Model.Usuario.Activo ? "Inactivar Usuario" : "Activar Usuario")</h1>
+<h3>¿Estás seguro que deseas @(Model.Usuario.Activo ? "inactivar" : "activar") este usuario?</h3>
+<div>
+    <h4>@Model.Usuario.NombreCompleto (@Model.Usuario.NombreUsuario)</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Nombre de Usuario</dt>
+        <dd class="col-sm-9">@Model.Usuario.NombreUsuario</dd>
+
+        <dt class="col-sm-3">Rol</dt>
+        <dd class="col-sm-9">
+            <span class="badge @(Model.Usuario.Rol == "Administrador" ? "badge-primary" : "badge-info")">
+                @Model.Usuario.Rol
+            </span>
+        </dd>
+
+        <dt class="col-sm-3">Estado Actual</dt>
+        <dd class="col-sm-9">
+            <span class="badge @(Model.Usuario.Activo ? "badge-success" : "badge-danger")">
+                @(Model.Usuario.Activo ? "Activo" : "Inactivo")
+            </span>
+        </dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Usuario.Id" />
+        @if (Model.Usuario.Activo)
+        {
+            <button type="submit" class="btn btn-danger-custom btn-custom">Inactivar</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success-custom btn-custom">Activar</button>
+        }
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+    </form>
+</div>

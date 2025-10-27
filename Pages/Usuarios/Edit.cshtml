@@ -1,0 +1,91 @@
+@page
+@model ReservaCabanasSite.Pages.Usuarios.EditModel
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-primary-custom {
+    background: #0097b2;
+    color: #fff;
+}
+.btn-primary-custom:hover {
+    background: #00798e;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+</style>
+
+<h1>Editar Usuario</h1>
+
+<div class="form-card">
+<form method="post">
+    <input type="hidden" asp-for="Usuario.Id" />
+
+    <div class="form-group">
+        <label asp-for="Usuario.Id">ID</label>
+        <input asp-for="Usuario.Id" class="form-control" readonly />
+        <small class="form-text text-muted">El ID no se puede modificar</small>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Usuario.NombreUsuario"></label>
+        <input asp-for="Usuario.NombreUsuario" class="form-control" />
+        <span asp-validation-for="Usuario.NombreUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Usuario.NombreCompleto"></label>
+        <input asp-for="Usuario.NombreCompleto" class="form-control" />
+        <span asp-validation-for="Usuario.NombreCompleto" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Usuario.Rol"></label>
+        <select asp-for="Usuario.Rol" class="form-control">
+            <option value="">Seleccione un rol</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Operador">Operador</option>
+        </select>
+        <span asp-validation-for="Usuario.Rol" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Nueva Contraseña (dejar en blanco para mantener la actual)</label>
+        <input type="password" name="NuevaPassword" class="form-control" />
+        <small class="form-text text-muted">Solo completa este campo si deseas cambiar la contraseña</small>
+    </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" asp-for="Usuario.Activo" class="form-check-input" />
+        <label asp-for="Usuario.Activo" class="form-check-label">Usuario Activo</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary-custom btn-custom">Guardar Cambios</button>
+    <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+</form>
+</div>

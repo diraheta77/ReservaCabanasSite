@@ -1,0 +1,59 @@
+@page
+@model ReservaCabanasSite.Pages.Usuarios.DetailsModel
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Detalles del Usuario</h1>
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9">@Model.Usuario.Id</dd>
+
+            <dt class="col-sm-3">Nombre de Usuario</dt>
+            <dd class="col-sm-9">@Model.Usuario.NombreUsuario</dd>
+
+            <dt class="col-sm-3">Nombre Completo</dt>
+            <dd class="col-sm-9">@Model.Usuario.NombreCompleto</dd>
+
+            <dt class="col-sm-3">Rol</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.Usuario.Rol == "Administrador" ? "badge-primary" : "badge-info")">
+                    @Model.Usuario.Rol
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.Usuario.Activo ? "badge-success" : "badge-danger")">
+                    @(Model.Usuario.Activo ? "Activo" : "Inactivo")
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Fecha de Creación</dt>
+            <dd class="col-sm-9">@Model.Usuario.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+        </dl>
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Volver</a>
+    </div>
+</div>
