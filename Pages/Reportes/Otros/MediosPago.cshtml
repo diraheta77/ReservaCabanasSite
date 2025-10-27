@@ -1,0 +1,447 @@
+@page
+@model ReservaCabanasSite.Pages.Reportes.Otros.MediosPagoModel
+@{
+    ViewData["Title"] = "Reporte de Ingresos por Medio de Pago";
+}
+
+<style>
+.report-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.report-header {
+    border-bottom: 2px solid #a67c52;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.report-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 8px;
+}
+
+.report-subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.filters-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid #dee2e6;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5c4a45;
+}
+
+.form-control {
+    padding: 10px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.1);
+}
+
+.btn-primary-custom {
+    background: #0097b2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background: #00798e;
+}
+
+.btn-secondary-custom {
+    background: #0097b2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary-custom:hover {
+    background: #00798e;
+    color: white;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #a67c52;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #dee2e6;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background: #0097b2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 12px 8px;
+    font-size: 0.9rem;
+}
+
+.table td {
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #b0dfe7;
+    color: #155724;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+}
+
+.btn-export {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s;
+}
+
+.btn-excel {
+    background: #217346;
+    color: white;
+    border-color: #217346;
+}
+
+.btn-excel:hover {
+    background: #1d5f39;
+    color: white;
+}
+
+.btn-pdf {
+    background: #00353e;
+    color: white;
+    border-color: #dc3545;
+}
+
+.btn-pdf:hover {
+    background: #002329;
+    color: white;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.no-data i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+@@media (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
+<div class="report-container">
+    <div class="report-header">
+        <h1 class="report-title">
+            <i class="fa fa-credit-card"></i>
+            Reporte de Ingresos por Medio de Pago
+        </h1>
+        <p class="report-subtitle">Análisis de ingresos agrupados por medio de pago</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters-container">
+        <form method="post">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                <div class="form-group">
+                    <label asp-for="ReporteModel.FechaDesde" class="form-label"></label>
+                    <input asp-for="ReporteModel.FechaDesde" class="form-control" type="date" />
+                    <span asp-validation-for="ReporteModel.FechaDesde" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ReporteModel.FechaHasta" class="form-label"></label>
+                    <input asp-for="ReporteModel.FechaHasta" class="form-control" type="date" />
+                    <span asp-validation-for="ReporteModel.FechaHasta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ReporteModel.CabanaId" class="form-label"></label>
+                    <select asp-for="ReporteModel.CabanaId" class="form-control">
+                        <option value="">Todas las cabañas</option>
+                        @foreach (var cabana in Model.Cabanas)
+                        {
+                            <option value="@cabana.Id">@cabana.Nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button type="submit" class="btn-primary-custom">
+                    <i class="fa fa-search"></i>
+                    Generar Reporte
+                </button>
+
+                <a href="/Reportes/Otros/MediosPago" class="btn-secondary-custom">
+                    <i class="fa fa-refresh"></i>
+                    Limpiar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Estadísticas Resumen -->
+    @if (Model.ReporteModel.IngresosPorMedioPago.Any())
+    {
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.TotalReservas</div>
+                <div class="stat-label">Total Reservas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-label">Total Ingresos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@Model.ReporteModel.IngresosPorMedioPago.Count</div>
+                <div class="stat-label">Medios de Pago</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Model.ReporteModel.TotalReservas).ToString("N0"))</div>
+                <div class="stat-label">Promedio por Reserva</div>
+            </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div class="export-buttons">
+            <div class="text-muted" style="margin-right: auto; align-self: center;">
+                <div>
+                    <i class="fa fa-info-circle"></i>
+                    Período: @Model.ReporteModel.FechaDesde.ToString("dd/MM/yyyy") - @Model.ReporteModel.FechaHasta.ToString("dd/MM/yyyy")
+                </div>
+            </div>
+            <a href="?handler=ExportarExcel&fechaDesde=@Model.ReporteModel.FechaDesde.ToString("yyyy-MM-dd")&fechaHasta=@Model.ReporteModel.FechaHasta.ToString("yyyy-MM-dd")&cabanaId=@Model.ReporteModel.CabanaId"
+               class="btn-export btn-excel">
+                <i class="fa fa-file-excel-o"></i>
+                Exportar Excel
+            </a>
+            <a href="?handler=ExportarPdf&fechaDesde=@Model.ReporteModel.FechaDesde.ToString("yyyy-MM-dd")&fechaHasta=@Model.ReporteModel.FechaHasta.ToString("yyyy-MM-dd")&cabanaId=@Model.ReporteModel.CabanaId"
+               class="btn-export btn-pdf">
+                <i class="fa fa-file-pdf-o"></i>
+                Exportar PDF
+            </a>
+        </div>
+
+        <!-- Tabla de Ingresos por Medio de Pago -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 30%;">
+                            <i class="fa fa-credit-card"></i>
+                            Medio de Pago
+                        </th>
+                        <th style="width: 15%; text-align: center;">
+                            <i class="fa fa-calendar"></i>
+                            Cantidad de Reservas
+                        </th>
+                        <th style="width: 20%; text-align: right;">
+                            <i class="fa fa-money"></i>
+                            Total Ingresos
+                        </th>
+                        <th style="width: 15%; text-align: right;">
+                            <i class="fa fa-calculator"></i>
+                            Promedio
+                        </th>
+                        <th style="width: 15%; text-align: center;">
+                            <i class="fa fa-percent"></i>
+                            % Ingresos
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int contador = 1;
+                    }
+                    @foreach (var item in Model.ReporteModel.IngresosPorMedioPago)
+                    {
+                        <tr>
+                            <td class="text-center">@contador</td>
+                            <td>
+                                <div style="padding: 8px 0;">
+                                    <div style="font-size: 1rem; font-weight: bold; color: #5c4a45;">
+                                        @(string.IsNullOrEmpty(item.MedioPago) ? "Sin especificar" : item.MedioPago)
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge @(item.CantidadReservas > 10 ? "badge-success" : item.CantidadReservas > 5 ? "badge-warning" : "badge-info")"
+                                      style="font-size: 1rem; padding: 8px 16px;">
+                                    @item.CantidadReservas
+                                </span>
+                            </td>
+                            <td class="text-right">
+                                <div style="font-size: 1rem; font-weight: bold; color: #217346;">
+                                    $@item.TotalIngresos.ToString("N0")
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div style="font-size: 0.9rem; color: #6c757d;">
+                                    $@item.PromedioIngreso.ToString("N0")
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div style="font-size: 1rem; font-weight: bold; color: #5c4a45;">
+                                    @item.PorcentajeIngresos.ToString("F1")%
+                                </div>
+                            </td>
+                        </tr>
+                        contador++;
+                    }
+                    <!-- Fila de Total -->
+                    <tr style="background-color: #f8f9fa; font-weight: bold;">
+                        <td class="text-center">TOTAL</td>
+                        <td></td>
+                        <td class="text-center">
+                            <span class="badge badge-success" style="font-size: 1rem; padding: 8px 16px;">
+                                @Model.ReporteModel.TotalReservas
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <div style="font-size: 1.1rem; font-weight: bold; color: #217346;">
+                                $@Model.ReporteModel.TotalIngresos.ToString("N0")
+                            </div>
+                        </td>
+                        <td></td>
+                        <td class="text-center">
+                            <div style="font-size: 1rem; font-weight: bold; color: #5c4a45;">
+                                100%
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="no-data">
+            <i class="fa fa-search text-muted"></i>
+            <h3>No se encontraron reservaciones</h3>
+            <p>No hay reservaciones en el rango de fechas seleccionado.<br>
+            Intenta con un rango de fechas diferente.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -192,4 +192,60 @@ namespace ReservaCabanasSite.Models
         public double PorcentajeReservas { get; set; }
         public double PorcentajeIngresos { get; set; }
     }
+
+    public class ReporteMediosPagoViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = DateTime.Now;
+
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        public List<ReporteMedioPagoItem> IngresosPorMedioPago { get; set; } = new();
+        public int TotalReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+    }
+
+    public class ReporteMedioPagoItem
+    {
+        public string MedioPago { get; set; } = "";
+        public int CantidadReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PorcentajeReservas { get; set; }
+        public double PorcentajeIngresos { get; set; }
+        public decimal PromedioIngreso { get; set; }
+    }
+
+    public class ReporteMediosContactoViewModel
+    {
+        [Display(Name = "Fecha Desde")]
+        [DataType(DataType.Date)]
+        public DateTime FechaDesde { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+        [Display(Name = "Fecha Hasta")]
+        [DataType(DataType.Date)]
+        public DateTime FechaHasta { get; set; } = DateTime.Now;
+
+        [Display(Name = "Cabaña")]
+        public int? CabanaId { get; set; }
+
+        public List<ReporteMedioContactoItem> IngresosPorMedioContacto { get; set; } = new();
+        public int TotalReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+    }
+
+    public class ReporteMedioContactoItem
+    {
+        public string MedioContacto { get; set; } = "";
+        public int CantidadReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
+        public double PorcentajeReservas { get; set; }
+        public double PorcentajeIngresos { get; set; }
+        public decimal PromedioIngreso { get; set; }
+    }
 }

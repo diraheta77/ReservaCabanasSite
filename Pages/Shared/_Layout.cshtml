@@ -299,6 +299,33 @@
                         </ul>
                       </div>
                     </li>
+
+                    <!-- Reportes Otros -->
+                    <li class="@(currentPage.StartsWith("/reportes/otros") ? "active" : "")">
+                      <a href="javascript:;" data-toggle="collapse" data-target="#reportesOtrosSubmenu">
+                        <i class="fa fa-file-text-o"></i>
+                        <span class="sidebar-normal">
+                          Otros
+                          <b class="caret"></b>
+                        </span>
+                      </a>
+                      <div class="collapse @(currentPage.StartsWith("/reportes/otros") ? "show" : "")" id="reportesOtrosSubmenu">
+                        <ul class="nav" style="margin-left: 20px;">
+                          <li class="@(currentPage.Contains("/reportes/otros/mediospago") ? "active" : "")">
+                            <a asp-page="/Reportes/Otros/MediosPago">
+                              <i class="fa fa-credit-card"></i>
+                              <span class="sidebar-normal">Medios de Pago</span>
+                            </a>
+                          </li>
+                          <li class="@(currentPage.Contains("/reportes/otros/medioscontacto") ? "active" : "")">
+                            <a asp-page="/Reportes/Otros/MediosContacto">
+                              <i class="fa fa-phone"></i>
+                              <span class="sidebar-normal">Medios de Contacto</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </li>
