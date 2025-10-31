@@ -306,7 +306,7 @@
                 <div class="stat-label">Total Reservas</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))</div>
                 <div class="stat-label">Total Ingresos</div>
             </div>
             <div class="stat-card">
@@ -314,7 +314,7 @@
                 <div class="stat-label">Medios de Contacto</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Model.ReporteModel.TotalReservas).ToString("N0"))</div>
+                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Model.ReporteModel.TotalReservas).ToString("N2", new System.Globalization.CultureInfo("es-AR")))</div>
                 <div class="stat-label">Promedio por Reserva</div>
             </div>
         </div>
@@ -390,12 +390,12 @@
                             </td>
                             <td class="text-right">
                                 <div style="font-size: 1rem; font-weight: bold; color: #217346;">
-                                    $@item.TotalIngresos.ToString("N0")
+                                    $@item.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))
                                 </div>
                             </td>
                             <td class="text-right">
                                 <div style="font-size: 0.9rem; color: #6c757d;">
-                                    $@item.PromedioIngreso.ToString("N0")
+                                    $@item.PromedioIngreso.ToString("N2", new System.Globalization.CultureInfo("es-AR"))
                                 </div>
                             </td>
                             <td class="text-center">
@@ -417,7 +417,7 @@
                         </td>
                         <td class="text-right">
                             <div style="font-size: 1.1rem; font-weight: bold; color: #217346;">
-                                $@Model.ReporteModel.TotalIngresos.ToString("N0")
+                                $@Model.ReporteModel.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))
                             </div>
                         </td>
                         <td></td>

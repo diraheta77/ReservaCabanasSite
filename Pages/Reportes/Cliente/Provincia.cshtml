@@ -337,11 +337,11 @@
                 <div class="stat-label">Total Reservaciones</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))</div>
                 <div class="stat-label">Total Ingresos</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Math.Max(Model.ReporteModel.TotalReservaciones, 1)).ToString("N0"))</div>
+                <div class="stat-value">$@((Model.ReporteModel.TotalIngresos / Math.Max(Model.ReporteModel.TotalReservaciones, 1)).ToString("N2", new System.Globalization.CultureInfo("es-AR")))</div>
                 <div class="stat-label">Promedio por Reserva</div>
             </div>
         </div>
@@ -390,7 +390,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                <strong>$@provincia.MontoTotalAcumulado.ToString("N0")</strong>
+                                <strong>$@provincia.MontoTotalAcumulado.ToString("N2", new System.Globalization.CultureInfo("es-AR"))</strong>
                             </td>
                         </tr>
                     }

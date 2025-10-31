@@ -333,7 +333,7 @@
                 <div class="stat-label">Total Reservas</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N0")</div>
+                <div class="stat-value">$@Model.ReporteModel.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))</div>
                 <div class="stat-label">Total Ingresos</div>
             </div>
             <div class="stat-card">
@@ -409,7 +409,7 @@
                             </td>
                             <td class="text-right">
                                 <div style="font-size: 1.1rem; font-weight: bold; color: #217346;">
-                                    $@temporada.TotalIngresos.ToString("N2")
+                                    $@temporada.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))
                                 </div>
                             </td>
                             <td class="text-center">
@@ -431,7 +431,7 @@
                         </td>
                         <td class="text-right">
                             <div style="font-size: 1.2rem; font-weight: bold; color: #217346;">
-                                $@Model.ReporteModel.TotalIngresos.ToString("N2")
+                                $@Model.ReporteModel.TotalIngresos.ToString("N2", new System.Globalization.CultureInfo("es-AR"))
                             </div>
                         </td>
                         <td class="text-center">

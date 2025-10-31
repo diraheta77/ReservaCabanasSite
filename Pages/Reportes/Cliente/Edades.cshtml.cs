@@ -112,16 +112,16 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
 
             // Calcular edades y agrupar por rangos
             var hoy = DateTime.Today;
-            var rangosEdades = new Dictionary<string, int>
+            var rangosEdades = new Dictionary<string, (int Clientes, int Reservas, decimal Ingresos)>
             {
-                ["18-25"] = 0,
-                ["26-30"] = 0,
-                ["31-35"] = 0,
-                ["36-40"] = 0,
-                ["41-50"] = 0,
-                ["51-60"] = 0,
-                ["61-70"] = 0,
-                ["71-80"] = 0
+                ["18-25"] = (0, 0, 0),
+                ["26-30"] = (0, 0, 0),
+                ["31-35"] = (0, 0, 0),
+                ["36-40"] = (0, 0, 0),
+                ["41-50"] = (0, 0, 0),
+                ["51-60"] = (0, 0, 0),
+                ["61-70"] = (0, 0, 0),
+                ["71-80"] = (0, 0, 0)
             };
 
             foreach (var cliente in clientesUnicos)
@@ -132,34 +132,56 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                     if (cliente.FechaNacimiento.Value.Date > hoy.AddYears(-edad))
                         edad--;
 
+                    // Calcular reservas e ingresos del cliente
+                    var reservasCliente = reservas.Where(r => r.ClienteId == cliente.Id).ToList();
+                    var cantidadReservas = reservasCliente.Count;
+                    var totalIngresos = reservasCliente.Sum(r => r.MontoTotal);
+
                     // Asignar a rango correspondiente
                     if (edad >= 18 && edad <= 25)
-                        rangosEdades["18-25"]++;
+                        rangosEdades["18-25"] = (rangosEdades["18-25"].Clientes + 1,
+                            rangosEdades["18-25"].Reservas + cantidadReservas,
+                            rangosEdades["18-25"].Ingresos + totalIngresos);
                     else if (edad >= 26 && edad <= 30)
-                        rangosEdades["26-30"]++;
+                        rangosEdades["26-30"] = (rangosEdades["26-30"].Clientes + 1,
+                            rangosEdades["26-30"].Reservas + cantidadReservas,
+                            rangosEdades["26-30"].Ingresos + totalIngresos);
                     else if (edad >= 31 && edad <= 35)
-                        rangosEdades["31-35"]++;
+                        rangosEdades["31-35"] = (rangosEdades["31-35"].Clientes + 1,
+                            rangosEdades["31-35"].Reservas + cantidadReservas,
+                            rangosEdades["31-35"].Ingresos + totalIngresos);
                     else if (edad >= 36 && edad <= 40)
-                        rangosEdades["36-40"]++;
+                        rangosEdades["36-40"] = (rangosEdades["36-40"].Clientes + 1,
+                            rangosEdades["36-40"].Reservas + cantidadReservas,
+                            rangosEdades["36-40"].Ingresos + totalIngresos);
                     else if (edad >= 41 && edad <= 50)
-                        rangosEdades["41-50"]++;
+                        rangosEdades["41-50"] = (rangosEdades["41-50"].Clientes + 1,
+                            rangosEdades["41-50"].Reservas + cantidadReservas,
+                            rangosEdades["41-50"].Ingresos + totalIngresos);
                     else if (edad >= 51 && edad <= 60)
-                        rangosEdades["51-60"]++;
+                        rangosEdades["51-60"] = (rangosEdades["51-60"].Clientes + 1,
+                            rangosEdades["51-60"].Reservas + cantidadReservas,
+                            rangosEdades["51-60"].Ingresos + totalIngresos);
                     else if (edad >= 61 && edad <= 70)
-                        rangosEdades["61-70"]++;
+                        rangosEdades["61-70"] = (rangosEdades["61-70"].Clientes + 1,
+                            rangosEdades["61-70"].Reservas + cantidadReservas,
+                            rangosEdades["61-70"].Ingresos + totalIngresos);
                     else if (edad >= 71 && edad <= 80)
-                        rangosEdades["71-80"]++;
+                        rangosEdades["71-80"] = (rangosEdades["71-80"].Clientes + 1,
+                            rangosEdades["71-80"].Reservas + cantidadReservas,
+                            rangosEdades["71-80"].Ingresos + totalIngresos);
                 }
             }
 
             // Crear datos para la gráfica
             ReporteModel.DatosGrafica = rangosEdades
-                .Where(r => r.Value > 0)
+                .Where(r => r.Value.Clientes > 0)
                 .Select(r => new DatosEdadRango
                 {
                     Rango = r.Key,
-                    Cantidad = r.Value,
-                    Porcentaje = Math.Round((double)r.Value / clientesUnicos.Count * 100, 1)
+                    Cantidad = r.Value.Clientes,
+                    CantidadReservas = r.Value.Reservas,
+                    TotalIngresos = r.Value.Ingresos
                 })
                 .OrderBy(r => r.Rango)
                 .ToList();
@@ -201,8 +223,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
             {
                 new() { Nombre = "Rango de Edad", TipoDato = "string", Ancho = 20, Alineacion = "center" },
-                new() { Nombre = "Cantidad", TipoDato = "number", Ancho = 15, Alineacion = "center" },
-                new() { Nombre = "Porcentaje", TipoDato = "number", Ancho = 15, Alineacion = "center" }
+                new() { Nombre = "Cantidad Clientes", TipoDato = "number", Ancho = 15, Alineacion = "center" },
+                new() { Nombre = "Cantidad Reservas", TipoDato = "number", Ancho = 15, Alineacion = "center" },
+                new() { Nombre = "Total Ingresos", TipoDato = "currency", Ancho = 20, Alineacion = "right" }
             });
 
             // Agregar datos
@@ -211,8 +234,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 var fila = new Dictionary<string, object>
                 {
                     ["rango_edad"] = item.Rango,
-                    ["cantidad"] = item.Cantidad,
-                    ["porcentaje"] = $"{item.Porcentaje}%"
+                    ["cantidad_clientes"] = item.Cantidad,
+                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["total_ingresos"] = item.TotalIngresos
                 };
                 datosExportacion.Filas.Add(fila);
             }
@@ -261,9 +285,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             // Definir columnas
             datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
             {
-                new() { Nombre = "Rango de Edad", TipoDato = "string", Ancho = 30, Alineacion = "center" },
-                new() { Nombre = "Cantidad", TipoDato = "number", Ancho = 20, Alineacion = "center" },
-                new() { Nombre = "Porcentaje", TipoDato = "number", Ancho = 20, Alineacion = "center" }
+                new() { Nombre = "Rango de Edad", TipoDato = "string", Ancho = 25, Alineacion = "center" },
+                new() { Nombre = "Cantidad Clientes", TipoDato = "number", Ancho = 20, Alineacion = "center" },
+                new() { Nombre = "Cantidad Reservas", TipoDato = "number", Ancho = 20, Alineacion = "center" },
+                new() { Nombre = "Total Ingresos", TipoDato = "currency", Ancho = 25, Alineacion = "right" }
             });
 
             // Agregar datos
@@ -272,8 +297,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 var fila = new Dictionary<string, object>
                 {
                     ["rango_edad"] = item.Rango,
-                    ["cantidad"] = item.Cantidad,
-                    ["porcentaje"] = $"{item.Porcentaje}%"
+                    ["cantidad_clientes"] = item.Cantidad,
+                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["total_ingresos"] = item.TotalIngresos
                 };
                 datosExportacion.Filas.Add(fila);
             }

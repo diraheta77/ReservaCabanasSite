@@ -95,7 +95,8 @@ namespace ReservaCabanasSite.Models
     {
         public string Rango { get; set; } = "";
         public int Cantidad { get; set; }
-        public double Porcentaje { get; set; }
+        public int CantidadReservas { get; set; }
+        public decimal TotalIngresos { get; set; }
     }
 
     public class ReporteCabanasViewModel

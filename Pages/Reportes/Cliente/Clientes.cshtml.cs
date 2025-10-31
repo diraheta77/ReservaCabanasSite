@@ -180,7 +180,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
             {
                 new() { Nombre = "Cliente", TipoDato = "string", Ancho = 25, Alineacion = "left" },
+                new() { Nombre = "DNI", TipoDato = "string", Ancho = 15, Alineacion = "center" },
                 new() { Nombre = "Cantidad Reservas", TipoDato = "number", Ancho = 15, Alineacion = "center" },
+                new() { Nombre = "Total Ingresos", TipoDato = "currency", Ancho = 20, Alineacion = "right" },
                 new() { Nombre = "Última Reserva", TipoDato = "date", Ancho = 20, Alineacion = "center" }
             });
 
@@ -190,7 +192,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 var fila = new Dictionary<string, object>
                 {
                     ["cliente"] = $"{item.ClienteNombre} {item.ClienteApellido}",
+                    ["dni"] = item.ClienteDni,
                     ["cantidad_reservas"] = item.TotalReservaciones,
+                    ["total_ingresos"] = item.MontoTotalAcumulado,
                     ["última_reserva"] = item.UltimaReservaFecha.ToString("dd/MM/yyyy")
                 };
                 datosExportacion.Filas.Add(fila);
@@ -244,8 +248,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             // Definir columnas
             datosExportacion.Columnas.AddRange(new List<ColumnaExportacion>
             {
-                new() { Nombre = "Cliente", TipoDato = "string", Ancho = 40, Alineacion = "left" },
+                new() { Nombre = "Cliente", TipoDato = "string", Ancho = 30, Alineacion = "left" },
+                new() { Nombre = "DNI", TipoDato = "string", Ancho = 20, Alineacion = "center" },
                 new() { Nombre = "Cantidad Reservas", TipoDato = "number", Ancho = 20, Alineacion = "center" },
+                new() { Nombre = "Total Ingresos", TipoDato = "currency", Ancho = 25, Alineacion = "right" },
                 new() { Nombre = "Última Reserva", TipoDato = "date", Ancho = 25, Alineacion = "center" }
             });
 
@@ -255,7 +261,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
                 var fila = new Dictionary<string, object>
                 {
                     ["cliente"] = $"{item.ClienteNombre} {item.ClienteApellido}",
+                    ["dni"] = item.ClienteDni,
                     ["cantidad_reservas"] = item.TotalReservaciones,
+                    ["total_ingresos"] = item.MontoTotalAcumulado,
                     ["última_reserva"] = item.UltimaReservaFecha.ToString("dd/MM/yyyy")
                 };
                 datosExportacion.Filas.Add(fila);

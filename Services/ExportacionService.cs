@@ -165,7 +165,7 @@ namespace ReservaCabanasSite.Services
 
                         if (estadistica.Key.Contains("Ingresos") || estadistica.Key.Contains("Promedio"))
                         {
-                            worksheet.Cell(filaActual, 2).Style.NumberFormat.Format = "$#,##0";
+                            worksheet.Cell(filaActual, 2).Style.NumberFormat.Format = "$#.##0,00";
                         }
 
                         filaActual++;
@@ -210,11 +210,11 @@ namespace ReservaCabanasSite.Services
                             switch (columna.TipoDato.ToLower())
                             {
                                 case "currency":
-                                    cell.Style.NumberFormat.Format = "$#,##0";
+                                    cell.Style.NumberFormat.Format = "$#.##0,00";
                                     cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                                     break;
                                 case "number":
-                                    cell.Style.NumberFormat.Format = "#,##0";
+                                    cell.Style.NumberFormat.Format = "#.##0";
                                     cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                     break;
                                 case "date":
@@ -429,7 +429,7 @@ namespace ReservaCabanasSite.Services
                         {
                             if (decimal.TryParse(valorTexto, out decimal valor))
                             {
-                                valorTexto = $"${valor:N0}";
+                                valorTexto = "$" + valor.ToString("N2", new System.Globalization.CultureInfo("es-AR"));
                             }
                         }
 
@@ -475,7 +475,7 @@ namespace ReservaCabanasSite.Services
                             // Formateo según tipo
                             if (columna.TipoDato == "currency" && decimal.TryParse(valor, out decimal valorDecimal))
                             {
-                                valor = $"${valorDecimal:N0}";
+                                valor = "$" + valorDecimal.ToString("N2", new System.Globalization.CultureInfo("es-AR"));
                             }
 
                             var celda = new PdfPCell(new Phrase(valor, fuenteNormal));
