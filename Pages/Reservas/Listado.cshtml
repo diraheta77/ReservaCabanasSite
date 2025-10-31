@@ -227,8 +227,9 @@
         
         <div class="filter-group">
             <label class="filter-label">Cliente</label>
-            <input type="text" name="clienteBusqueda" class="filter-input" 
-                   value="@Model.ClienteBusqueda" placeholder="Nombre, apellido o DNI">
+            <input type="text" name="clienteBusqueda" class="filter-input"
+                   value="@Model.ClienteBusqueda" placeholder="Nombre, apellido o DNI"
+                   oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '')">
         </div>
         
         <div class="filter-group">

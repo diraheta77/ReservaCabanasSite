@@ -357,7 +357,8 @@
 
                 <div class="form-group">
                     <label asp-for="ReporteModel.DniCliente" class="form-label"></label>
-                    <input asp-for="ReporteModel.DniCliente" class="form-control" type="text" placeholder="Ej: 12345678" />
+                    <input asp-for="ReporteModel.DniCliente" class="form-control" type="text" placeholder="Ej: 12345678"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     <span asp-validation-for="ReporteModel.DniCliente" class="text-danger"></span>
                 </div>
             </div>
