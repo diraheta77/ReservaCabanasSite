@@ -64,17 +64,20 @@ namespace ReservaCabanasSite.Pages.Reservas
 
             try
             {
-                // Eliminar la reserva
-                _context.Reservas.Remove(reserva);
+                // Cambiar el estado a "Cancelada" en lugar de eliminar
+                reserva.EstadoReserva = "Cancelada";
+                reserva.Activa = false;
+
+                _context.Reservas.Update(reserva);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = $"Reserva #{reserva.Id} eliminada exitosamente.";
+                TempData["SuccessMessage"] = $"Reserva #{reserva.Id} cancelada exitosamente.";
                 return RedirectToPage("Listado");
             }
             catch (DbUpdateException ex)
             {
-                // Si hay algún error al eliminar (por ejemplo, restricciones de clave foránea)
-                TempData["ErrorMessage"] = "No se pudo eliminar la reserva. Puede que tenga datos relacionados que impiden su eliminación.";
+                // Si hay algún error al actualizar
+                TempData["ErrorMessage"] = "No se pudo cancelar la reserva. Por favor, inténtelo nuevamente.";
                 return RedirectToPage("Details", new { id = id });
             }
         }

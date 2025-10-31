@@ -235,13 +235,13 @@
             <label class="filter-label">Estado</label>
             <select name="estadoFiltro" class="filter-select">
                 <option value="">Todos los estados</option>
-                @if (Model.EstadoFiltro == "Activa")
+                @if (Model.EstadoFiltro == "Confirmada")
                 {
-                    <option value="Activa" selected>Activa</option>
+                    <option value="Confirmada" selected>Confirmada</option>
                 }
                 else
                 {
-                    <option value="Activa">Activa</option>
+                    <option value="Confirmada">Confirmada</option>
                 }
                 @if (Model.EstadoFiltro == "Cancelada")
                 {
@@ -317,7 +317,7 @@
                             @{
                                 var estadoClass = reserva.EstadoReserva switch
                                 {
-                                    "Activa" => "status-active",
+                                    "Confirmada" => "status-active",
                                     "Cancelada" => "status-cancelled",
                                     "Completada" => "status-completed",
                                     _ => "status-active"
@@ -332,19 +332,13 @@
                                    class="btn-custom btn-secondary-custom btn-sm">Ver</a>
                                 <a asp-page="Edit" asp-route-id="@reserva.Id" 
                                    class="btn-custom btn-primary-custom btn-sm">Editar</a>
-                                @if (reserva.EstadoReserva == "Activa")
+                                @if (reserva.EstadoReserva == "Confirmada")
                                 {
-                                    <a asp-page="Cancelar" asp-route-id="@reserva.Id" 
-                                       class="btn-custom btn-danger-custom btn-sm"
-                                       onclick="return confirm('¿Estás seguro de que quieres cancelar esta reserva?')">
-                                        Cancelar
+                                    <a asp-page="Delete" asp-route-id="@reserva.Id"
+                                       class="btn-custom btn-danger-custom btn-sm">
+                                        <i class="fa fa-ban"></i> Cancelar
                                     </a>
                                 }
-                                <a asp-page="Delete" asp-route-id="@reserva.Id" 
-                                   class="btn-custom btn-danger-custom btn-sm"
-                                   onclick="return confirm('¿Estás seguro de que quieres ELIMINAR PERMANENTEMENTE la reserva #@reserva.Id? Esta acción no se puede deshacer.')">
-                                    <i class="fa fa-trash"></i> Inactivar
-                                </a>
                             </div>
                         </td>
                     </tr>

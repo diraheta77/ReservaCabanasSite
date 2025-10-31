@@ -210,7 +210,7 @@
                     @{
                         var estadoClass = Model.Reserva.EstadoReserva switch
                         {
-                            "Activa" => "status-active",
+                            "Confirmada" => "status-active",
                             "Cancelada" => "status-cancelled",
                             "Completada" => "status-completed",
                             _ => "status-active"
@@ -323,17 +323,12 @@
         <a asp-page="Listado" class="btn-custom btn-secondary-custom">
             <i class="fa fa-arrow-left"></i> Volver al Listado
         </a>
-        @if (Model.Reserva.EstadoReserva == "Activa")
+        @if (Model.Reserva.EstadoReserva == "Confirmada")
         {
-            <a asp-page="Cancelar" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom"
-               onclick="return confirm('¿Estás seguro de que quieres cancelar esta reserva?')">
-                <i class="fa fa-times"></i> Cancelar Reserva
+            <a asp-page="Delete" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom">
+                <i class="fa fa-ban"></i> Cancelar Reserva
             </a>
         }
-        <a asp-page="Delete" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-danger-custom"
-           onclick="return confirm('¿Estás seguro de que quieres ELIMINAR PERMANENTEMENTE esta reserva? Esta acción no se puede deshacer.')">
-            <i class="fa fa-trash"></i> Eliminar Reserva
-        </a>
         <button type="button" class="btn-custom btn-info-custom" data-toggle="modal" data-target="#emailModal">
             <i class="fa fa-envelope"></i> Enviar por Email
         </button>

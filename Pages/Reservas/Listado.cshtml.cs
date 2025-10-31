@@ -43,7 +43,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 .OrderBy(c => c.Nombre)
                 .ToListAsync();
 
-            // Construir query base
+            // Construir query base - MOSTRAR TODAS LAS RESERVAS (incluidas canceladas)
             var query = _context.Reservas
                 .Include(r => r.Cabana)
                 .Include(r => r.Cliente)

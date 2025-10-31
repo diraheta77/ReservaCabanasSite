@@ -1,7 +1,7 @@
 @page "{id:int}"
 @model ReservaCabanasSite.Pages.Reservas.DeleteModel
 @{
-    ViewData["Title"] = "Eliminar Reserva";
+    ViewData["Title"] = "Cancelar Reserva";
 }
 
 <style>
@@ -166,7 +166,7 @@
 
 <div class="delete-container">
     <div class="delete-header">
-        <h1 class="delete-title">Eliminar Reserva</h1>
+        <h1 class="delete-title">Cancelar Reserva</h1>
         <div class="reservation-number">Reserva #@Model.Reserva.Id</div>
     </div>
 
@@ -176,13 +176,13 @@
         </div>
         <div class="warning-text">¡Atención! Esta acción no se puede deshacer</div>
         <div class="warning-description">
-            Al eliminar esta reserva, se perderá permanentemente toda la información asociada, 
+            Al cancelar esta reserva, se perderá permanentemente toda la información asociada,
             incluyendo datos del cliente, vehículo y pagos relacionados.
         </div>
     </div>
 
     <div class="reservation-summary">
-        <h3 class="summary-title">📋 Resumen de la Reserva a Eliminar</h3>
+        <h3 class="summary-title">📋 Resumen de la Reserva a Cancelar</h3>
         
         <div class="summary-item">
             <span class="summary-label">Cabaña:</span>
@@ -222,18 +222,12 @@
 
     <form method="post" id="deleteForm">
         <div class="action-buttons">
-            <button type="submit" class="btn-custom btn-danger-custom" onclick="return confirmDelete()">
-                <i class="fa fa-trash"></i> Confirmar Eliminación
+            <button type="submit" class="btn-custom btn-danger-custom">
+                <i class="fa fa-ban"></i> Confirmar Cancelación
             </button>
             <a asp-page="Details" asp-route-id="@Model.Reserva.Id" class="btn-custom btn-outline-custom">
-                <i class="fa fa-times"></i> Cancelar
+                <i class="fa fa-times"></i> Volver
             </a>
         </div>
     </form>
 </div>
-
-<script>
-function confirmDelete() {
-    return confirm('¿Estás completamente seguro de que quieres eliminar esta reserva?\n\nEsta acción es IRREVERSIBLE y eliminará permanentemente todos los datos asociados.');
-}
-</script>
