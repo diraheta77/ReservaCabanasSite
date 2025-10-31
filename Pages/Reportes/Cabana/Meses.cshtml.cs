@@ -206,10 +206,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
                 var fila = new Dictionary<string, object>
                 {
                     ["mes"] = item.NombreMes,
-                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
-                    ["porcentaje_reservas"] = $"{item.PorcentajeReservas}%",
-                    ["porcentaje_ingresos"] = $"{item.PorcentajeIngresos}%"
+                    ["%_reservas"] = $"{item.PorcentajeReservas}%",
+                    ["%_ingresos"] = $"{item.PorcentajeIngresos}%"
                 };
                 datosExportacion.Filas.Add(fila);
             }
@@ -274,10 +274,10 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
                 var fila = new Dictionary<string, object>
                 {
                     ["mes"] = item.NombreMes,
-                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
-                    ["porcentaje_reservas"] = $"{item.PorcentajeReservas}%",
-                    ["porcentaje_ingresos"] = $"{item.PorcentajeIngresos}%"
+                    ["%_reservas"] = $"{item.PorcentajeReservas}%",
+                    ["%_ingresos"] = $"{item.PorcentajeIngresos}%"
                 };
                 datosExportacion.Filas.Add(fila);
             }
