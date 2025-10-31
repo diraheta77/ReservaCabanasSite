@@ -233,7 +233,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             {
                 var fila = new Dictionary<string, object>
                 {
-                    ["rango_edad"] = item.Rango,
+                    ["rango_de_edad"] = item.Rango,
                     ["cantidad_clientes"] = item.Cantidad,
                     ["cantidad_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos
@@ -296,7 +296,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             {
                 var fila = new Dictionary<string, object>
                 {
-                    ["rango_edad"] = item.Rango,
+                    ["rango_de_edad"] = item.Rango,
                     ["cantidad_clientes"] = item.Cantidad,
                     ["cantidad_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos
