@@ -305,9 +305,9 @@
             <label asp-for="WizardModel.MedioContacto" class="form-label">Medio de contacto</label>
             <select asp-for="WizardModel.MedioContacto" class="form-control">
                 <option value="">Selecciona el medio de contacto</option>
-                @foreach (var medio in Model.WizardModel.MediosContacto)
+                @foreach (var medio in Model.MediosContactoDisponibles)
                 {
-                    <option value="@medio">@medio</option>
+                    <option value="@medio.Nombre">@medio.Nombre</option>
                 }
             </select>
             <span asp-validation-for="WizardModel.MedioContacto" class="text-danger"></span>

@@ -21,6 +21,7 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         public List<Cabana> CabanasDisponibles { get; set; } = new List<Cabana>();
         public List<Temporada> TemporadasDisponibles { get; set; } = new List<Temporada>();
+        public List<MedioContacto> MediosContactoDisponibles { get; set; } = new List<MedioContacto>();
 
         public async Task OnGetAsync()
         {
@@ -31,6 +32,11 @@ namespace ReservaCabanasSite.Pages.Reservas
             // Cargar temporadas activas
             TemporadasDisponibles = await _context.Temporadas
                 .Where(t => t.Activa)
+                .ToListAsync();
+            // Cargar medios de contacto activos
+            MediosContactoDisponibles = await _context.MediosContacto
+                .Where(m => m.Activo)
+                .OrderBy(m => m.Nombre)
                 .ToListAsync();
             // Inicializar fechas por defecto
             if (WizardModel.FechaDesde == default)
@@ -76,6 +82,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 }
                 CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
                 TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
             // Validar que las fechas sean válidas
@@ -84,6 +91,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 ModelState.AddModelError("WizardModel.FechaHasta", "La fecha de fin debe ser posterior a la fecha de inicio");
                 CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
                 TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
             // Verificar disponibilidad de la cabaña
@@ -96,6 +104,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 ModelState.AddModelError("WizardModel.CabanaId", "La cabaña no está disponible para las fechas seleccionadas");
                 CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
                 TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
             // Asignar precio por persona según temporada seleccionada
@@ -105,6 +114,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 ModelState.AddModelError("WizardModel.TemporadaId", "La temporada seleccionada no es válida");
                 CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
                 TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
             WizardModel.PrecioPorPersona = temporada.PrecioPorPersona;
@@ -129,6 +139,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 ModelState.AddModelError("", $"Error al procesar los datos: {ex.Message}");
                 CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
                 TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
         }

@@ -1,0 +1,125 @@
+@page
+@model ReservaCabanasSite.Pages.MediosContacto.EditModel
+@{
+    ViewData["Title"] = "Editar Medio de Contacto";
+}
+
+<style>
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    padding: 32px;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5c4a45;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #5c4a45;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.2);
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.btn-custom {
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 1rem;
+}
+
+.btn-primary-custom {
+    background: #0097b2;
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background: #00798e;
+    color: #fff;
+}
+
+.btn-secondary-custom {
+    background: #0097b2;
+    color: #fff;
+}
+
+.btn-secondary-custom:hover {
+    background: #00798e;
+    color: #fff;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+</style>
+
+<div class="form-container">
+    <h1 class="form-title">Editar Medio de Contacto</h1>
+
+    <form method="post">
+        <input type="hidden" asp-for="MedioContacto.Id" />
+        <input type="hidden" asp-for="MedioContacto.Activo" />
+        <input type="hidden" asp-for="MedioContacto.FechaCreacion" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="MedioContacto.Nombre" class="form-label"></label>
+            <input asp-for="MedioContacto.Nombre" class="form-control" />
+            <span asp-validation-for="MedioContacto.Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MedioContacto.Descripcion" class="form-label"></label>
+            <textarea asp-for="MedioContacto.Descripcion" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="MedioContacto.Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn-custom btn-primary-custom">Guardar Cambios</button>
+            <a asp-page="Index" class="btn-custom btn-secondary-custom">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

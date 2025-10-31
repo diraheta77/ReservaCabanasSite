@@ -187,7 +187,7 @@
           
           @if (userRole == "Administrador")
           {
-              <li class="@(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/datosempresa") ? "active" : "")">
+              <li class="@(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/medioscontacto") || currentPage.StartsWith("/datosempresa") ? "active" : "")">
                 <a href="javascript:;" data-toggle="collapse" data-target="#ajustesSubmenu">
                   <i class="fa fa-cog"></i>
                   <p>
@@ -195,7 +195,7 @@
                     <b class="caret"></b>
                   </p>
                 </a>
-                <div class="collapse @(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/datosempresa") ? "show" : "")" id="ajustesSubmenu">
+                <div class="collapse @(currentPage.StartsWith("/ajustes") || currentPage.StartsWith("/temporadas") || currentPage.StartsWith("/mediospago") || currentPage.StartsWith("/medioscontacto") || currentPage.StartsWith("/datosempresa") ? "show" : "")" id="ajustesSubmenu">
                   <ul class="nav">
                     <li class="@(currentPage.StartsWith("/datosempresa") ? "active" : "")">
                       <a asp-page="/DatosEmpresa/Index">
@@ -213,6 +213,12 @@
                       <a asp-page="/MediosPago/Index">
                         <i class="fa fa-credit-card"></i>
                         <span class="sidebar-normal">Medios de Pago</span>
+                      </a>
+                    </li>
+                    <li class="@(currentPage.StartsWith("/medioscontacto") ? "active" : "")">
+                      <a asp-page="/MediosContacto/Index">
+                        <i class="fa fa-phone"></i>
+                        <span class="sidebar-normal">Medios de Contacto</span>
                       </a>
                     </li>
                   </ul>
