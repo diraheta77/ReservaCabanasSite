@@ -69,6 +69,25 @@
 <p>
     <a asp-page="Create" class="btn btn-primary-custom btn-custom">Nuevo Cliente</a>
 </p>
+
+<form method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text"
+                       asp-for="BusquedaTexto"
+                       class="form-control"
+                       placeholder="Buscar por DNI, nombre o apellido..." />
+                <button type="submit" class="btn btn-primary-custom btn-custom">Buscar</button>
+                @if (!string.IsNullOrWhiteSpace(Model.BusquedaTexto))
+                {
+                    <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Limpiar</a>
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>

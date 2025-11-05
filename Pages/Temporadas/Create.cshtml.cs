@@ -25,6 +25,14 @@ namespace ReservaCabanasSite.Pages.Temporadas
         {
             if (!ModelState.IsValid)
                 return Page();
+
+            // Validar que FechaHasta sea mayor que FechaDesde
+            if (Temporada.FechaHasta <= Temporada.FechaDesde)
+            {
+                ModelState.AddModelError("Temporada.FechaHasta", "La fecha de fin debe ser posterior a la fecha de inicio");
+                return Page();
+            }
+
             _context.Temporadas.Add(Temporada);
             _context.SaveChanges();
             return RedirectToPage("Index");

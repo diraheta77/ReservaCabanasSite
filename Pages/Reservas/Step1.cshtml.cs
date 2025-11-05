@@ -117,6 +117,19 @@ namespace ReservaCabanasSite.Pages.Reservas
                 MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
+
+            // Validar que las fechas de la reserva estén dentro del rango de la temporada
+            if (WizardModel.FechaDesde < temporada.FechaDesde || WizardModel.FechaHasta > temporada.FechaHasta)
+            {
+                ModelState.AddModelError("WizardModel.TemporadaId",
+                    $"La temporada '{temporada.Nombre}' no aplica para las fechas de esta reserva. " +
+                    $"Vigencia de la temporada: {temporada.FechaDesde:dd/MM/yyyy} - {temporada.FechaHasta:dd/MM/yyyy}");
+                CabanasDisponibles = await _context.Cabanas.Where(c => c.Activa).ToListAsync();
+                TemporadasDisponibles = await _context.Temporadas.Where(t => t.Activa).ToListAsync();
+                MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
+                return Page();
+            }
+
             WizardModel.PrecioPorPersona = temporada.PrecioPorPersona;
             WizardModel.Temporada = temporada.Nombre;
             // Calcular monto total

@@ -26,6 +26,7 @@
         <tr>
             <th>Nombre</th>
             <th>Precio por Persona</th>
+            <th>Vigencia</th>
             <th>Activa</th>
             <th>Acciones</th>
         </tr>
@@ -35,7 +36,8 @@
     {
         <tr>
             <td>@temporada.Nombre</td>
-            <td>$@temporada.PrecioPorPersona</td>
+            <td>$@temporada.PrecioPorPersona.ToString("N2")</td>
+            <td>@temporada.FechaDesde.ToString("dd/MM/yyyy") - @temporada.FechaHasta.ToString("dd/MM/yyyy")</td>
             <td>@(temporada.Activa ? "Sí" : "No")</td>
             <td>
                 <a asp-page="Edit" asp-route-id="@temporada.Id" class="btn btn-warning btn-sm">Editar</a>

@@ -28,6 +28,16 @@
         <span asp-validation-for="Temporada.PrecioPorPersona" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label asp-for="Temporada.FechaDesde"></label>
+        <input asp-for="Temporada.FechaDesde" class="form-control" type="date" />
+        <span asp-validation-for="Temporada.FechaDesde" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.FechaHasta"></label>
+        <input asp-for="Temporada.FechaHasta" class="form-control" type="date" />
+        <span asp-validation-for="Temporada.FechaHasta" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <input asp-for="Temporada.Activa" class="form-check-input" id="activaCheck" />
         <label asp-for="Temporada.Activa" class="form-check-label" for="activaCheck">Activa</label>
     </div>

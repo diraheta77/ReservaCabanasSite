@@ -18,9 +18,25 @@ namespace ReservaCabanasSite.Pages.Clientes
 
         public IList<Cliente> Clientes { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string? BusquedaTexto { get; set; }
+
         public async Task OnGetAsync()
         {
-            Clientes = await _context.Clientes.ToListAsync();
+            var query = _context.Clientes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(BusquedaTexto))
+            {
+                var busqueda = BusquedaTexto.Trim().ToLower();
+                query = query.Where(c =>
+                    c.Dni.ToLower().Contains(busqueda) ||
+                    c.Nombre.ToLower().Contains(busqueda) ||
+                    c.Apellido.ToLower().Contains(busqueda) ||
+                    (c.Nombre + " " + c.Apellido).ToLower().Contains(busqueda)
+                );
+            }
+
+            Clientes = await query.OrderBy(c => c.Apellido).ThenBy(c => c.Nombre).ToListAsync();
         }
 
         public async Task<IActionResult> OnPostActivarAsync(int id)

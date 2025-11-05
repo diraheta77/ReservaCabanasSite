@@ -29,11 +29,21 @@ namespace ReservaCabanasSite.Pages.Temporadas
         {
             if (!ModelState.IsValid)
                 return Page();
+
+            // Validar que FechaHasta sea mayor que FechaDesde
+            if (Temporada.FechaHasta <= Temporada.FechaDesde)
+            {
+                ModelState.AddModelError("Temporada.FechaHasta", "La fecha de fin debe ser posterior a la fecha de inicio");
+                return Page();
+            }
+
             var temporadaDb = _context.Temporadas.FirstOrDefault(t => t.Id == Temporada.Id);
             if (temporadaDb == null)
                 return NotFound();
             temporadaDb.Nombre = Temporada.Nombre;
             temporadaDb.PrecioPorPersona = Temporada.PrecioPorPersona;
+            temporadaDb.FechaDesde = Temporada.FechaDesde;
+            temporadaDb.FechaHasta = Temporada.FechaHasta;
             temporadaDb.Activa = Temporada.Activa;
             _context.SaveChanges();
             return RedirectToPage("Index");

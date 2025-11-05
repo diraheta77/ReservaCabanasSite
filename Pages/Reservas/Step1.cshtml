@@ -278,7 +278,12 @@
                         <option value="">Selecciona la temporada</option>
                         @foreach (var temporada in Model.TemporadasDisponibles)
                         {
-                            <option value="@temporada.Id" data-precio="@temporada.PrecioPorPersona">@temporada.Nombre</option>
+                            <option value="@temporada.Id"
+                                    data-precio="@temporada.PrecioPorPersona"
+                                    data-fecha-desde="@temporada.FechaDesde.ToString("yyyy-MM-dd")"
+                                    data-fecha-hasta="@temporada.FechaHasta.ToString("yyyy-MM-dd")">
+                                @temporada.Nombre (@temporada.FechaDesde.ToString("dd/MM") - @temporada.FechaHasta.ToString("dd/MM"))
+                            </option>
                         }
                     </select>
                     <span asp-validation-for="WizardModel.TemporadaId" class="text-danger"></span>
@@ -374,6 +379,61 @@
 
         fechaDesdeInput.addEventListener('change', ajustarFechaHasta);
         window.addEventListener('DOMContentLoaded', ajustarFechaHasta);
+
+        // Filtrar temporadas según fechas seleccionadas
+        function filtrarTemporadas() {
+            const fechaDesde = fechaDesdeInput.value;
+            const fechaHasta = fechaHastaInput.value;
+            const temporadaSelect = document.getElementById('temporadaSelect');
+
+            if (!fechaDesde || !fechaHasta) {
+                // Si no hay fechas seleccionadas, mostrar todas las opciones
+                Array.from(temporadaSelect.options).forEach(option => {
+                    if (option.value) {
+                        option.disabled = false;
+                        option.style.display = '';
+                    }
+                });
+                return;
+            }
+
+            const reservaDesde = new Date(fechaDesde);
+            const reservaHasta = new Date(fechaHasta);
+
+            let hayTemporadasValidas = false;
+
+            Array.from(temporadaSelect.options).forEach(option => {
+                if (option.value) {
+                    const temporadaDesde = new Date(option.getAttribute('data-fecha-desde'));
+                    const temporadaHasta = new Date(option.getAttribute('data-fecha-hasta'));
+
+                    // Verificar si la reserva está completamente dentro del rango de la temporada
+                    const esValida = reservaDesde >= temporadaDesde && reservaHasta <= temporadaHasta;
+
+                    if (!esValida) {
+                        option.disabled = true;
+                        option.style.color = '#999';
+                        option.text = option.text.includes('(No aplica)') ? option.text : option.text + ' (No aplica para estas fechas)';
+                    } else {
+                        option.disabled = false;
+                        option.style.color = '';
+                        option.text = option.text.replace(' (No aplica para estas fechas)', '');
+                        hayTemporadasValidas = true;
+                    }
+                }
+            });
+
+            // Si la temporada seleccionada actualmente no es válida, limpiar la selección
+            const selectedOption = temporadaSelect.options[temporadaSelect.selectedIndex];
+            if (selectedOption && selectedOption.disabled) {
+                temporadaSelect.value = '';
+                calcularTotalEstimado();
+            }
+        }
+
+        fechaDesdeInput.addEventListener('change', filtrarTemporadas);
+        fechaHastaInput.addEventListener('change', filtrarTemporadas);
+        window.addEventListener('DOMContentLoaded', filtrarTemporadas);
 
         async function validarDisponibilidad() {
             const cabanaId = document.getElementById('cabanaSelect').value;

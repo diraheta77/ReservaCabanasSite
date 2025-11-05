@@ -125,6 +125,53 @@
   .sidebar .nav li a {
     padding: 10px 15px;
   }
+
+  /* Mejoras visuales para el menú - hover y activo */
+  .sidebar .nav li > a:hover {
+    background-color: rgba(0, 151, 178, 0.1) !important;
+    color: #0097b2 !important;
+  }
+
+  .sidebar .nav li.active > a {
+    background-color: rgba(0, 151, 178, 0.15) !important;
+    color: #0097b2 !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #0097b2;
+  }
+
+  /* Para los submenús de Ajustes - color celeste para items dentro del grupo activo */
+  .sidebar .nav li.active .nav li > a {
+    background-color: rgba(0, 151, 178, 0.05) !important;
+    color: #007186 !important;
+  }
+
+  .sidebar .nav li.active .nav li.active > a {
+    background-color: rgba(0, 151, 178, 0.2) !important;
+    color: #0097b2 !important;
+    font-weight: bold !important;
+    border-left: 3px solid #0097b2;
+  }
+
+  .sidebar .nav li.active .nav li > a:hover {
+    background-color: rgba(0, 151, 178, 0.15) !important;
+    color: #0097b2 !important;
+  }
+
+  /* Para submenús anidados (como reportes) */
+  .sidebar .nav .nav .nav li > a {
+    background-color: rgba(0, 151, 178, 0.03) !important;
+    padding-left: 40px !important;
+  }
+
+  .sidebar .nav .nav .nav li.active > a {
+    background-color: rgba(0, 151, 178, 0.2) !important;
+    color: #0097b2 !important;
+    font-weight: bold !important;
+  }
+
+  .sidebar .nav .nav .nav li > a:hover {
+    background-color: rgba(0, 151, 178, 0.15) !important;
+  }
   </style>
 
 </head>
