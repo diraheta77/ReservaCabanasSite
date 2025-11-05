@@ -477,6 +477,26 @@
   <script src="~/assets/demo/demo.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="~/js/site.js"></script>
+
+  <script>
+    // Script para activar el menú padre cuando se hace click
+    $(document).ready(function() {
+      // Manejar clicks en elementos del menú con submenús
+      $('a[data-toggle="collapse"]').on('click', function() {
+        // Remover clase active de todos los menús
+        $('.sidebar .nav > li').removeClass('active');
+
+        // Agregar clase active al menú padre clickeado
+        $(this).closest('li').addClass('active');
+      });
+
+      // Asegurar que los menús con hijos activos también estén activos
+      $('.sidebar .nav .nav li.active').each(function() {
+        $(this).parents('li').addClass('active');
+      });
+    });
+  </script>
+
   @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
