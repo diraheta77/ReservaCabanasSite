@@ -350,11 +350,20 @@
             </button>
         </form>
 
-        <form method="post" style="display: inline;">
+        <form method="post" style="display: inline-block; vertical-align: top;">
             <input type="hidden" name="reservaId" value="@Model.Reserva.Id" />
-            <button type="submit" asp-page-handler="EnviarEmail" class="btn btn-success-custom btn-custom">
-                📧 Enviar Email de Confirmación
-            </button>
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="display: flex; flex-direction: column;">
+                    <input type="text" name="emailsDestino" id="emailsDestino" class="form-control"
+                           placeholder="Email(s) - separar con ;"
+                           value="@Model.Cliente.Email"
+                           style="min-width: 300px; margin-bottom: 5px;" />
+                    <small class="text-muted">Separa múltiples emails con punto y coma (;)</small>
+                </div>
+                <button type="submit" asp-page-handler="EnviarEmail" class="btn btn-success-custom btn-custom">
+                    📧 Enviar Email
+                </button>
+            </div>
         </form>
         
         <a asp-page="Index" class="btn btn-info-custom btn-custom">

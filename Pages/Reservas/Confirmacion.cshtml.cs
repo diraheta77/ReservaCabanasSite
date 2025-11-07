@@ -69,7 +69,7 @@ namespace ReservaCabanasSite.Pages.Reservas
             return RedirectToPage("Imprimir", new { id = reservaId });
         }
 
-        public async Task<IActionResult> OnPostEnviarEmailAsync(int reservaId)
+        public async Task<IActionResult> OnPostEnviarEmailAsync(int reservaId, string emailsDestino)
         {
             // Cargar datos de la reserva
             var reserva = await _context.Reservas
@@ -83,8 +83,18 @@ namespace ReservaCabanasSite.Pages.Reservas
             }
             var cliente = reserva.Cliente;
             var cabana = reserva.Cabana;
-            // Configuración del email
-            var to = cliente.Email;
+
+            // Procesar múltiples emails separados por punto y coma
+            var emails = string.IsNullOrWhiteSpace(emailsDestino)
+                ? new[] { cliente.Email }
+                : emailsDestino.Split(';').Select(e => e.Trim()).Where(e => !string.IsNullOrEmpty(e)).ToArray();
+
+            if (!emails.Any())
+            {
+                TempData["Mensaje"] = "No se especificaron emails válidos.";
+                return RedirectToPage("Confirmacion", new { id = reservaId });
+            }
+
             var subject = $"Confirmación de Reserva #{reserva.Id} - Aldea Uruel";
             var body = $@"<!DOCTYPE html>
 <html>
@@ -120,17 +130,39 @@ namespace ReservaCabanasSite.Pages.Reservas
 </html>";
             try
             {
-                // Configura aquí tu servidor SMTP real
+                // Configurar SMTP
                 var smtp = new SmtpClient(_config["Email:SmtpHost"])
                 {
                     Port = int.Parse(_config["Email:SmtpPort"]),
                     Credentials = new NetworkCredential(_config["Email:SmtpUser"], _config["Email:SmtpPass"]),
                     EnableSsl = true
                 };
-                var mail = new MailMessage(_config["Email:SmtpUser"], to, subject, body);
-                mail.IsBodyHtml = true;
-                await smtp.SendMailAsync(mail);
-                TempData["Mensaje"] = "Email de confirmación enviado correctamente.";
+
+                // Enviar email a cada destinatario
+                int emailsEnviados = 0;
+                foreach (var email in emails)
+                {
+                    try
+                    {
+                        var mail = new MailMessage(_config["Email:SmtpUser"], email, subject, body);
+                        mail.IsBodyHtml = true;
+                        await smtp.SendMailAsync(mail);
+                        emailsEnviados++;
+                    }
+                    catch
+                    {
+                        // Continuar con los demás si falla uno
+                    }
+                }
+
+                if (emailsEnviados > 0)
+                {
+                    TempData["Mensaje"] = $"Email enviado correctamente a {emailsEnviados} destinatario(s).";
+                }
+                else
+                {
+                    TempData["Mensaje"] = "No se pudo enviar el email a ningún destinatario.";
+                }
             }
             catch (Exception ex)
             {

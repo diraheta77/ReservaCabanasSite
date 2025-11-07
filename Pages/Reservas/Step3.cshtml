@@ -345,11 +345,10 @@
                 <label asp-for="MetodoPagoInput" class="form-label">Método de Pago *</label>
                 <select asp-for="MetodoPagoInput" class="form-control">
                     <option value="">Selecciona un método de pago</option>
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
-                    <option value="Tarjeta de Débito">Tarjeta de Débito</option>
-                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
-                    <option value="Mercado Pago">Mercado Pago</option>
+                    @foreach (var medioPago in Model.MediosPagoDisponibles)
+                    {
+                        <option value="@medioPago.Nombre">@medioPago.Nombre</option>
+                    }
                 </select>
                 <span asp-validation-for="MetodoPagoInput" class="text-danger"></span>
             </div>

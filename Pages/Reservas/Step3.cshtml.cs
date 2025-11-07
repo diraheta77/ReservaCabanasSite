@@ -18,6 +18,7 @@ namespace ReservaCabanasSite.Pages.Reservas
         }
 
         public ReservaWizardViewModel WizardModel { get; set; } = new ReservaWizardViewModel();
+        public List<MedioPago> MediosPagoDisponibles { get; set; } = new List<MedioPago>();
         [BindProperty]
         public string WizardDataJson { get; set; }
         [BindProperty]
@@ -56,6 +57,11 @@ namespace ReservaCabanasSite.Pages.Reservas
                         ViewData["Cabana"] = cabana;
                     }
                 }
+                // Cargar medios de pago activos
+                MediosPagoDisponibles = await _context.MediosPago
+                    .Where(m => m.Activo)
+                    .OrderBy(m => m.Nombre)
+                    .ToListAsync();
             }
             catch
             {
