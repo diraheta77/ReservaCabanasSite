@@ -4,6 +4,7 @@ using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Data;
 using Microsoft.EntityFrameworkCore;
 using ReservaCabanasSite.Filters;
+using System.Text.Json;
 
 namespace ReservaCabanasSite.Pages.Reservas
 {
@@ -38,14 +39,29 @@ namespace ReservaCabanasSite.Pages.Reservas
                 .Where(m => m.Activo)
                 .OrderBy(m => m.Nombre)
                 .ToListAsync();
-            // Inicializar fechas por defecto
-            if (WizardModel.FechaDesde == default)
+
+            // Si estamos volviendo desde Step2, cargar los datos guardados
+            if (TempData.ContainsKey("VolviendoDeStep2") && TempData.Peek("WizardData") != null)
             {
-                WizardModel.FechaDesde = DateTime.Today.AddDays(1);
+                try
+                {
+                    var wizardDataJson = TempData.Peek("WizardData").ToString();
+                    WizardModel = JsonSerializer.Deserialize<ReservaWizardViewModel>(wizardDataJson);
+                    TempData.Remove("VolviendoDeStep2");
+                }
+                catch { }
             }
-            if (WizardModel.FechaHasta == default)
+            else
             {
-                WizardModel.FechaHasta = DateTime.Today.AddDays(2);
+                // Inicializar fechas por defecto solo si no estamos volviendo
+                if (WizardModel.FechaDesde == default)
+                {
+                    WizardModel.FechaDesde = DateTime.Today.AddDays(1);
+                }
+                if (WizardModel.FechaHasta == default)
+                {
+                    WizardModel.FechaHasta = DateTime.Today.AddDays(2);
+                }
             }
         }
 

@@ -45,7 +45,7 @@ namespace ReservaCabanasSite.Pages.Reservas
             try
             {
                 WizardModel = JsonSerializer.Deserialize<ReservaWizardViewModel>(wizardDataJson);
-                WizardModel.PasoActual = 2;                
+                WizardModel.PasoActual = 2;
                 WizardDataJson = wizardDataJson;
             }
             catch (Exception ex)
@@ -54,6 +54,47 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return RedirectToPage("Step1");
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostVolverAsync()
+        {
+            // Obtener los datos del paso 1 y mantener los datos del paso 2 ingresados
+            string wizardDataJson = null;
+            if (TempData.Peek("WizardData") != null)
+            {
+                wizardDataJson = TempData.Peek("WizardData").ToString();
+            }
+            else if (!string.IsNullOrEmpty(WizardDataJson))
+            {
+                wizardDataJson = WizardDataJson;
+            }
+
+            if (wizardDataJson != null)
+            {
+                try
+                {
+                    var pasoAnterior = JsonSerializer.Deserialize<ReservaWizardViewModel>(wizardDataJson);
+                    // Combinar datos del paso 1 con los datos actuales del paso 2
+                    WizardModel.CabanaId = pasoAnterior.CabanaId;
+                    WizardModel.FechaDesde = pasoAnterior.FechaDesde;
+                    WizardModel.FechaHasta = pasoAnterior.FechaHasta;
+                    WizardModel.Temporada = pasoAnterior.Temporada;
+                    WizardModel.TemporadaId = pasoAnterior.TemporadaId;
+                    WizardModel.PrecioPorPersona = pasoAnterior.PrecioPorPersona;
+                    WizardModel.CantidadPersonas = pasoAnterior.CantidadPersonas;
+                    WizardModel.MedioContacto = pasoAnterior.MedioContacto;
+                    WizardModel.MontoTotal = pasoAnterior.MontoTotal;
+                    WizardModel.PasoActual = 1;
+
+                    // Guardar todos los datos combinados
+                    var newWizardData = JsonSerializer.Serialize(WizardModel);
+                    TempData["WizardData"] = newWizardData;
+                    TempData["VolviendoDeStep2"] = "true"; // Flag para que Step1 sepa que estamos volviendo
+                }
+                catch { }
+            }
+
+            return RedirectToPage("Step1");
         }
 
         public async Task<IActionResult> OnPostAsync()

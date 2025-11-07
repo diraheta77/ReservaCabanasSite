@@ -381,17 +381,27 @@
         window.addEventListener('DOMContentLoaded', ajustarFechaHasta);
 
         // Filtrar temporadas según fechas seleccionadas
+        const temporadaSelect = document.getElementById('temporadaSelect');
+        // Guardar los textos originales de las temporadas
+        const temporadaTextosOriginales = {};
+        Array.from(temporadaSelect.options).forEach(option => {
+            if (option.value) {
+                temporadaTextosOriginales[option.value] = option.text;
+            }
+        });
+
         function filtrarTemporadas() {
             const fechaDesde = fechaDesdeInput.value;
             const fechaHasta = fechaHastaInput.value;
-            const temporadaSelect = document.getElementById('temporadaSelect');
 
             if (!fechaDesde || !fechaHasta) {
-                // Si no hay fechas seleccionadas, mostrar todas las opciones
+                // Si no hay fechas seleccionadas, mostrar todas las opciones con texto original
                 Array.from(temporadaSelect.options).forEach(option => {
                     if (option.value) {
                         option.disabled = false;
                         option.style.display = '';
+                        option.style.color = '';
+                        option.text = temporadaTextosOriginales[option.value];
                     }
                 });
                 return;
@@ -410,14 +420,17 @@
                     // Verificar si la reserva está completamente dentro del rango de la temporada
                     const esValida = reservaDesde >= temporadaDesde && reservaHasta <= temporadaHasta;
 
+                    // Siempre usar el texto original como base
+                    const textoOriginal = temporadaTextosOriginales[option.value];
+
                     if (!esValida) {
                         option.disabled = true;
                         option.style.color = '#999';
-                        option.text = option.text.includes('(No aplica)') ? option.text : option.text + ' (No aplica para estas fechas)';
+                        option.text = textoOriginal + ' (No aplica para estas fechas)';
                     } else {
                         option.disabled = false;
                         option.style.color = '';
-                        option.text = option.text.replace(' (No aplica para estas fechas)', '');
+                        option.text = textoOriginal;
                         hayTemporadasValidas = true;
                     }
                 }
