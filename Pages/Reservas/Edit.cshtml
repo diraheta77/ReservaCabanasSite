@@ -236,12 +236,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Reserva.EstadoReserva" class="form-label">Estado</label>
-                        <select asp-for="Reserva.EstadoReserva" class="form-control">
+                        <select asp-for="Reserva.EstadoReserva" class="form-control" id="estadoReservaSelect">
                             <option value="Confirmada">Confirmada</option>
+                            <option value="Finalizada">Finalizada</option>
                             <option value="Cancelada">Cancelada</option>
-                            <option value="Completada">Completada</option>
                         </select>
                         <span asp-validation-for="Reserva.EstadoReserva" class="text-danger"></span>
+                        <small class="text-muted">Finalizada solo disponible si el pago está como "Pagado"</small>
                     </div>
                 </div>
             </div>
@@ -268,13 +269,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Reserva.EstadoPago" class="form-label">Estado del pago</label>
-                        <select asp-for="Reserva.EstadoPago" class="form-control">
+                        <select asp-for="Reserva.EstadoPago" class="form-control" id="estadoPagoSelect">
                             <option value="Pendiente">Pendiente</option>
                             <option value="Pagado">Pagado</option>
                             <option value="Parcial">Parcial</option>
-                            <option value="Cancelado">Cancelado</option>
+                            <option value="Rechazado">Rechazado</option>
                         </select>
                         <span asp-validation-for="Reserva.EstadoPago" class="text-danger"></span>
+                        <small class="text-muted">Si se marca "Rechazado", la reserva se cancelará automáticamente</small>
                     </div>
                 </div>
             </div>
@@ -318,4 +320,71 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const estadoReservaInicial = '@Model.Reserva.EstadoReserva';
+        const estadoPagoSelect = document.getElementById('estadoPagoSelect');
+        const estadoReservaSelect = document.getElementById('estadoReservaSelect');
+        const form = document.querySelector('form');
+        const fechasInputs = document.querySelectorAll('input[type="date"]');
+
+        // Deshabilitar campos según el estado de la reserva
+        function aplicarRestricciones() {
+            const estadoActual = estadoReservaSelect.value;
+
+            if (estadoActual === 'Cancelada') {
+                // Si está cancelada, deshabilitar TODO excepto el botón cancelar
+                const todosLosCampos = form.querySelectorAll('input, select, textarea, button[type="submit"]');
+                todosLosCampos.forEach(campo => {
+                    if (campo !== estadoReservaSelect) {
+                        campo.disabled = true;
+                    }
+                });
+                alert('Las reservas canceladas no pueden editarse.');
+            } else if (estadoActual === 'Finalizada') {
+                // Si está finalizada, solo permitir editar datos de cliente y pago, no fechas
+                fechasInputs.forEach(input => {
+                    input.disabled = true;
+                });
+                document.getElementById('cabanaSelect')?.setAttribute('disabled', 'disabled');
+                document.querySelector('input[name="Reserva.CantidadPersonas"]')?.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        // Validar que "Finalizada" solo esté disponible si el pago está "Pagado"
+        function validarEstadoFinalizada() {
+            const estadoPago = estadoPagoSelect.value;
+            const opcionFinalizada = estadoReservaSelect.querySelector('option[value="Finalizada"]');
+
+            if (estadoPago !== 'Pagado') {
+                opcionFinalizada.disabled = true;
+                if (estadoReservaSelect.value === 'Finalizada') {
+                    estadoReservaSelect.value = 'Confirmada';
+                }
+            } else {
+                opcionFinalizada.disabled = false;
+            }
+        }
+
+        // Advertir si se selecciona "Rechazado" en el pago
+        estadoPagoSelect.addEventListener('change', function() {
+            if (this.value === 'Rechazado') {
+                if (confirm('Si marcas el pago como "Rechazado", la reserva se cancelará automáticamente. ¿Deseas continuar?')) {
+                    estadoReservaSelect.value = 'Cancelada';
+                } else {
+                    this.value = estadoPagoSelect.dataset.previous || 'Pendiente';
+                }
+            }
+            estadoPagoSelect.dataset.previous = this.value;
+            validarEstadoFinalizada();
+        });
+
+        estadoReservaSelect.addEventListener('change', aplicarRestricciones);
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            estadoPagoSelect.dataset.previous = estadoPagoSelect.value;
+            validarEstadoFinalizada();
+            aplicarRestricciones();
+        });
+    </script>
 }

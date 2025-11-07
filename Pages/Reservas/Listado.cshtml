@@ -252,13 +252,13 @@
                 {
                     <option value="Cancelada">Cancelada</option>
                 }
-                @if (Model.EstadoFiltro == "Completada")
+                @if (Model.EstadoFiltro == "Finalizada")
                 {
-                    <option value="Completada" selected>Completada</option>
+                    <option value="Finalizada" selected>Finalizada</option>
                 }
                 else
                 {
-                    <option value="Completada">Completada</option>
+                    <option value="Finalizada">Finalizada</option>
                 }
             </select>
         </div>
@@ -320,7 +320,7 @@
                                 {
                                     "Confirmada" => "status-active",
                                     "Cancelada" => "status-cancelled",
-                                    "Completada" => "status-completed",
+                                    "Finalizada" => "status-completed",
                                     _ => "status-active"
                                 };
                             }
