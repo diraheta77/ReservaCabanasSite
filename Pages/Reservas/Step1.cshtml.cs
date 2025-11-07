@@ -71,8 +71,8 @@ namespace ReservaCabanasSite.Pages.Reservas
             {
                 if (WizardModel.CantidadPersonas < 1)
                     paso1Errors.Add($"La cantidad de personas debe ser al menos 1.");
-                if (WizardModel.CantidadPersonas > cabanaSeleccionada.Capacidad)
-                    paso1Errors.Add($"La cantidad máxima de personas para esta cabaña es {cabanaSeleccionada.Capacidad}.");
+                else if (WizardModel.CantidadPersonas > cabanaSeleccionada.Capacidad)
+                    paso1Errors.Add($"La cantidad de personas no puede superar la capacidad máxima de {cabanaSeleccionada.Capacidad} para esta cabaña.");
             }
             if (paso1Errors.Any())
             {

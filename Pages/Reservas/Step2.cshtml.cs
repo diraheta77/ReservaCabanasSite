@@ -237,7 +237,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 
                 if (edad < 18)
                 {
-                    ModelState.AddModelError("WizardModel.FechaNacimiento", "Debes ser mayor de 18 años para realizar una reserva.");
+                    ModelState.AddModelError("WizardModel.FechaNacimiento", "El cliente debe ser mayor de 18 años para realizar una reserva.");
                     WizardDataJson = JsonSerializer.Serialize(WizardModel);
                     return Page();
                 }

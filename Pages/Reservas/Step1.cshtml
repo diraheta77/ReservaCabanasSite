@@ -483,7 +483,13 @@
             totalEstimadoInput.value = total ? `$${total.toLocaleString('es-AR', {minimumFractionDigits:2})}` : '';
         }
         temporadaSelect.addEventListener('change', calcularTotalEstimado);
-        cantidadPersonasInput.addEventListener('input', calcularTotalEstimado);
+        cantidadPersonasInput.addEventListener('input', function() {
+            // Eliminar ceros a la izquierda
+            if (this.value.length > 1 && this.value.startsWith('0')) {
+                this.value = parseInt(this.value, 10) || '';
+            }
+            calcularTotalEstimado();
+        });
         fechaDesdeInput.addEventListener('change', calcularTotalEstimado);
         fechaHastaInput.addEventListener('change', calcularTotalEstimado);
         document.getElementById('cabanaSelect').addEventListener('change', calcularTotalEstimado);
