@@ -152,11 +152,11 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
             {
                 var fila = new Dictionary<string, object>
                 {
-                    ["medio_pago"] = item.MedioPago,
-                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["medio_de_pago"] = item.MedioPago,
+                    ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
-                    ["promedio_ingreso"] = item.PromedioIngreso,
-                    ["porcentaje_ingresos"] = item.PorcentajeIngresos / 100
+                    ["promedio_por_reserva"] = item.PromedioIngreso,
+                    ["%_ingresos"] = item.PorcentajeIngresos / 100
                 };
                 datosExportacion.Filas.Add(fila);
             }
@@ -217,11 +217,11 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
             {
                 var fila = new Dictionary<string, object>
                 {
-                    ["medio_pago"] = item.MedioPago,
-                    ["cantidad_reservas"] = item.CantidadReservas,
+                    ["medio_de_pago"] = item.MedioPago,
+                    ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
-                    ["promedio_ingreso"] = item.PromedioIngreso,
-                    ["porcentaje_ingresos"] = item.PorcentajeIngresos / 100
+                    ["promedio_por_reserva"] = item.PromedioIngreso,
+                    ["%_ingresos"] = item.PorcentajeIngresos / 100
                 };
                 datosExportacion.Filas.Add(fila);
             }
