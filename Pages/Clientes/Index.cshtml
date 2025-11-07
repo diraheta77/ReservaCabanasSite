@@ -63,6 +63,32 @@
     background: #4a3c38;
     color: #fff;
 }
+
+.estado-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-activo {
+    background: #d4edda;
+    color: #155724;
+}
+
+.estado-inactivo {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.table tbody tr.inactivo {
+    background-color: #ffe6e6;
+}
+
+.table tbody tr.inactivo:hover {
+    background-color: #ffd6d6;
+}
 </style>
 
 <h1>Clientes</h1>
@@ -104,7 +130,7 @@
     <tbody>
     @foreach (var cliente in Model.Clientes)
     {
-        <tr class="@(cliente.Activo ? "" : "table-danger")">
+        <tr class="@(cliente.Activo ? "" : "inactivo")">
             <td>@cliente.Id</td>
             <td>@cliente.Dni</td>
             <td>@cliente.Nombre</td>
@@ -112,7 +138,9 @@
             <td>@cliente.Telefono</td>
             <td>@cliente.Email</td>
             <td>
-                @(cliente.Activo ? "Activo" : "Inactivo")
+                <span class="estado-badge @(cliente.Activo ? "estado-activo" : "estado-inactivo")">
+                    @(cliente.Activo ? "Activo" : "Inactivo")
+                </span>
             </td>
             <td>
                 <a asp-page="Edit" asp-route-id="@cliente.Id" class="btn btn-warning-custom btn-custom @(cliente.Activo ? "" : "disabled")">Editar</a>
