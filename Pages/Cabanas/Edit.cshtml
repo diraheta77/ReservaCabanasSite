@@ -129,14 +129,10 @@
 </style>
 
 <div class="cabana-form-main-row">
-    <!-- Vista previa de imágenes / Carrusel -->
+    <!-- Vista previa de imagen -->
     <div class="cabana-card cabana-form-img">
         <div class="cabana-img-preview-box" id="imgPreviewBox">
             <span id="imgPreviewPlaceholder" style="color:#aaa;">Vista previa</span>
-        </div>
-        <div class="cabana-img-carousel-controls">
-            <button type="button" class="cabana-img-carousel-btn" id="prevImgBtn" disabled>&lt;</button>
-            <button type="button" class="cabana-img-carousel-btn" id="nextImgBtn" disabled>&gt;</button>
         </div>
     </div>
     <!-- Formulario -->
@@ -163,12 +159,12 @@
                 <label asp-for="Cabana.Observaciones" class="cabana-form-label"></label>
                 <textarea asp-for="Cabana.Observaciones" class="cabana-form-textarea"></textarea>
 
-                <label class="cabana-form-label">Agregar Imágenes</label>
-                <input type="file" name="Imagenes" id="inputImagenes" class="form-control" style="background:#e5e5e5; border:none;" accept="image/*" multiple />
+                <label class="cabana-form-label">Cambiar Imagen</label>
+                <input type="file" name="Imagenes" id="inputImagenes" class="form-control" style="background:#e5e5e5; border:none;" accept="image/*" />
 
                 <div class="form-group" style="margin-top: 15px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <input asp-for="Cabana.Activa" type="checkbox" style="width: 18px; height: 18px;" />
+                        <input asp-for="Cabana.Activa" type="checkbox" id="checkboxActiva" style="width: 18px; height: 18px;" />
                         <label asp-for="Cabana.Activa" style="margin: 0; font-weight: 600; color: #5c4a45;">Cabaña Activa</label>
                     </div>
                 </div>
@@ -183,72 +179,47 @@
 
 @section Scripts {
 <script>
-    // Imágenes actuales de la cabaña (del modelo)
-    const imagenesActuales = [
-        @if (Model.Cabana.Imagenes != null && Model.Cabana.Imagenes.Any())
-        {
-            @foreach (var img in Model.Cabana.Imagenes)
-            {
-                @: "@img.ImagenUrl",
-            }
-        }
-    ];
-    // Imágenes nuevas seleccionadas (FileList)
-    let imgFiles = [];
-    let imgIndex = 0;
-    let mostrandoNuevas = false;
+    // Mostrar imagen actual de la cabaña
+    const previewBox = document.getElementById('imgPreviewBox');
+    const placeholder = document.getElementById('imgPreviewPlaceholder');
 
-    function updatePreview() {
-        const previewBox = document.getElementById('imgPreviewBox');
-        const placeholder = document.getElementById('imgPreviewPlaceholder');
-        const prevBtn = document.getElementById('prevImgBtn');
-        const nextBtn = document.getElementById('nextImgBtn');
-        previewBox.innerHTML = '';
-
-        let total = mostrandoNuevas ? imgFiles.length : imagenesActuales.length;
-        if (total === 0) {
-            placeholder.style.display = '';
-            previewBox.appendChild(placeholder);
-            prevBtn.disabled = true;
-            nextBtn.disabled = true;
-            return;
-        }
-        let img;
-        if (mostrandoNuevas) {
-            img = document.createElement('img');
-            img.src = URL.createObjectURL(imgFiles[imgIndex]);
-        } else {
-            img = document.createElement('img');
-            img.src = imagenesActuales[imgIndex];
-        }
-        previewBox.appendChild(img);
-        prevBtn.disabled = imgIndex === 0;
-        nextBtn.disabled = imgIndex === total - 1;
+    @if (Model.Cabana.Imagenes != null && Model.Cabana.Imagenes.Any())
+    {
+        var primeraImagen = Model.Cabana.Imagenes.First().ImagenUrl;
+        @: previewBox.innerHTML = '';
+        @: const imgActual = document.createElement('img');
+        @: imgActual.src = '@primeraImagen';
+        @: previewBox.appendChild(imgActual);
     }
 
+    // Al seleccionar nueva imagen, mostrarla en la vista previa
     document.getElementById('inputImagenes').addEventListener('change', function (evt) {
-        imgFiles = Array.from(this.files);
-        imgIndex = 0;
-        mostrandoNuevas = imgFiles.length > 0;
-        updatePreview();
-    });
+        previewBox.innerHTML = '';
 
-    document.getElementById('prevImgBtn').addEventListener('click', function () {
-        if (imgIndex > 0) {
-            imgIndex--;
-            updatePreview();
+        if (this.files && this.files[0]) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(this.files[0]);
+            previewBox.appendChild(img);
+        } else {
+            placeholder.style.display = '';
+            previewBox.appendChild(placeholder);
         }
     });
 
-    document.getElementById('nextImgBtn').addEventListener('click', function () {
-        let total = mostrandoNuevas ? imgFiles.length : imagenesActuales.length;
-        if (imgIndex < total - 1) {
-            imgIndex++;
-            updatePreview();
+    // Confirmación al cambiar el estado de la cabaña
+    const checkboxActiva = document.getElementById('checkboxActiva');
+    const estadoInicial = checkboxActiva.checked;
+
+    checkboxActiva.addEventListener('change', function(e) {
+        const nuevoEstado = this.checked;
+        const accion = nuevoEstado ? 'activar' : 'desactivar';
+        const mensaje = `¿Confirma que desea ${accion} la cabaña seleccionada?`;
+
+        if (!confirm(mensaje)) {
+            // Revertir el cambio si el usuario cancela
+            this.checked = estadoInicial;
+            e.preventDefault();
         }
     });
-
-    // Inicializa la vista previa con las imágenes actuales
-    updatePreview();
 </script>
 }
