@@ -17,6 +17,32 @@
 .btn-warning {
     background-color: #0097b2 !important;
 }
+
+.estado-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-activo {
+    background: #d4edda;
+    color: #155724;
+}
+
+.estado-inactivo {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.table tbody tr.inactiva {
+    background-color: #ffe6e6;
+}
+
+.table tbody tr.inactiva:hover {
+    background-color: #ffd6d6;
+}
 </style>
 
 <h1>Temporadas</h1>
@@ -34,11 +60,15 @@
     <tbody>
     @foreach (var temporada in Model.Temporadas)
     {
-        <tr>
+        <tr class="@(temporada.Activa ? "" : "inactiva")">
             <td>@temporada.Nombre</td>
             <td>$@temporada.PrecioPorPersona.ToString("N2")</td>
             <td>@temporada.FechaDesde.ToString("dd/MM/yyyy") - @temporada.FechaHasta.ToString("dd/MM/yyyy")</td>
-            <td>@(temporada.Activa ? "Sí" : "No")</td>
+            <td>
+                <span class="estado-badge @(temporada.Activa ? "estado-activo" : "estado-inactivo")">
+                    @(temporada.Activa ? "Activa" : "Inactiva")
+                </span>
+            </td>
             <td>
                 <a asp-page="Edit" asp-route-id="@temporada.Id" class="btn btn-warning btn-sm">Editar</a>
                 <a asp-page="Details" asp-route-id="@temporada.Id" class="btn btn-info btn-sm">Detalles</a>
