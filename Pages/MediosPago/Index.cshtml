@@ -96,6 +96,14 @@
     background: #f8f9fa;
 }
 
+.table tbody tr.inactivo {
+    background-color: #ffe6e6;
+}
+
+.table tbody tr.inactivo:hover {
+    background-color: #ffd6d6;
+}
+
 .action-buttons {
     display: flex;
     gap: 8px;
@@ -133,7 +141,7 @@
             <tbody>
                 @foreach (var medio in Model.MediosPago)
                 {
-                    <tr>
+                    <tr class="@(medio.Activo ? "" : "inactivo")">
                         <td>@medio.Id</td>
                         <td><strong>@medio.Nombre</strong></td>
                         <td>@(medio.Descripcion ?? "-")</td>
