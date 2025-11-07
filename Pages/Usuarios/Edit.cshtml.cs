@@ -82,9 +82,8 @@ namespace ReservaCabanasSite.Pages.Usuarios
             var nuevaPassword = Request.Form["NuevaPassword"].ToString();
             if (!string.IsNullOrWhiteSpace(nuevaPassword))
             {
-                // Aquí deberías usar un sistema de hash para la contraseña
-                // Por ahora lo dejaré simple, pero en producción usa BCrypt o similar
-                usuarioDb.Password = nuevaPassword;
+                // Hash de la contraseña usando SHA256
+                usuarioDb.Password = _authService.HashPassword(nuevaPassword);
             }
 
             await _context.SaveChangesAsync();

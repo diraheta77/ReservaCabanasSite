@@ -15,6 +15,7 @@ namespace ReservaCabanasSite.Services
         string GetCurrentUserRole();
         string GetCurrentUserName();
         int GetCurrentUserId();
+        string HashPassword(string password);
     }
 
     public class AuthService : IAuthService
@@ -80,7 +81,7 @@ namespace ReservaCabanasSite.Services
             return int.TryParse(userIdStr, out int userId) ? userId : 0;
         }
 
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
             {

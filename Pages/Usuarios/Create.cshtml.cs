@@ -54,8 +54,8 @@ namespace ReservaCabanasSite.Pages.Usuarios
                 return Page();
             }
 
-            // Aquí deberías usar un sistema de hash para la contraseña
-            // Por ahora lo dejaré simple, pero en producción usa BCrypt o similar
+            // Hash de la contraseña usando SHA256
+            Usuario.Password = _authService.HashPassword(Usuario.Password);
 
             Usuario.FechaCreacion = DateTime.Now;
             Usuario.Activo = Usuario.Activo; // Usar el valor del formulario

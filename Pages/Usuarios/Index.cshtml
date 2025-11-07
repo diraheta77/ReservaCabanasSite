@@ -8,6 +8,14 @@
 .btn-danger {
     background-color: #00353e !important;
 }
+
+.table tbody tr.inactivo {
+    background-color: #ffe6e6;
+}
+
+.table tbody tr.inactivo:hover {
+    background-color: #ffd6d6;
+}
 </style>
 
 <div class="row">
@@ -56,7 +64,7 @@
                         <tbody>
                             @foreach (var usuario in Model.Usuarios)
                             {
-                                <tr>
+                                <tr class="@(usuario.Activo ? "" : "inactivo")">
                                     <td>@usuario.Id</td>
                                     <td>@usuario.NombreUsuario</td>
                                     <td>@usuario.NombreCompleto</td>
