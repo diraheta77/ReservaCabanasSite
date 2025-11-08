@@ -128,49 +128,55 @@
 
   /* Mejoras visuales para el menú - hover y activo */
   .sidebar .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.1) !important;
+    background-color: rgba(230, 245, 247, 0.5) !important;
     color: #0097b2 !important;
   }
 
+  /* Menú padre activo - usar color Dark más visible */
   .sidebar .nav li.active > a {
-    background-color: rgba(0, 151, 178, 0.25) !important;
-    color: #0097b2 !important;
+    background-color: #00718e !important;
+    color: #ffffff !important;
     font-weight: 600 !important;
-    border-left: 3px solid #0097b2;
+    border-left: 4px solid #0097b2;
   }
 
-  /* Para los submenús de Ajustes - color celeste para items dentro del grupo activo */
+  /* Submenús dentro de un padre activo - color muy suave */
   .sidebar .nav li.active .nav li > a {
-    background-color: rgba(0, 151, 178, 0.05) !important;
-    color: #007186 !important;
+    background-color: rgba(230, 245, 247, 0.3) !important;
+    color: #5a5a5a !important;
+    font-weight: 500 !important;
   }
 
+  /* Submenú activo - usar color Normal con texto blanco para máximo contraste */
   .sidebar .nav li.active .nav li.active > a {
-    background-color: rgba(0, 151, 178, 0.3) !important;
-    color: #0097b2 !important;
-    font-weight: bold !important;
-    border-left: 3px solid #0097b2;
+    background-color: #0097b2 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-left: 4px solid #00353e;
   }
 
   .sidebar .nav li.active .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.15) !important;
+    background-color: rgba(0, 151, 178, 0.2) !important;
     color: #0097b2 !important;
   }
 
-  /* Para submenús anidados (como reportes) */
+  /* Para submenús anidados nivel 3 (como reportes) */
   .sidebar .nav .nav .nav li > a {
-    background-color: rgba(0, 151, 178, 0.03) !important;
+    background-color: rgba(230, 245, 247, 0.2) !important;
     padding-left: 40px !important;
+    color: #5a5a5a !important;
   }
 
   .sidebar .nav .nav .nav li.active > a {
-    background-color: rgba(0, 151, 178, 0.3) !important;
-    color: #0097b2 !important;
-    font-weight: bold !important;
+    background-color: #0097b2 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-left: 4px solid #00353e;
   }
 
   .sidebar .nav .nav .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.15) !important;
+    background-color: rgba(0, 151, 178, 0.25) !important;
+    color: #0097b2 !important;
   }
   </style>
 
