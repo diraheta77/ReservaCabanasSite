@@ -83,10 +83,6 @@ namespace ReservaCabanasSite.Pages.Usuarios
             usuarioDb.Activo = !usuarioDb.Activo;
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = usuarioDb.Activo
-                ? "Usuario activado exitosamente."
-                : "Usuario inactivado exitosamente.";
-
             return RedirectToPage("Index");
         }
     }
