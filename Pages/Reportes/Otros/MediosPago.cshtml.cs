@@ -220,7 +220,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
                     ["medio_de_pago"] = item.MedioPago,
                     ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
-                    ["promedio_por_reserva"] = item.PromedioIngreso,
+                    ["promedio"] = item.PromedioIngreso,
                     ["%_ingresos"] = item.PorcentajeIngresos
                 };
                 datosExportacion.Filas.Add(fila);
