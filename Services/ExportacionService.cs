@@ -217,6 +217,14 @@ namespace ReservaCabanasSite.Services
                                     cell.Style.NumberFormat.Format = "#.##0";
                                     cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                     break;
+                                case "percentage":
+                                    // El valor ya viene como porcentaje (ej: 34.6), solo formateamos la visualización
+                                    if (double.TryParse(valor?.ToString(), out double porcentaje))
+                                    {
+                                        cell.Value = porcentaje.ToString("0.0") + "%";
+                                    }
+                                    cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                    break;
                                 case "date":
                                     cell.Style.NumberFormat.Format = "dd/mm/yyyy";
                                     cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -476,6 +484,10 @@ namespace ReservaCabanasSite.Services
                             if (columna.TipoDato == "currency" && decimal.TryParse(valor, out decimal valorDecimal))
                             {
                                 valor = "$" + valorDecimal.ToString("N2", new System.Globalization.CultureInfo("es-AR"));
+                            }
+                            else if (columna.TipoDato == "percentage" && double.TryParse(valor, out double porcentaje))
+                            {
+                                valor = porcentaje.ToString("0.0") + "%";
                             }
 
                             var celda = new PdfPCell(new Phrase(valor, fuenteNormal));

@@ -156,7 +156,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
                     ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
                     ["promedio_por_reserva"] = item.PromedioIngreso,
-                    ["%_ingresos"] = item.PorcentajeIngresos / 100
+                    ["%_ingresos"] = item.PorcentajeIngresos
                 };
                 datosExportacion.Filas.Add(fila);
             }
@@ -221,7 +221,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
                     ["cantidad_de_reservas"] = item.CantidadReservas,
                     ["total_ingresos"] = item.TotalIngresos,
                     ["promedio_por_reserva"] = item.PromedioIngreso,
-                    ["%_ingresos"] = item.PorcentajeIngresos / 100
+                    ["%_ingresos"] = item.PorcentajeIngresos
                 };
                 datosExportacion.Filas.Add(fila);
             }
