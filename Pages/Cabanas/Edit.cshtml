@@ -113,6 +113,164 @@
     color: #bdbdbd;
     cursor: not-allowed;
 }
+
+/* Toggle Switch Styles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #27ae60;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s;
+}
+
+.modal-content-custom {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s;
+}
+
+.modal-header-custom {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon {
+    font-size: 2rem;
+}
+
+.modal-title-custom {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #5c4a45;
+    font-weight: 600;
+}
+
+.modal-body-custom {
+    padding: 24px;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.modal-footer-custom {
+    padding: 16px 24px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.modal-btn-cancel {
+    background: #6c757d;
+    color: white;
+}
+
+.modal-btn-cancel:hover {
+    background: #5a6268;
+}
+
+.modal-btn-confirm {
+    background: #0097b2;
+    color: white;
+}
+
+.modal-btn-confirm:hover {
+    background: #00798e;
+}
+
+.modal-btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.modal-btn-danger:hover {
+    background: #c82333;
+}
+
+@@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 /* Responsive styles */
 @@media (max-width: 1000px) {
     .cabana-form-main-row {
@@ -163,9 +321,14 @@
                 <input type="file" name="Imagenes" id="inputImagenes" class="form-control" style="background:#e5e5e5; border:none;" accept="image/*" />
 
                 <div class="form-group" style="margin-top: 15px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <input asp-for="Cabana.Activa" type="checkbox" id="checkboxActiva" style="width: 18px; height: 18px;" />
-                        <label asp-for="Cabana.Activa" style="margin: 0; font-weight: 600; color: #5c4a45;">Cabaña Activa</label>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <label class="toggle-switch">
+                            <input asp-for="Cabana.Activa" type="checkbox" id="checkboxActiva" />
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <label for="checkboxActiva" style="margin: 0; font-weight: 600; color: #5c4a45; cursor: pointer;">
+                            <span id="estadoTexto">@(Model.Cabana.Activa ? "Cabaña Activa" : "Cabaña Inactiva")</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -174,6 +337,23 @@
                 <button type="submit" class="cabana-btn">Guardar</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-content-custom">
+        <div class="modal-header-custom">
+            <span class="modal-icon" id="modalIcon">⚠️</span>
+            <h3 class="modal-title-custom" id="modalTitle">Confirmar acción</h3>
+        </div>
+        <div class="modal-body-custom" id="modalMessage">
+            ¿Está seguro de que desea realizar esta acción?
+        </div>
+        <div class="modal-footer-custom">
+            <button class="modal-btn modal-btn-cancel" id="btnCancelar">Cancelar</button>
+            <button class="modal-btn modal-btn-confirm" id="btnConfirmar">Confirmar</button>
+        </div>
     </div>
 </div>
 
@@ -206,20 +386,85 @@
         }
     });
 
-    // Confirmación al cambiar el estado de la cabaña
+    // Modal de confirmación
+    const modal = document.getElementById('confirmModal');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const btnCancelar = document.getElementById('btnCancelar');
+    const btnConfirmar = document.getElementById('btnConfirmar');
     const checkboxActiva = document.getElementById('checkboxActiva');
-    const estadoInicial = checkboxActiva.checked;
+    const estadoTexto = document.getElementById('estadoTexto');
 
+    let estadoAnterior = checkboxActiva.checked;
+    let confirmacionPendiente = false;
+
+    // Actualizar texto del estado
+    function actualizarTextoEstado() {
+        estadoTexto.textContent = checkboxActiva.checked ? 'Cabaña Activa' : 'Cabaña Inactiva';
+    }
+
+    // Mostrar modal
+    function mostrarModal(activar) {
+        const accion = activar ? 'activar' : 'desactivar';
+        const icon = activar ? '✅' : '⚠️';
+        const titulo = activar ? 'Activar Cabaña' : 'Desactivar Cabaña';
+        const mensaje = `¿Está seguro de que desea ${accion} esta cabaña?`;
+
+        modalIcon.textContent = icon;
+        modalTitle.textContent = titulo;
+        modalMessage.textContent = mensaje;
+
+        // Cambiar color del botón según la acción
+        btnConfirmar.className = activar ? 'modal-btn modal-btn-confirm' : 'modal-btn modal-btn-danger';
+
+        modal.style.display = 'block';
+    }
+
+    // Cerrar modal
+    function cerrarModal() {
+        modal.style.display = 'none';
+    }
+
+    // Evento al cambiar el toggle
     checkboxActiva.addEventListener('change', function(e) {
-        const nuevoEstado = this.checked;
-        const accion = nuevoEstado ? 'activar' : 'desactivar';
-        const mensaje = `¿Confirma que desea ${accion} la cabaña seleccionada?`;
-
-        if (!confirm(mensaje)) {
-            // Revertir el cambio si el usuario cancela
-            this.checked = estadoInicial;
+        if (!confirmacionPendiente) {
             e.preventDefault();
+            const nuevoEstado = this.checked;
+
+            // Revertir temporalmente para esperar confirmación
+            this.checked = estadoAnterior;
+
+            // Mostrar modal
+            mostrarModal(nuevoEstado);
         }
     });
+
+    // Confirmar cambio
+    btnConfirmar.addEventListener('click', function() {
+        confirmacionPendiente = true;
+        checkboxActiva.checked = !estadoAnterior;
+        estadoAnterior = checkboxActiva.checked;
+        actualizarTextoEstado();
+        cerrarModal();
+        setTimeout(() => { confirmacionPendiente = false; }, 100);
+    });
+
+    // Cancelar cambio
+    btnCancelar.addEventListener('click', function() {
+        checkboxActiva.checked = estadoAnterior;
+        cerrarModal();
+    });
+
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            checkboxActiva.checked = estadoAnterior;
+            cerrarModal();
+        }
+    });
+
+    // Inicializar texto del estado
+    actualizarTextoEstado();
 </script>
 }
