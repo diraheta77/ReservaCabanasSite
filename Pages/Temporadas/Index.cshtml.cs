@@ -18,9 +18,21 @@ namespace ReservaCabanasSite.Pages.Temporadas
             _context = context;
         }
         public IList<Temporada> Temporadas { get; set; } = new List<Temporada>();
-        public void OnGet()
+
+        public async Task OnGetAsync()
         {
-            Temporadas = _context.Temporadas.ToList();
+            Temporadas = await _context.Temporadas.ToListAsync();
+        }
+
+        public async Task<IActionResult> OnPostActivarAsync(int id)
+        {
+            var temporada = await _context.Temporadas.FirstOrDefaultAsync(t => t.Id == id && !t.Activa);
+            if (temporada != null)
+            {
+                temporada.Activa = true;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
         }
     }
 } 

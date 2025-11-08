@@ -1,0 +1,50 @@
+@page
+@model ReservaCabanasSite.Pages.Temporadas.InactivateModel
+@{
+    ViewData["Title"] = "Inactivar Temporada";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-danger-custom {
+    background: #00353e;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c0392b;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Inactivar Temporada</h1>
+<h3>¿Estás seguro que deseas inactivar esta temporada?</h3>
+<div>
+    <h4>@Model.Temporada.Nombre</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Precio por Persona</dt>
+        <dd class="col-sm-9">$@Model.Temporada.PrecioPorPersona.ToString("N2")</dd>
+        <dt class="col-sm-3">Vigencia</dt>
+        <dd class="col-sm-9">@Model.Temporada.FechaDesde.ToString("dd/MM/yyyy") - @Model.Temporada.FechaHasta.ToString("dd/MM/yyyy")</dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Temporada.Id" />
+        <button type="submit" class="btn btn-danger-custom btn-custom">Inactivar</button>
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+    </form>
+</div> 

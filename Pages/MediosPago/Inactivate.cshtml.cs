@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ReservaCabanasSite.Data;
 using ReservaCabanasSite.Models;
 using ReservaCabanasSite.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReservaCabanasSite.Pages.MediosPago
 {
@@ -16,25 +17,37 @@ namespace ReservaCabanasSite.Pages.MediosPago
             _context = context;
         }
 
+        [BindProperty]
+        public MedioPago MedioPago { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var medioPago = await _context.MediosPago.FindAsync(id);
-
-            if (medioPago == null)
+            MedioPago = await _context.MediosPago.FirstOrDefaultAsync(m => m.Id == id && m.Activo);
+            if (MedioPago == null)
             {
                 return NotFound();
             }
+            return Page();
+        }
 
-            medioPago.Activo = false;
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var medioPagoDb = await _context.MediosPago.FirstOrDefaultAsync(m => m.Id == id && m.Activo);
+            if (medioPagoDb == null)
+            {
+                return NotFound();
+            }
+            medioPagoDb.Activo = false;
             await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Medio de pago inactivado exitosamente.";
-            return RedirectToPage("./Index");
+            return RedirectToPage("Index");
         }
     }
 }

@@ -25,5 +25,16 @@ namespace ReservaCabanasSite.Pages.MediosPago
                 .OrderBy(m => m.Nombre)
                 .ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostActivarAsync(int id)
+        {
+            var medioPago = await _context.MediosPago.FirstOrDefaultAsync(m => m.Id == id && !m.Activo);
+            if (medioPago != null)
+            {
+                medioPago.Activo = true;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
+        }
     }
 }

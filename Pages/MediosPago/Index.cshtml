@@ -35,7 +35,15 @@
     color: #fff;
 }
 .btn-danger-custom:hover {
-    background: #002329;
+    background: #c0392b;
+    color: #fff;
+}
+.btn-success-custom {
+    background: #27ae60;
+    color: #fff;
+}
+.btn-success-custom:hover {
+    background: #229954;
     color: #fff;
 }
 
@@ -159,21 +167,17 @@
                         <td>
                             <div class="action-buttons">
                                 <a asp-page="Edit" asp-route-id="@medio.Id"
-                                   class="btn-custom btn-primary-custom btn-sm">Editar</a>
+                                   class="btn-custom btn-primary-custom btn-sm @(medio.Activo ? "" : "disabled")">Editar</a>
                                 @if (medio.Activo)
                                 {
                                     <a asp-page="Inactivate" asp-route-id="@medio.Id"
-                                       class="btn-custom btn-danger-custom btn-sm"
-                                       onclick="return confirm('¿Estás seguro de que quieres inactivar este medio de pago?')">
-                                        Inactivar
-                                    </a>
+                                       class="btn-custom btn-danger-custom btn-sm">Inactivar</a>
                                 }
                                 else
                                 {
-                                    <a asp-page="Activate" asp-route-id="@medio.Id"
-                                       class="btn-custom btn-secondary-custom btn-sm">
-                                        Activar
-                                    </a>
+                                    <form method="post" asp-page-handler="Activar" asp-route-id="@medio.Id" style="display:inline">
+                                        <button type="submit" class="btn-custom btn-success-custom btn-sm">Activar</button>
+                                    </form>
                                 }
                             </div>
                         </td>

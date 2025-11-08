@@ -25,5 +25,16 @@ namespace ReservaCabanasSite.Pages.MediosContacto
                 .OrderBy(m => m.Nombre)
                 .ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostActivarAsync(int id)
+        {
+            var medioContacto = await _context.MediosContacto.FirstOrDefaultAsync(m => m.Id == id && !m.Activo);
+            if (medioContacto != null)
+            {
+                medioContacto.Activo = true;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
+        }
     }
 }

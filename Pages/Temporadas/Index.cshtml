@@ -6,16 +6,58 @@
 
 
 <style>
+.btn-custom {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 0.875rem;
+}
+
+.btn-primary-custom {
+    background: #0097b2;
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background: #00798e;
+    color: #fff;
+}
+
 .btn-danger {
     background-color: #00353e !important;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b !important;
 }
 
 .btn-info {
     background-color: #007186 !important;
 }
 
+.btn-info:hover {
+    background-color: #2980b9 !important;
+}
+
 .btn-warning {
     background-color: #0097b2 !important;
+}
+
+.btn-warning:hover {
+    background-color: #e67e22 !important;
+}
+
+.btn-success {
+    background-color: #27ae60 !important;
+    color: #fff !important;
+}
+
+.btn-success:hover {
+    background-color: #229954 !important;
 }
 
 .estado-badge {
@@ -70,9 +112,18 @@
                 </span>
             </td>
             <td>
-                <a asp-page="Edit" asp-route-id="@temporada.Id" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-page="Edit" asp-route-id="@temporada.Id" class="btn btn-warning btn-sm @(temporada.Activa ? "" : "disabled")">Editar</a>
                 <a asp-page="Details" asp-route-id="@temporada.Id" class="btn btn-info btn-sm">Detalles</a>
-                <a asp-page="Delete" asp-route-id="@temporada.Id" class="btn btn-danger btn-sm">Inactivar</a>
+                @if (temporada.Activa)
+                {
+                    <a asp-page="Inactivate" asp-route-id="@temporada.Id" class="btn btn-danger btn-sm">Inactivar</a>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Activar" asp-route-id="@temporada.Id" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">Activar</button>
+                    </form>
+                }
             </td>
         </tr>
     }

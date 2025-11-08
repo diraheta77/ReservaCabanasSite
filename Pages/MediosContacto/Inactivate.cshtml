@@ -1,0 +1,50 @@
+@page
+@model ReservaCabanasSite.Pages.MediosContacto.InactivateModel
+@{
+    ViewData["Title"] = "Inactivar Medio de Contacto";
+}
+
+<style>
+.btn-custom {
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn-danger-custom {
+    background: #00353e;
+    color: #fff;
+}
+.btn-danger-custom:hover {
+    background: #c0392b;
+    color: #fff;
+}
+.btn-secondary-custom {
+    background: #5c4a45;
+    color: #fff;
+}
+.btn-secondary-custom:hover {
+    background: #4a3c38;
+    color: #fff;
+}
+</style>
+
+<h1>Inactivar Medio de Contacto</h1>
+<h3>¿Estás seguro que deseas inactivar este medio de contacto?</h3>
+<div>
+    <h4>@Model.MedioContacto.Nombre</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Descripción</dt>
+        <dd class="col-sm-9">@(Model.MedioContacto.Descripcion ?? "-")</dd>
+        <dt class="col-sm-3">Fecha de Creación</dt>
+        <dd class="col-sm-9">@Model.MedioContacto.FechaCreacion.ToString("dd/MM/yyyy")</dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="MedioContacto.Id" />
+        <button type="submit" class="btn btn-danger-custom btn-custom">Inactivar</button>
+        <a asp-page="Index" class="btn btn-secondary-custom btn-custom">Cancelar</a>
+    </form>
+</div>
