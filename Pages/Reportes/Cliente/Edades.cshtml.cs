@@ -79,7 +79,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             // Buscar reservas por fecha de estadía y opcionalmente por DNI de cliente
             var query = _context.Reservas
                 .Include(r => r.Cliente)
-                .Where(r => r.Activa &&
+                .Where(r => r.EstadoReserva != "Cancelada" &&
                            r.FechaDesde.Date >= ReporteModel.FechaDesde.Date &&
                            r.FechaDesde.Date <= ReporteModel.FechaHasta.Date);
 

@@ -93,9 +93,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Cabana
                 return;
             }
 
-            // Buscar reservas por año y meses seleccionados
+            // Buscar reservas por año y meses seleccionados - incluir Confirmadas y Finalizadas, excluir Canceladas
             var query = _context.Reservas
-                .Where(r => r.Activa &&
+                .Where(r => r.EstadoReserva != "Cancelada" &&
                            r.FechaDesde.Year == ReporteModel.Ano &&
                            ReporteModel.MesesSeleccionados.Contains(r.FechaDesde.Month));
 

@@ -110,10 +110,12 @@ namespace ReservaCabanasSite.Pages.Reservas
                 MediosContactoDisponibles = await _context.MediosContacto.Where(m => m.Activo).OrderBy(m => m.Nombre).ToListAsync();
                 return Page();
             }
-            // Verificar disponibilidad de la cabaña
+            // Verificar disponibilidad de la cabaña (excluir reservas canceladas)
+            // Permitir que el check-out de una reserva sea el mismo día del check-in de otra
             var reservasExistentes = await _context.Reservas
                 .Where(r => r.CabanaId == WizardModel.CabanaId &&
-                           ((r.FechaDesde <= WizardModel.FechaHasta && r.FechaHasta >= WizardModel.FechaDesde)))
+                           r.EstadoReserva != "Cancelada" &&
+                           ((r.FechaDesde < WizardModel.FechaHasta && r.FechaHasta > WizardModel.FechaDesde)))
                 .AnyAsync();
             if (reservasExistentes)
             {
@@ -175,7 +177,12 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         public async Task<IActionResult> OnPostVerificarDisponibilidadAsync(int cabanaId, DateTime fechaDesde, DateTime fechaHasta)
         {
-            var existe = await _context.Reservas.AnyAsync(r => r.CabanaId == cabanaId && r.FechaDesde <= fechaHasta && r.FechaHasta >= fechaDesde);
+            // Excluir reservas canceladas de la verificación de disponibilidad
+            // Permitir que el check-out de una reserva sea el mismo día del check-in de otra
+            var existe = await _context.Reservas.AnyAsync(r => r.CabanaId == cabanaId &&
+                                                                r.EstadoReserva != "Cancelada" &&
+                                                                r.FechaDesde < fechaHasta &&
+                                                                r.FechaHasta > fechaDesde);
             if (existe)
             {
                 return new JsonResult(new { disponible = false, mensaje = "La cabaña no está disponible en las fechas seleccionadas." });

@@ -378,11 +378,11 @@
     <div class="calendar-header">
         <div class="calendar-title">@Model.NombreMes @Model.AñoActual</div>
         <div class="calendar-nav">
-            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual - 1, Model.MesActual == 1 ? Model.AñoActual - 1 : Model.AñoActual, Model.CabanaIdFiltro)" 
+            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual == 1 ? 12 : Model.MesActual - 1, Model.MesActual == 1 ? Model.AñoActual - 1 : Model.AñoActual, Model.CabanaIdFiltro)"
                class="calendar-nav-btn">‹ Anterior</a>
-            <a href="@Model.ConstruirUrlConFiltros(DateTime.Now.Month, DateTime.Now.Year, Model.CabanaIdFiltro)" 
+            <a href="@Model.ConstruirUrlConFiltros(DateTime.Now.Month, DateTime.Now.Year, Model.CabanaIdFiltro)"
                class="calendar-nav-btn">Hoy</a>
-            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual + 1, Model.MesActual == 12 ? Model.AñoActual + 1 : Model.AñoActual, Model.CabanaIdFiltro)" 
+            <a href="@Model.ConstruirUrlConFiltros(Model.MesActual == 12 ? 1 : Model.MesActual + 1, Model.MesActual == 12 ? Model.AñoActual + 1 : Model.AñoActual, Model.CabanaIdFiltro)"
                class="calendar-nav-btn">Siguiente ›</a>
         </div>
     </div>

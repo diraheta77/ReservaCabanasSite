@@ -140,42 +140,50 @@
     border-left: 4px solid #0097b2;
   }
 
-  /* Submenús dentro de un padre activo - color muy suave */
+  /* Submenús dentro de un padre activo - color claro para identificar que pertenecen al menú */
   .sidebar .nav li.active .nav li > a {
-    background-color: rgba(230, 245, 247, 0.3) !important;
+    background-color: rgba(230, 245, 247, 0.6) !important;
     color: #5a5a5a !important;
     font-weight: 500 !important;
+    padding-left: 30px !important; /* Identación para submenús nivel 1 */
   }
 
-  /* Submenú activo - usar color Normal con texto blanco para máximo contraste */
+  /* Submenú activo - usar color oscuro con texto blanco para máximo contraste */
   .sidebar .nav li.active .nav li.active > a {
-    background-color: #0097b2 !important;
+    background-color: #00718e !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     border-left: 4px solid #00353e;
+    padding-left: 30px !important; /* Identación para submenús nivel 1 */
   }
 
   .sidebar .nav li.active .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.2) !important;
+    background-color: rgba(0, 151, 178, 0.3) !important;
     color: #0097b2 !important;
   }
 
-  /* Para submenús anidados nivel 3 (como reportes) */
+  /* Para submenús anidados nivel 2 (como reportes por cliente, cabaña, otros) */
+  .sidebar .nav .nav li > a {
+    padding-left: 30px !important; /* Identación para submenús nivel 2 */
+  }
+
+  /* Para submenús anidados nivel 3 (como los items dentro de reportes) */
   .sidebar .nav .nav .nav li > a {
-    background-color: rgba(230, 245, 247, 0.2) !important;
-    padding-left: 40px !important;
+    background-color: rgba(230, 245, 247, 0.6) !important;
+    padding-left: 50px !important; /* Mayor identación para submenús nivel 3 */
     color: #5a5a5a !important;
   }
 
   .sidebar .nav .nav .nav li.active > a {
-    background-color: #0097b2 !important;
+    background-color: #00718e !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     border-left: 4px solid #00353e;
+    padding-left: 50px !important; /* Mayor identación para submenús nivel 3 */
   }
 
   .sidebar .nav .nav .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.25) !important;
+    background-color: rgba(0, 151, 178, 0.3) !important;
     color: #0097b2 !important;
   }
   </style>
@@ -303,7 +311,7 @@
                         </span>
                       </a>
                       <div class="collapse @(currentPage.StartsWith("/reportes/cliente") ? "show" : "")" id="reportesClienteSubmenu">
-                        <ul class="nav" style="margin-left: 20px;">
+                        <ul class="nav">
                           <li class="@(currentPage.Contains("/reportes/cliente/clientes") ? "active" : "")">
                             <a asp-page="/Reportes/Cliente/Clientes">
                               <i class="fa fa-user"></i>
@@ -336,7 +344,7 @@
                         </span>
                       </a>
                       <div class="collapse @(currentPage.StartsWith("/reportes/cabana") ? "show" : "")" id="reportesCabanaSubmenu">
-                        <ul class="nav" style="margin-left: 20px;">
+                        <ul class="nav">
                           <li class="@(currentPage.Contains("/reportes/cabana/cabana") ? "active" : "")">
                             <a asp-page="/Reportes/Cabana/Cabana">
                               <i class="fa fa-home"></i>
@@ -369,7 +377,7 @@
                         </span>
                       </a>
                       <div class="collapse @(currentPage.StartsWith("/reportes/otros") ? "show" : "")" id="reportesOtrosSubmenu">
-                        <ul class="nav" style="margin-left: 20px;">
+                        <ul class="nav">
                           <li class="@(currentPage.Contains("/reportes/otros/mediospago") ? "active" : "")">
                             <a asp-page="/Reportes/Otros/MediosPago">
                               <i class="fa fa-credit-card"></i>

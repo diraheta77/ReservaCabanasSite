@@ -69,7 +69,8 @@ namespace ReservaCabanasSite.Pages.Reservas
             var query = _context.Reservas
                 .Include(r => r.Cabana)
                 .Include(r => r.Cliente)
-                .Where(r => (r.FechaDesde <= fechaFin && r.FechaHasta >= fechaInicio));
+                .Where(r => r.EstadoReserva != "Cancelada" &&
+                           (r.FechaDesde <= fechaFin && r.FechaHasta >= fechaInicio));
 
             // Aplicar filtro por cabaña
             if (CabanaIdFiltro.HasValue && CabanaIdFiltro.Value > 0)

@@ -79,7 +79,7 @@ namespace ReservaCabanasSite.Pages.Reportes.Cliente
             var query = _context.Reservas
                 .Include(r => r.Cliente)
                 .Include(r => r.Cabana)
-                .Where(r => r.Activa &&
+                .Where(r => r.EstadoReserva != "Cancelada" &&
                            r.FechaDesde.Date >= ReporteModel.FechaDesde.Date &&
                            r.FechaDesde.Date <= ReporteModel.FechaHasta.Date);
 

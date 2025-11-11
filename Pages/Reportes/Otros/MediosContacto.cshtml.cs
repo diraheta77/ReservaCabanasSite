@@ -72,9 +72,9 @@ namespace ReservaCabanasSite.Pages.Reportes.Otros
 
         private async Task CargarReporte()
         {
-            // Buscar reservas por fecha de estadía
+            // Buscar reservas por fecha de estadía - incluir Confirmadas y Finalizadas, excluir Canceladas
             var query = _context.Reservas
-                .Where(r => r.Activa &&
+                .Where(r => r.EstadoReserva != "Cancelada" &&
                            r.FechaDesde.Date >= ReporteModel.FechaDesde.Date &&
                            r.FechaDesde.Date <= ReporteModel.FechaHasta.Date);
 
