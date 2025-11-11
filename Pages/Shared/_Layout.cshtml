@@ -132,12 +132,20 @@
     color: #0097b2 !important;
   }
 
-  /* Menú padre activo - usar color Dark más visible */
-  .sidebar .nav li.active > a {
+  /* Menú padre activo SIN submenús activos - usar color Dark más visible */
+  .sidebar .nav > li.active > a {
     background-color: #00718e !important;
     color: #ffffff !important;
     font-weight: 600 !important;
     border-left: 4px solid #0097b2;
+  }
+
+  /* Menú padre que TIENE un submenú activo - usar color claro */
+  .sidebar .nav > li.active:has(.nav li.active) > a {
+    background-color: rgba(230, 245, 247, 0.6) !important;
+    color: #5a5a5a !important;
+    font-weight: 500 !important;
+    border-left: none !important;
   }
 
   /* Submenús dentro de un padre activo - color claro para identificar que pertenecen al menú */
