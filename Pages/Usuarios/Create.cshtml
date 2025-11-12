@@ -43,28 +43,28 @@
 <h1>Nuevo Usuario</h1>
 
 <div class="form-card">
-<form method="post">
+<form method="post" autocomplete="off">
     <div class="form-group">
         <label asp-for="Usuario.NombreUsuario"></label>
-        <input asp-for="Usuario.NombreUsuario" class="form-control" />
+        <input asp-for="Usuario.NombreUsuario" class="form-control" autocomplete="off" />
         <span asp-validation-for="Usuario.NombreUsuario" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Usuario.NombreCompleto"></label>
-        <input asp-for="Usuario.NombreCompleto" class="form-control" />
+        <input asp-for="Usuario.NombreCompleto" class="form-control" autocomplete="off" />
         <span asp-validation-for="Usuario.NombreCompleto" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Usuario.Password"></label>
-        <input asp-for="Usuario.Password" class="form-control" type="password" />
+        <input asp-for="Usuario.Password" class="form-control" type="password" autocomplete="new-password" />
         <span asp-validation-for="Usuario.Password" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Usuario.Rol"></label>
-        <select asp-for="Usuario.Rol" class="form-control">
+        <select asp-for="Usuario.Rol" class="form-control" autocomplete="off">
             <option value="">Seleccione un rol</option>
             <option value="Administrador">Administrador</option>
             <option value="Operador">Operador</option>

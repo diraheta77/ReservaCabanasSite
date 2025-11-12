@@ -124,7 +124,12 @@
         <div class="cabana-card-img">
             @if (cabana.Imagenes != null && cabana.Imagenes.Any())
             {
-                <img src="@cabana.Imagenes.First().ImagenUrl"
+                var primeraImagen = cabana.Imagenes.First();
+                var imagenUrl = !string.IsNullOrEmpty(primeraImagen.ImagenUrl)
+                    ? primeraImagen.ImagenUrl
+                    : $"/api/imagen/cabana/{primeraImagen.Id}";
+
+                <img src="@imagenUrl"
                      alt="Imagen de @cabana.Nombre"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
                 <div class="placeholder-img" style="display:none;">

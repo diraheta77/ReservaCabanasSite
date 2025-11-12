@@ -60,30 +60,38 @@ namespace ReservaCabanasSite.Pages.Cabanas
                 if (cabanaDb.Imagenes != null && cabanaDb.Imagenes.Any())
                 {
                     var imagenAnterior = cabanaDb.Imagenes.First();
-                    var rutaImagenAnterior = Path.Combine("wwwroot", imagenAnterior.ImagenUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(rutaImagenAnterior))
+
+                    // Si tenía ImagenUrl (sistema antiguo), eliminar el archivo físico
+                    if (!string.IsNullOrEmpty(imagenAnterior.ImagenUrl))
                     {
-                        System.IO.File.Delete(rutaImagenAnterior);
+                        var rutaImagenAnterior = Path.Combine("wwwroot", imagenAnterior.ImagenUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(rutaImagenAnterior))
+                        {
+                            System.IO.File.Delete(rutaImagenAnterior);
+                        }
                     }
+
                     _context.CabanaImagenes.Remove(imagenAnterior);
                 }
 
-                // Guardar nueva imagen
-                var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(imagen.FileName)}";
-                var filePath = Path.Combine("wwwroot/img/cabanas", fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Guardar nueva imagen como blob en la base de datos
+                using (var memoryStream = new MemoryStream())
                 {
-                    await imagen.CopyToAsync(stream);
+                    await imagen.CopyToAsync(memoryStream);
+                    var imageData = memoryStream.ToArray();
+
+                    if (cabanaDb.Imagenes == null)
+                        cabanaDb.Imagenes = new List<CabanaImagen>();
+
+                    cabanaDb.Imagenes.Add(new CabanaImagen
+                    {
+                        CabanaId = cabanaDb.Id,
+                        ImagenData = imageData,
+                        ContentType = imagen.ContentType,
+                        NombreArchivo = imagen.FileName,
+                        ImagenUrl = null // Ya no usamos archivos físicos
+                    });
                 }
-
-                if (cabanaDb.Imagenes == null)
-                    cabanaDb.Imagenes = new List<CabanaImagen>();
-
-                cabanaDb.Imagenes.Add(new CabanaImagen
-                {
-                    CabanaId = cabanaDb.Id,
-                    ImagenUrl = $"/img/cabanas/{fileName}"
-                });
             }
 
             await _context.SaveChangesAsync();

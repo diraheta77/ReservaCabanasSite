@@ -29,23 +29,27 @@ namespace ReservaCabanasSite.Pages.Cabanas
             _context.Cabanas.Add(Cabana);
             await _context.SaveChangesAsync();
 
-            // Solo permitir 1 imagen
+            // Solo permitir 1 imagen - guardar como blob en BD
             if (Imagenes != null && Imagenes.Count > 0 && Imagenes[0].Length > 0)
             {
                 var imagen = Imagenes[0]; // Tomar solo la primera imagen
-                var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(imagen.FileName)}";
-                var filePath = Path.Combine("wwwroot/img/cabanas", fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+
+                using (var memoryStream = new MemoryStream())
                 {
-                    await imagen.CopyToAsync(stream);
+                    await imagen.CopyToAsync(memoryStream);
+                    var imageData = memoryStream.ToArray();
+
+                    var cabanaImagen = new CabanaImagen
+                    {
+                        CabanaId = Cabana.Id,
+                        ImagenData = imageData,
+                        ContentType = imagen.ContentType,
+                        NombreArchivo = imagen.FileName,
+                        ImagenUrl = null // Ya no usamos archivos físicos
+                    };
+                    _context.CabanaImagenes.Add(cabanaImagen);
+                    await _context.SaveChangesAsync();
                 }
-                var cabanaImagen = new CabanaImagen
-                {
-                    CabanaId = Cabana.Id,
-                    ImagenUrl = $"/img/cabanas/{fileName}"
-                };
-                _context.CabanaImagenes.Add(cabanaImagen);
-                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage("Index");
