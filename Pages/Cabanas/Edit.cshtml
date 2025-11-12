@@ -365,10 +365,13 @@ input:checked + .toggle-slider:before {
 
     @if (Model.Cabana.Imagenes != null && Model.Cabana.Imagenes.Any())
     {
-        var primeraImagen = Model.Cabana.Imagenes.First().ImagenUrl;
+        var primeraImagen = Model.Cabana.Imagenes.First();
+        var imagenUrl = !string.IsNullOrEmpty(primeraImagen.ImagenUrl)
+            ? primeraImagen.ImagenUrl
+            : $"/api/imagen/cabana/{primeraImagen.Id}";
         @: previewBox.innerHTML = '';
         @: const imgActual = document.createElement('img');
-        @: imgActual.src = '@primeraImagen';
+        @: imgActual.src = '@imagenUrl';
         @: previewBox.appendChild(imgActual);
     }
 
