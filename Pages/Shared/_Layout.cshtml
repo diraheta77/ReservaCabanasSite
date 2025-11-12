@@ -132,7 +132,11 @@
     color: #0097b2 !important;
   }
 
-  /* Menú padre activo SIN submenús activos - usar color Dark más visible */
+  /* ========================================
+     MENÚ PRINCIPAL (Nivel 1)
+     ======================================== */
+
+  /* Menú padre activo SIN submenús (ej: Cabañas, Clientes) */
   .sidebar .nav > li.active > a {
     background-color: #00718e !important;
     color: #ffffff !important;
@@ -140,58 +144,72 @@
     border-left: 4px solid #0097b2;
   }
 
-  /* Menú padre que TIENE un submenú activo - usar color claro */
+  /* Menú padre que TIENE submenús activos - color muy claro */
   .sidebar .nav > li.active:has(.nav li.active) > a {
-    background-color: rgba(230, 245, 247, 0.6) !important;
+    background-color: rgba(230, 245, 247, 0.3) !important;
     color: #5a5a5a !important;
     font-weight: 500 !important;
     border-left: none !important;
   }
 
-  /* Submenús dentro de un padre activo - color claro para identificar que pertenecen al menú */
-  .sidebar .nav li.active .nav li > a {
-    background-color: rgba(230, 245, 247, 0.6) !important;
+  /* ========================================
+     SUBMENÚS NIVEL 2 (ej: Calendario, Listado, Reservas por Cliente)
+     ======================================== */
+
+  /* Submenú nivel 2 NO activo - color claro */
+  .sidebar .nav li.active .nav > li > a {
+    background-color: rgba(230, 245, 247, 0.5) !important;
     color: #5a5a5a !important;
     font-weight: 500 !important;
-    padding-left: 30px !important; /* Identación para submenús nivel 1 */
+    padding-left: 30px !important;
   }
 
-  /* Submenú activo - usar color oscuro con texto blanco para máximo contraste */
-  .sidebar .nav li.active .nav li.active > a {
+  /* Submenú nivel 2 activo SIN hijos (ej: Calendario seleccionado) */
+  .sidebar .nav li.active .nav > li.active > a {
     background-color: #00718e !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     border-left: 4px solid #00353e;
-    padding-left: 30px !important; /* Identación para submenús nivel 1 */
+    padding-left: 30px !important;
   }
 
-  .sidebar .nav li.active .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.3) !important;
+  /* Submenú nivel 2 que TIENE un hijo activo (ej: Reservas por Cliente cuando Clientes está seleccionado) */
+  .sidebar .nav li.active .nav > li.active:has(.nav li.active) > a {
+    background-color: rgba(0, 151, 178, 0.4) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-left: none !important;
+    padding-left: 30px !important;
+  }
+
+  .sidebar .nav li.active .nav > li > a:hover {
+    background-color: rgba(0, 151, 178, 0.25) !important;
     color: #0097b2 !important;
   }
 
-  /* Para submenús anidados nivel 2 (como reportes por cliente, cabaña, otros) */
-  .sidebar .nav .nav li > a {
-    padding-left: 30px !important; /* Identación para submenús nivel 2 */
-  }
+  /* ========================================
+     SUBMENÚS NIVEL 3 (ej: Clientes, Provincia, Edades)
+     ======================================== */
 
-  /* Para submenús anidados nivel 3 (como los items dentro de reportes) */
-  .sidebar .nav .nav .nav li > a {
-    background-color: rgba(230, 245, 247, 0.6) !important;
-    padding-left: 50px !important; /* Mayor identación para submenús nivel 3 */
+  /* Submenú nivel 3 NO activo - color muy claro */
+  .sidebar .nav .nav .nav > li > a {
+    background-color: rgba(230, 245, 247, 0.4) !important;
+    padding-left: 50px !important;
     color: #5a5a5a !important;
+    font-weight: 400 !important;
   }
 
-  .sidebar .nav .nav .nav li.active > a {
+  /* Submenú nivel 3 ACTIVO - color oscuro */
+  .sidebar .nav .nav .nav > li.active > a {
     background-color: #00718e !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     border-left: 4px solid #00353e;
-    padding-left: 50px !important; /* Mayor identación para submenús nivel 3 */
+    padding-left: 50px !important;
   }
 
-  .sidebar .nav .nav .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.3) !important;
+  .sidebar .nav .nav .nav > li > a:hover {
+    background-color: rgba(0, 151, 178, 0.25) !important;
     color: #0097b2 !important;
   }
   </style>
