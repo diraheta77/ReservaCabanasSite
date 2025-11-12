@@ -332,21 +332,31 @@
             const estadoActual = estadoReservaSelect.value;
 
             if (estadoActual === 'Cancelada') {
-                // Si está cancelada, deshabilitar TODO excepto el botón cancelar
+                // Si está cancelada, deshabilitar TODO y mostrar mensaje
                 const todosLosCampos = form.querySelectorAll('input, select, textarea, button[type="submit"]');
                 todosLosCampos.forEach(campo => {
-                    if (campo !== estadoReservaSelect) {
-                        campo.disabled = true;
-                    }
+                    campo.disabled = true;
                 });
-                alert('Las reservas canceladas no pueden editarse.');
+
+                // Mostrar alerta y redirigir a Details
+                if (estadoReservaInicial === 'Cancelada') {
+                    alert('Las reservas canceladas no pueden editarse.');
+                    window.location.href = '/Reservas/Details?id=@Model.Reserva.Id';
+                }
             } else if (estadoActual === 'Finalizada') {
-                // Si está finalizada, solo permitir editar datos de cliente y pago, no fechas
+                // Si está finalizada, solo permitir editar datos de pago, no fechas ni cantidad
+                // Usar readonly en lugar de disabled para que los valores se envíen al servidor
                 fechasInputs.forEach(input => {
-                    input.disabled = true;
+                    input.readOnly = true;
+                    input.style.backgroundColor = '#f8f9fa';
+                    input.style.cursor = 'not-allowed';
                 });
-                document.getElementById('cabanaSelect')?.setAttribute('disabled', 'disabled');
-                document.querySelector('input[name="Reserva.CantidadPersonas"]')?.setAttribute('disabled', 'disabled');
+                const cantidadInput = document.querySelector('input[name="Reserva.CantidadPersonas"]');
+                if (cantidadInput) {
+                    cantidadInput.readOnly = true;
+                    cantidadInput.style.backgroundColor = '#f8f9fa';
+                    cantidadInput.style.cursor = 'not-allowed';
+                }
             }
         }
 

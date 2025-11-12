@@ -95,13 +95,17 @@ namespace ReservaCabanasSite.Pages.Reservas
                 return RedirectToPage("Confirmacion", new { id = reservaId });
             }
 
+            // Obtener la URL base de la aplicación para el logo
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var logoUrl = $"{baseUrl}/assets/logo/logocabanas.png";
+
             var subject = $"Confirmación de Reserva #{reserva.Id} - Aldea Uruel";
             var body = $@"<!DOCTYPE html>
 <html>
 <body style='font-family: Arial, sans-serif; color: #333;'>
     <div style='max-width: 600px; margin: 0 auto; border:1px solid #eee; border-radius:10px; padding:24px;'>
         <div style='text-align:center; margin-bottom:24px;'>
-            <img src='https://i.postimg.cc/j2zvrjYK/temp-Imagee-Bh-Ze-J.avif' alt='Aldea Uruel' style='max-height:75px;'>
+            <img src='{logoUrl}' alt='Aldea Uruel' style='max-height:75px;'>
         </div>
         <h2 style='color:#5c4a45;'>¡Reserva Confirmada!</h2>
         <p>Hola <b>{cliente.Nombre}</b>,<br>

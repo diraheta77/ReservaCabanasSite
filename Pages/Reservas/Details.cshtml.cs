@@ -98,12 +98,16 @@ namespace ReservaCabanasSite.Pages.Reservas
 
         private async Task<string> BuildEmailBody(Reserva reserva, string additionalMessage)
         {
+            // Obtener la URL base de la aplicación
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var logoUrl = $"{baseUrl}/assets/logo/logocabanas.png";
+
             var body = $@"<!DOCTYPE html>
 <html>
 <body style='font-family: Arial, sans-serif; color: #333;'>
     <div style='max-width: 600px; margin: 0 auto; border:1px solid #eee; border-radius:10px; padding:24px;'>
         <div style='text-align:center; margin-bottom:24px;'>
-            <img src='https://i.postimg.cc/j2zvrjYK/temp-Imagee-Bh-Ze-J.avif' alt='Aldea Uruel' style='max-height:75px;'>
+            <img src='{logoUrl}' alt='Aldea Uruel' style='max-height:75px;'>
         </div>
         <h2 style='color:#5c4a45;'>¡Reserva Confirmada!</h2>
         <p>Hola <b>{reserva.Cliente.Nombre}</b>,<br>
