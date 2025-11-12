@@ -166,10 +166,11 @@
 
   /* Submenú nivel 2 NO activo */
   .sidebar .nav li.active .nav > li > a {
-    background-color: rgba(0, 151, 178, 0.06) !important;
+    background: linear-gradient(to right, rgba(0, 151, 178, 0.08), rgba(0, 151, 178, 0.04)) !important;
     color: #555555 !important;
     font-weight: 500 !important;
     padding-left: 30px !important;
+    border-left: 3px solid rgba(0, 151, 178, 0.2) !important;
     transition: all 0.2s ease;
   }
 
@@ -178,22 +179,22 @@
     background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border-left: 4px solid #0c6b7a;
+    border-left: 4px solid #0c6b7a !important;
     padding-left: 30px !important;
-    box-shadow: 0 2px 6px rgba(23, 162, 184, 0.2);
+    box-shadow: 0 2px 6px rgba(23, 162, 184, 0.25);
   }
 
   /* Submenú nivel 2 que TIENE un hijo activo (ej: Reservas por Cliente) */
   .sidebar .nav li.active .nav > li.active:has(.nav li.active) > a {
-    background-color: rgba(23, 162, 184, 0.15) !important;
+    background: linear-gradient(to right, rgba(23, 162, 184, 0.2), rgba(23, 162, 184, 0.12)) !important;
     color: #0c6b7a !important;
     font-weight: 600 !important;
-    border-left: 3px solid #17a2b8 !important;
+    border-left: 4px solid #17a2b8 !important;
     padding-left: 30px !important;
   }
 
   .sidebar .nav li.active .nav > li > a:hover {
-    background-color: rgba(23, 162, 184, 0.12) !important;
+    background: linear-gradient(to right, rgba(23, 162, 184, 0.15), rgba(23, 162, 184, 0.08)) !important;
     color: #17a2b8 !important;
     transform: translateX(2px);
   }

@@ -118,7 +118,7 @@ namespace ReservaCabanasSite.Pages.Reservas
             <tr><td><b>Estado del pago:</b></td><td>{reserva.EstadoPago}</td></tr>
             <tr><td><b>Monto total:</b></td><td><b style='color:#a67c52;'>${reserva.MontoTotal:N2}</b></td></tr>
         </table>
-        
+
         <div style='background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px; margin: 20px 0; border-radius: 4px;'>
             <h3 style='color: #856404; margin-top: 0;'>¡Importante!</h3>
             <ul style='color: #856404; margin: 8px 0; padding-left: 20px;'>
@@ -127,7 +127,7 @@ namespace ReservaCabanasSite.Pages.Reservas
                 <li>Para modificaciones o cancelaciones, contacta con nosotros</li>
             </ul>
         </div>
-        
+
         <p style='margin-top:24px;'>¡Gracias por elegirnos!<br>Aldea Uruel</p>
     </div>
 </body>
@@ -144,6 +144,7 @@ namespace ReservaCabanasSite.Pages.Reservas
 
                 // Enviar email a cada destinatario
                 int emailsEnviados = 0;
+                var erroresDetallados = new List<string>();
                 foreach (var email in emails)
                 {
                     try
@@ -153,9 +154,9 @@ namespace ReservaCabanasSite.Pages.Reservas
                         await smtp.SendMailAsync(mail);
                         emailsEnviados++;
                     }
-                    catch
+                    catch (Exception exMail)
                     {
-                        // Continuar con los demás si falla uno
+                        erroresDetallados.Add($"{email}: {exMail.Message}");
                     }
                 }
 
@@ -165,12 +166,15 @@ namespace ReservaCabanasSite.Pages.Reservas
                 }
                 else
                 {
-                    TempData["Mensaje"] = "No se pudo enviar el email a ningún destinatario.";
+                    var detalleErrores = erroresDetallados.Any()
+                        ? string.Join("; ", erroresDetallados)
+                        : "Error desconocido";
+                    TempData["Mensaje"] = $"No se pudo enviar el email. Errores: {detalleErrores}";
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = $"Error al enviar el email: {ex.Message}";
+                TempData["Mensaje"] = $"Error al enviar el email: {ex.Message}. InnerException: {ex.InnerException?.Message ?? "N/A"}";
             }
             return RedirectToPage("Confirmacion", new { id = reservaId });
         }
