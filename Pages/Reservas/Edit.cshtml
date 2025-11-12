@@ -183,11 +183,16 @@
         </div>
     }
 
-    <form method="post">
+    <form method="post" id="editForm">
         <input type="hidden" asp-for="Reserva.Id" />
         <input type="hidden" asp-for="Reserva.ClienteId" />
         <input type="hidden" asp-for="Reserva.CabanaId" />
         <input type="hidden" asp-for="Reserva.FechaCreacion" />
+
+        <!-- Campos hidden para preservar valores cuando están disabled -->
+        <input type="hidden" id="hiddenFechaDesde" name="Reserva.FechaDesde" value="@Model.Reserva.FechaDesde.ToString("yyyy-MM-dd")" disabled />
+        <input type="hidden" id="hiddenFechaHasta" name="Reserva.FechaHasta" value="@Model.Reserva.FechaHasta.ToString("yyyy-MM-dd")" disabled />
+        <input type="hidden" id="hiddenCantidadPersonas" name="Reserva.CantidadPersonas" value="@Model.Reserva.CantidadPersonas" disabled />
 
         <!-- Información de la reserva -->
         <div class="form-section">
@@ -327,6 +332,11 @@
         const form = document.querySelector('form');
         const fechasInputs = document.querySelectorAll('input[type="date"]');
 
+        // Referencias a campos hidden
+        const hiddenFechaDesde = document.getElementById('hiddenFechaDesde');
+        const hiddenFechaHasta = document.getElementById('hiddenFechaHasta');
+        const hiddenCantidadPersonas = document.getElementById('hiddenCantidadPersonas');
+
         // Deshabilitar campos según el estado de la reserva
         function aplicarRestricciones() {
             const estadoActual = estadoReservaSelect.value;
@@ -345,18 +355,41 @@
                 }
             } else if (estadoActual === 'Finalizada') {
                 // Si está finalizada, solo permitir editar datos de pago, no fechas ni cantidad
-                // Usar readonly en lugar de disabled para que los valores se envíen al servidor
+                // Deshabilitar los campos visibles
                 fechasInputs.forEach(input => {
-                    input.readOnly = true;
+                    input.disabled = true;
                     input.style.backgroundColor = '#f8f9fa';
                     input.style.cursor = 'not-allowed';
                 });
-                const cantidadInput = document.querySelector('input[name="Reserva.CantidadPersonas"]');
+                const cantidadInput = document.querySelector('input[name="Reserva.CantidadPersonas"]:not([type="hidden"])');
                 if (cantidadInput) {
-                    cantidadInput.readOnly = true;
+                    cantidadInput.disabled = true;
                     cantidadInput.style.backgroundColor = '#f8f9fa';
                     cantidadInput.style.cursor = 'not-allowed';
                 }
+
+                // Habilitar los campos hidden para que envíen los valores
+                hiddenFechaDesde.disabled = false;
+                hiddenFechaHasta.disabled = false;
+                hiddenCantidadPersonas.disabled = false;
+            } else {
+                // Si NO está finalizada ni cancelada, habilitar los campos visibles
+                fechasInputs.forEach(input => {
+                    input.disabled = false;
+                    input.style.backgroundColor = '';
+                    input.style.cursor = '';
+                });
+                const cantidadInput = document.querySelector('input[name="Reserva.CantidadPersonas"]:not([type="hidden"])');
+                if (cantidadInput) {
+                    cantidadInput.disabled = false;
+                    cantidadInput.style.backgroundColor = '';
+                    cantidadInput.style.cursor = '';
+                }
+
+                // Deshabilitar los campos hidden (no son necesarios cuando los campos visibles están activos)
+                hiddenFechaDesde.disabled = true;
+                hiddenFechaHasta.disabled = true;
+                hiddenCantidadPersonas.disabled = true;
             }
         }
 
