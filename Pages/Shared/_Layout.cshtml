@@ -126,77 +126,53 @@
     padding: 10px 15px;
   }
 
-  /* Mejoras visuales para el menú - hover */
-  .sidebar .nav li > a:hover {
-    background-color: rgba(0, 151, 178, 0.08) !important;
-    color: #0097b2 !important;
-  }
-
   /* ========================================
-     PALETA DE COLORES INSPIRADA EN BOTONES DE TEMPORADAS
-     Nivel 1: Turquesa principal (#0097b2)
-     Nivel 2: Turquesa intermedio (#17a2b8)
-     Nivel 3: Turquesa oscuro (#138496)
+     PALETA DE COLORES SIMPLIFICADA
+     Normal (activo): #0097b2 - rgb(0, 151, 178)
+     Light (no activo): #b0dfe7 - rgb(176, 223, 231)
      ======================================== */
 
   /* ========================================
      MENÚ PRINCIPAL (Nivel 1)
      ======================================== */
 
-  /* Menú padre activo SIN submenús (ej: Cabañas, Clientes) */
+  /* Menú padre activo (con o sin submenús) */
   .sidebar .nav > li.active > a {
-    background: linear-gradient(135deg, #0097b2 0%, #00718e 100%) !important;
+    background-color: #0097b2 !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border-left: 4px solid #005f75;
-    box-shadow: 0 2px 8px rgba(0, 151, 178, 0.2);
   }
 
-  /* Menú padre que TIENE submenús activos - color muy suave */
-  .sidebar .nav > li.active:has(.nav li.active) > a {
-    background-color: rgba(0, 151, 178, 0.05) !important;
-    color: #4a4a4a !important;
-    font-weight: 500 !important;
-    border-left: 3px solid #0097b2 !important;
+  /* Hover en menú principal */
+  .sidebar .nav > li > a:hover {
+    background-color: rgba(0, 151, 178, 0.1) !important;
   }
 
   /* ========================================
-     SUBMENÚS NIVEL 2 (ej: Calendario, Listado, Reservas por Cliente)
+     SUBMENÚS NIVEL 2 (ej: Calendario, Listado)
      ======================================== */
 
   /* Submenú nivel 2 NO activo */
   .sidebar .nav li.active .nav > li > a {
-    background: linear-gradient(to right, rgba(0, 151, 178, 0.08), rgba(0, 151, 178, 0.04)) !important;
-    color: #555555 !important;
+    background-color: #b0dfe7 !important;
+    color: #ffffff !important;
     font-weight: 500 !important;
     padding-left: 30px !important;
-    border-left: 3px solid rgba(0, 151, 178, 0.2) !important;
     transition: all 0.2s ease;
   }
 
-  /* Submenú nivel 2 activo SIN hijos (ej: Calendario seleccionado) */
+  /* Submenú nivel 2 ACTIVO */
   .sidebar .nav li.active .nav > li.active > a {
-    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+    background-color: #0097b2 !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border-left: 4px solid #0c6b7a !important;
-    padding-left: 30px !important;
-    box-shadow: 0 2px 6px rgba(23, 162, 184, 0.25);
-  }
-
-  /* Submenú nivel 2 que TIENE un hijo activo (ej: Reservas por Cliente) */
-  .sidebar .nav li.active .nav > li.active:has(.nav li.active) > a {
-    background: linear-gradient(to right, rgba(23, 162, 184, 0.2), rgba(23, 162, 184, 0.12)) !important;
-    color: #0c6b7a !important;
-    font-weight: 600 !important;
-    border-left: 4px solid #17a2b8 !important;
     padding-left: 30px !important;
   }
 
+  /* Hover en submenú nivel 2 */
   .sidebar .nav li.active .nav > li > a:hover {
-    background: linear-gradient(to right, rgba(23, 162, 184, 0.15), rgba(23, 162, 184, 0.08)) !important;
-    color: #17a2b8 !important;
-    transform: translateX(2px);
+    background-color: #99d4df !important;
+    color: #ffffff !important;
   }
 
   /* ========================================
@@ -205,27 +181,25 @@
 
   /* Submenú nivel 3 NO activo */
   .sidebar .nav .nav .nav > li > a {
-    background-color: rgba(0, 151, 178, 0.04) !important;
+    background-color: #b0dfe7 !important;
+    color: #ffffff !important;
     padding-left: 50px !important;
-    color: #666666 !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     transition: all 0.2s ease;
   }
 
-  /* Submenú nivel 3 ACTIVO - Color más oscuro/intenso */
+  /* Submenú nivel 3 ACTIVO */
   .sidebar .nav .nav .nav > li.active > a {
-    background: linear-gradient(135deg, #138496 0%, #0c6b7a 100%) !important;
+    background-color: #0097b2 !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border-left: 4px solid #095261;
     padding-left: 50px !important;
-    box-shadow: 0 2px 6px rgba(19, 132, 150, 0.25);
   }
 
+  /* Hover en submenú nivel 3 */
   .sidebar .nav .nav .nav > li > a:hover {
-    background-color: rgba(19, 132, 150, 0.12) !important;
-    color: #138496 !important;
-    transform: translateX(2px);
+    background-color: #99d4df !important;
+    color: #ffffff !important;
   }
   </style>
 
