@@ -54,6 +54,9 @@ namespace ReservaCabanasSite.Pages.Usuarios
                 return RedirectToPage("/Index");
             }
 
+            // Remover validación del campo Password ya que es opcional en la edición
+            ModelState.Remove("Usuario.Password");
+
             if (!ModelState.IsValid)
             {
                 return Page();
