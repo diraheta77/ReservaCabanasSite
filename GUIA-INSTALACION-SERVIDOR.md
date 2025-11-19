@@ -132,7 +132,7 @@ dotnet publish -c Release -o ./publish
 **Opción B: Recibir carpeta publicada** (recomiendo)
 - Si ya tiene la carpeta publicada, continuar al siguiente paso
 
--Dejo la carpeta publish en esta ruta: 
+-Dejo la carpeta publish dentro del codigo fuente, solo copiar el contenido de publish/
 
 ---
 
@@ -504,11 +504,11 @@ sudo systemctl start reservas-cabanas
 
 ---
 
-## 🔒 Configuración de Seguridad Post-Instalación
+## 🔒 Recomendaciones de Configuración de Seguridad Post-Instalación NO Obligatorias pero Aplicables a Futuro
 
 ### 1. Cambiar Contraseñas por Defecto
 
-**⚠️ CRÍTICO - Realizar inmediatamente después de la primera instalación:**
+**⚠️  Realizar inmediatamente después de la primera instalación:**
 
 1. Ingresar al sistema con usuario `admin`
 2. Ir a **Usuarios** en el menú
