@@ -3,19 +3,26 @@
 
 ---
 
-## ⚠️ Nota Importante sobre la Instalación
+## ⚠️ Notas Importantes sobre la Instalación
 
 Esta guía está diseñada para instalar el sistema en un **servidor de producción con SQL Server local**.
 
-**Punto crítico:** A diferencia del ambiente de desarrollo, en producción debe crear manualmente el usuario administrador ejecutando un script SQL (ver **Paso 3 - Sección B**). Este es un paso obligatorio y debe realizarse antes del primer inicio de sesión.
+### Descarga de Archivos
+- Los archivos de la aplicación están disponibles en: **https://github.com/diraheta77/ReservaCabanasSite**
+- Puede descargar todo el proyecto como ZIP
+- Dentro del ZIP encontrará la carpeta **`publish/`** con los archivos listos para instalar
+- **NO necesita compilar** ni tener conocimientos de programación
+
+### Configuración del Usuario Administrador
+**Punto crítico:** A diferencia del ambiente de desarrollo, en producción debe crear manualmente el usuario administrador ejecutando un script SQL (ver **Paso 3 - Sección B**). Este es un paso obligatorio y debe realizarse **DESPUÉS** del primer inicio de la aplicación.
 
 ---
 
 ## 📋 Requisitos Previos del Servidor
 
 ### Sistema Operativo
-- **Windows Server 2019** o superior (recomendado)
-- **Windows 10/11 Pro** (alternativa)
+- **Windows 10/11 Pro** 
+- **Windows Server 2019** 
 - **Linux** (Ubuntu 20.04 LTS o superior) con compatibilidad .NET
 
 ### Hardware Mínimo Recomendado
@@ -115,7 +122,28 @@ dotnet --version
 
 ### Paso 1: Obtener los Archivos de la Aplicación
 
-**Opción A: Publicar desde el código fuente**
+**Opción A: Descargar desde GitHub (Recomendado y Más Fácil)**
+
+1. **Descargar el proyecto completo:**
+   - Abrir el navegador y visitar: https://github.com/diraheta77/ReservaCabanasSite
+   - Hacer click en el botón verde **"Code"**
+   - Seleccionar **"Download ZIP"**
+   - Guardar el archivo ZIP en su computadora
+
+2. **Extraer el archivo ZIP:**
+   - Click derecho en el archivo descargado → **"Extraer todo"**
+   - Elegir una ubicación temporal (ej: `C:\Temp\`)
+
+3. **Ubicar la carpeta publish:**
+   - Dentro del código fuente descargado, encontrará la carpeta **`publish/`**
+   - Esta carpeta ya contiene **todos los archivos compilados y listos para usar**
+   - **NO necesita compilar nada**, solo copiar estos archivos al servidor
+
+4. **Información sobre la versión:**
+   - El código incluye información de la versión actual en el repositorio
+   - Siempre use la carpeta `publish/` más reciente disponible
+
+**Opción B: Publicar desde el código fuente** (Solo para desarrolladores avanzados)
 
 1. Instalar .NET 8.0 SDK en la computadora de desarrollo:
    - URL: https://dotnet.microsoft.com/download/dotnet/8.0
@@ -129,20 +157,27 @@ dotnet publish -c Release -o ./publish
 
 4. Los archivos publicados estarán en la carpeta `publish/`
 
-**Opción B: Recibir carpeta publicada** (recomiendo)
-- Si ya tiene la carpeta publicada, continuar al siguiente paso
-
--Dejo la carpeta publish dentro del codigo fuente, solo copiar el contenido de publish/
-
 ---
 
 ### Paso 2: Copiar Archivos al Servidor
 
-1. Crear carpeta en el servidor:
+1. **Crear carpeta destino en el servidor:**
    - Ubicación recomendada: `C:\inetpub\wwwroot\SistemaReservasCabanas\`
-   - En Linux: `/var/www/reservas-cabanas/`
+   - Puede usar otra ubicación, pero deberá recordarla para configurar IIS
 
-2. Copiar todos los archivos de la carpeta `publish/` a la ubicación del servidor
+2. **Copiar archivos:**
+   - Copiar **TODO el contenido** de la carpeta `publish/` a `C:\inetpub\wwwroot\SistemaReservasCabanas\`
+   - NO copiar la carpeta `publish/` en sí, solo su contenido
+
+3. **Verificar que se copiaron correctamente:**
+   - La carpeta `C:\inetpub\wwwroot\SistemaReservasCabanas\` debe contener:
+     - `ReservaCabanasSite.dll` (archivo principal)
+     - `appsettings.json` (configuración)
+     - `web.config` (configuración de IIS)
+     - Carpeta `wwwroot/` (archivos estáticos)
+     - Otros archivos DLL y dependencias
+
+**Nota:** Si descargó el proyecto de GitHub, la carpeta `publish/` estará dentro del ZIP descargado. Ubíquela y copie solo su contenido.
 
 ---
 
@@ -631,28 +666,45 @@ Cuando reciba una nueva versión:
 
 Use esta lista para verificar que completó todos los pasos:
 
-- [ ] .NET 8.0 Hosting Bundle instalado
+**Preparación:**
+- [ ] Proyecto descargado desde GitHub (https://github.com/diraheta77/ReservaCabanasSite)
+- [ ] Carpeta `publish/` localizada dentro del proyecto descargado
+
+**Software del Servidor:**
+- [ ] .NET 8.0 Hosting Bundle instalado y servidor reiniciado
 - [ ] SQL Server Express instalado y corriendo
 - [ ] SQL Server Management Studio (SSMS) instalado
-- [ ] IIS instalado y configurado (Windows) o Nginx (Linux)
+- [ ] IIS instalado y configurado (Windows)
+
+**Base de Datos:**
 - [ ] Base de datos `ReservaCabanas` creada en SQL Server
-- [ ] **Script SQL del usuario administrador ejecutado**
-- [ ] Archivos de la aplicación copiados al servidor
-- [ ] Connection String configurado en `appsettings.json`
+- [ ] Connection String configurado correctamente en `appsettings.json`
+
+**Aplicación:**
+- [ ] Contenido de la carpeta `publish/` copiado a `C:\inetpub\wwwroot\SistemaReservasCabanas\`
 - [ ] Configuración de Email completada en `appsettings.json`
-- [ ] Application Pool creado (IIS)
-- [ ] Sitio web creado en IIS o servicio systemd (Linux)
-- [ ] Permisos de carpeta configurados
-- [ ] Carpeta `wwwroot\uploads` creada con permisos de escritura
+- [ ] Application Pool creado en IIS (No Managed Code)
+- [ ] Sitio web creado en IIS apuntando a la carpeta correcta
+- [ ] Permisos de carpeta configurados (IIS_IUSRS, IUSR)
+- [ ] Carpeta `wwwroot\uploads\` creada con permisos de escritura
+
+**Primera Ejecución:**
+- [ ] Sitio iniciado en IIS sin errores
 - [ ] Primera ejecución exitosa - página de login visible
-- [ ] Login con usuario admin funciona correctamente
-- [ ] Contraseña del admin cambiada
-- [ ] Datos de la empresa configurados
+- [ ] **Script SQL del usuario administrador ejecutado** (DESPUÉS del primer inicio)
+- [ ] Login con usuario `admin` funciona correctamente
+
+**Configuración Inicial:**
+- [ ] Contraseña del admin cambiada inmediatamente
+- [ ] Datos de la empresa configurados (nombre, logo, etc.)
 - [ ] Al menos una cabaña creada
-- [ ] Temporadas configuradas
-- [ ] Medios de pago configurados
-- [ ] HTTPS configurado (recomendado)
+- [ ] Temporadas configuradas (Alta, Baja, etc.)
+- [ ] Medios de pago configurados (Efectivo, Transferencia, etc.)
+
+**Seguridad (Recomendado):**
+- [ ] HTTPS configurado con certificado SSL
 - [ ] Backup automático de BD configurado
+- [ ] Firewall configurado (solo puertos necesarios)
 
 ---
 
