@@ -177,9 +177,9 @@ using (var scope = app.Services.CreateScope())
         // Guardar log en archivo si hay error
         try
         {
-            var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "startup_error.log");
-            Directory.CreateDirectory(Path.GetDirectoryName(logPath));
-            File.WriteAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n{ex}\n");
+            //var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "startup_error.log");
+            //Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+            //File.WriteAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n{ex}\n");
         }
         catch
         {
