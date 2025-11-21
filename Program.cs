@@ -147,7 +147,10 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", ex.ToString());
+        var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "migracion_error.log");
+        Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+        File.WriteAllText(logPath, ex.ToString());
+        //System.IO.File.AppendAllText("D:\\home\\site\\wwwroot\\migracion_error.log", ex.ToString());
         throw;
     }
 }
