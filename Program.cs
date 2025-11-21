@@ -82,9 +82,6 @@ using (var scope = app.Services.CreateScope())
     
     try
     {
-        // Solo aplicar migraciones (comentado para producción - ejecutar manualmente)
-        // db.Database.Migrate();
-        
         // Verificar si la base de datos puede conectarse
         if (db.Database.CanConnect())
         {
@@ -174,20 +171,13 @@ using (var scope = app.Services.CreateScope())
     {
         logger.LogError(ex, "Error durante la inicialización de la base de datos");
         
-        // Guardar log en archivo si hay error
-        try
-        {
-            //var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "startup_error.log");
-            //Directory.CreateDirectory(Path.GetDirectoryName(logPath));
-            //File.WriteAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n{ex}\n");
-        }
-        catch
-        {
-            // Si falla el log en archivo, al menos se registró en el logger
-        }
+        // Guardar log en archivo con el error REAL
+        var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "startup_error.log");
+        Directory.CreateDirectory(Path.GetDirectoryName(logPath)!);
+        File.WriteAllText(logPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]\n{ex}\n");
         
-        // En producción, podrías querer que continue sin usuarios por defecto
-        // throw; // Descomenta esta línea si quieres que la app no inicie si falla esto
+        // NO ocultar el error - lanzarlo para que se vea
+        throw;
     }
 }
 
